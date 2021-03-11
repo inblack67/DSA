@@ -70,14 +70,16 @@ class MyCircularDoublyLinkedList {
         const newNode = new MyCircularDoublyNode(el);
         if (!this.head) {
             this.head = newNode;
-            this.head.prev = this.head;
             this.head.next = this.head;
-        } else {
-            newNode.next = this.head;
-            newNode.prev = this.head.prev;
-            this.head.prev = newNode;
-            this.head = newNode;
+            this.head.prev = this.head;
+            this.size++;
+            return;
         }
+        newNode.prev = this.head.prev;
+        newNode.next = this.head;
+        this.head.prev.next = newNode;
+        this.head.prev = newNode;
+        this.head = newNode;
         this.size++;
     }
     deleteFirst () {
@@ -115,7 +117,6 @@ class MyCircularDoublyLinkedList {
         if (position < 0 || position >= this.size) {
             throw new Error('Invalid Position');
         }
-
         if (position === 0) {
             this.deleteFirst();
             return;
@@ -133,7 +134,6 @@ class MyCircularDoublyLinkedList {
         if (currentNode.next) {
             currentNode.next.prev = prevNode;
         }
-        // delete currentNode.next;
         this.size--;
     }
     display () {
@@ -159,16 +159,16 @@ cll1.append(2);
 cll1.append(3);
 cll1.append(4);
 cll1.append(5);
-// cll1.insertAtHead(6);
-// cll1.insertAtHead(7);
-// cll1.insertAtHead(8);
+cll1.insertAtHead(6);
+cll1.insertAtHead(7);
 cll1.append(9);
 cll1.append(10);
 cll1.append(11);
-cll1.insertAtPosition(12, 1);
 cll1.deleteFirst();
 cll1.deleteLast();
 cll1.deleteLast();
+cll1.insertAtHead(8);
+cll1.insertAtPosition(12, 0);
 cll1.deleteFormPosition(0);
 cll1.display();
 console.log(cll1.getSize());
