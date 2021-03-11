@@ -23,7 +23,7 @@ class MyStack {
         this.top--;
         return popped;
     }
-    display () {
+    display (): void {
         for (let i = 0; i < this.stack.length; i++) {
             const el = this.stack[ i ];
             if (el) {
@@ -31,13 +31,13 @@ class MyStack {
             }
         }
     }
-    getSize () {
+    getSize (): number {
         return this.top + 1;
     }
-    isFull () {
+    isFull (): boolean {
         return this.top === this.size - 1;
     }
-    isEmpty () {
+    isEmpty (): boolean {
         return this.top === -1;
     }
 }
