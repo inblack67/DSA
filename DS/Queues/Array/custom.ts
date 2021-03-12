@@ -23,7 +23,6 @@ class Queue {
 
         for (let i = 1; i < this.length; i++) {
             const el = this.queue[ i ];
-            console.log(el);
             this.queue[ i - 1 ] = el;
             delete this.queue[ i ];
         }
