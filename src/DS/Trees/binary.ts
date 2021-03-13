@@ -1,8 +1,8 @@
-class MyNode {
+class MyBTNode {
     data: number;
-    left: MyNode;
-    right: MyNode;
-    constructor (data: number, left: MyNode = null, right: MyNode = null) {
+    left: MyBTNode | null;
+    right: MyBTNode | null;
+    constructor (data: number, left: MyBTNode | null = null, right: null | MyBTNode = null) {
         this.data = data;
         this.left = left;
         this.right = right;
@@ -10,15 +10,15 @@ class MyNode {
 }
 
 class BinaryTree {
-    queue: MyNode[];
-    root: MyNode;
+    queue: MyBTNode[];
+    root: MyBTNode | null;
     constructor () {
         this.queue = [];
         this.root = null;
     }
     create () {
         let j = 0;
-        const root = new MyNode(1);
+        const root = new MyBTNode(1);
         this.root = root;
         this.queue.push(root);
         while (this.queue.length > 0) {
@@ -26,16 +26,16 @@ class BinaryTree {
                 break;
             }
             const someNode = this.queue.shift();
-            const leftChild = new MyNode(2);
-            const rightChild = new MyNode(3);
-            someNode.left = leftChild;
-            someNode.right = rightChild;
+            const leftChild = new MyBTNode(2);
+            const rightChild = new MyBTNode(3);
+            someNode!.left = leftChild;
+            someNode!.right = rightChild;
             this.queue.push(leftChild);
             this.queue.push(rightChild);
             j++;
         }
     }
-    preOrder (node1: MyNode) {
+    preOrder (node1: MyBTNode | null) {
         let currentNode = node1;
         if (currentNode) {
             console.log(currentNode.data);
@@ -43,7 +43,7 @@ class BinaryTree {
             this.preOrder(currentNode.right);
         }
     }
-    inOrder (node1: MyNode) {
+    inOrder (node1: MyBTNode | null) {
         let currentNode = node1;
         if (currentNode) {
             this.inOrder(currentNode.left);
@@ -51,7 +51,7 @@ class BinaryTree {
             this.inOrder(currentNode.right);
         }
     }
-    postOrder (node1: MyNode) {
+    postOrder (node1: MyBTNode | null) {
         let currentNode = node1;
         if (currentNode) {
             this.postOrder(currentNode.left);

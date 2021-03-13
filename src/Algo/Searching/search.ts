@@ -43,11 +43,11 @@ class Search {
     }
 }
 
-const arr = [ 1, 2, 3, 66, 4, 5 ];
-const s1 = new Search(arr);
+const binarySearchArrInput = [ 1, 2, 3, 66, 4, 5 ];
+const bs1 = new Search(binarySearchArrInput);
 
-console.log(s1.nativeSearch(2));
-console.log(s1.linearSearch(66));
-console.log(s1.binarySearch(66));
+console.log(bs1.nativeSearch(2));
+console.log(bs1.linearSearch(66));
+console.log(bs1.binarySearch(66));
 
-console.log(s1.display());
+console.log(bs1.display());

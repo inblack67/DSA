@@ -1,14 +1,14 @@
 class MyNode {
     data: number;
-    next: MyNode;
-    constructor (data: number, next: MyNode = null) {
+    next: null | MyNode;
+    constructor (data: number, next: null | MyNode = null) {
         this.data = data;
         this.next = next;
     }
 }
 
 class MyLinkedList {
-    head: MyNode;
+    head: null | MyNode;
     size: number;
     constructor () {
         this.head = null;
@@ -36,14 +36,14 @@ class MyLinkedList {
         const newNode = new MyNode(el);
         let currentPosition = 0;
         let currentNode = this.head;
-        let prevNode: MyNode = null;
+        let prevNode: null | MyNode = null;
         while (currentPosition < position) {
             prevNode = currentNode;
-            currentNode = currentNode.next;
+            currentNode = currentNode!.next;
             currentPosition++;
         }
-        newNode.next = prevNode.next;
-        prevNode.next = newNode;
+        newNode.next = prevNode!.next;
+        prevNode!.next = newNode;
         this.size++;
     }
     insertAtHead (el: number) {
@@ -76,12 +76,12 @@ class MyLinkedList {
             this.head = null;
         } else {
             let currentNode = this.head;
-            let prevNode: MyNode = null;
+            let prevNode: null | MyNode = null;
             while (currentNode.next) {
                 prevNode = currentNode;
                 currentNode = currentNode.next;
             }
-            prevNode.next = null;
+            prevNode!.next = null;
         }
         this.size--;
     }
@@ -92,13 +92,13 @@ class MyLinkedList {
 
         let currentPosition = 0;
         let currentNode = this.head;
-        let prevNode: MyNode = null;
+        let prevNode: null | MyNode = null;
         while (currentPosition < position) {
             prevNode = currentNode;
-            currentNode = currentNode.next;
+            currentNode = currentNode!.next;
             currentPosition++;
         }
-        prevNode.next = currentNode.next;
+        prevNode!.next = currentNode!.next;
         // delete currentNode.next;
         this.size--;
     }
@@ -107,7 +107,7 @@ class MyLinkedList {
             console.log(this.head);
         }
         else {
-            let currentNode = this.head;
+            let currentNode: MyNode | null = this.head;
             while (currentNode) {
                 console.log(currentNode.data);
                 currentNode = currentNode.next;
@@ -119,21 +119,21 @@ class MyLinkedList {
     }
 }
 
-const ll1 = new MyLinkedList();
-ll1.append(1);
-ll1.append(2);
-ll1.append(3);
-ll1.append(4);
-ll1.append(5);
-ll1.insertAtHead(6);
-ll1.insertAtHead(7);
-ll1.insertAtHead(8);
-ll1.append(9);
-ll1.append(10);
-ll1.append(11);
-ll1.insertAtPosition(99, 10);
-ll1.deleteFirst();
-ll1.deleteLast();
-ll1.deleteFormPosition(9);
-ll1.display();
-console.log(ll1.getSize());
+const mll = new MyLinkedList();
+mll.append(1);
+mll.append(2);
+mll.append(3);
+mll.append(4);
+mll.append(5);
+mll.insertAtHead(6);
+mll.insertAtHead(7);
+mll.insertAtHead(8);
+mll.append(9);
+mll.append(10);
+mll.append(11);
+mll.insertAtPosition(99, 10);
+mll.deleteFirst();
+mll.deleteLast();
+mll.deleteFormPosition(9);
+mll.display();
+console.log(mll.getSize());

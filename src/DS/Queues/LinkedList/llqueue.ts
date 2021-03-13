@@ -1,21 +1,21 @@
-class MyNode {
+class MyLLNode {
     data: number;
-    next: MyNode;
-    constructor (data: number, next: MyNode = null) {
+    next: null | MyLLNode;
+    constructor (data: number, next: null | MyLLNode = null) {
         this.data = data;
         this.next = next;
     }
 }
 
-class MyQueue {
-    head: MyNode;
+class MyLLQueue {
+    head: null | MyLLNode;
     size: number;
     constructor () {
         this.head = null;
         this.size = 0;
     }
     enqueue (el: number) {
-        const newNode = new MyNode(el);
+        const newNode = new MyLLNode(el);
         if (!this.head) {
             this.head = newNode;
         } else {
@@ -44,7 +44,7 @@ class MyQueue {
             console.log(this.head);
         }
         else {
-            let currentNode = this.head;
+            let currentNode: MyLLNode | null = this.head;
             while (currentNode) {
                 console.log(currentNode.data);
                 currentNode = currentNode.next;
@@ -56,14 +56,14 @@ class MyQueue {
     }
 }
 
-const ll1 = new MyQueue();
-ll1.enqueue(1);
-ll1.enqueue(2);
-ll1.enqueue(3);
-ll1.enqueue(4);
-ll1.dequeue();
-ll1.dequeue();
-ll1.dequeue();
-ll1.dequeue();
-ll1.display();
-console.log(ll1.getSize());
+const mllq = new MyLLQueue();
+mllq.enqueue(1);
+mllq.enqueue(2);
+mllq.enqueue(3);
+mllq.enqueue(4);
+mllq.dequeue();
+mllq.dequeue();
+mllq.dequeue();
+mllq.dequeue();
+mllq.display();
+console.log(mllq.getSize());

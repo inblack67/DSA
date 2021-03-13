@@ -1,5 +1,5 @@
 export const isMatched = (str: string) => {
-    const paren = {
+    const paren: any = {
         '(': ')',
         '[': ']',
         '{': '}',

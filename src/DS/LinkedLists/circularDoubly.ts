@@ -1,8 +1,8 @@
 class MyCircularDoublyNode {
     data: number;
-    next: MyCircularDoublyNode;
-    prev: MyCircularDoublyNode;
-    constructor (data: number, next: MyCircularDoublyNode = null, prev: MyCircularDoublyNode = null) {
+    next: null | MyCircularDoublyNode;
+    prev: null | MyCircularDoublyNode;
+    constructor (data: number, next: null | MyCircularDoublyNode = null, prev: null | MyCircularDoublyNode = null) {
         this.data = data;
         this.next = next;
         this.prev = prev;
@@ -10,7 +10,7 @@ class MyCircularDoublyNode {
 }
 
 class MyCircularDoublyLinkedList {
-    head: MyCircularDoublyNode;
+    head: null | MyCircularDoublyNode;
     size: number;
     constructor () {
         this.head = null;
@@ -24,11 +24,11 @@ class MyCircularDoublyLinkedList {
             this.head.prev = this.head;
             this.head.next = this.head;
         } else {
-            let currentNode = this.head;
-            while (currentNode.next !== this.head) {
-                currentNode = currentNode.next;
+            let currentNode: MyCircularDoublyNode | null = this.head;
+            while (currentNode!.next !== this.head) {
+                currentNode = currentNode!.next;
             }
-            currentNode.next = newNode;
+            currentNode!.next = newNode;
             newNode.prev = currentNode;
             newNode.next = this.head;
             this.head.prev = newNode;
@@ -54,16 +54,16 @@ class MyCircularDoublyLinkedList {
         }
 
         let currentPosition = 0;
-        let currentNode = this.head;
-        let prevNode: MyCircularDoublyNode = null;
+        let currentNode: null | MyCircularDoublyNode = this.head;
+        let prevNode: null | MyCircularDoublyNode = null;
         while (currentPosition < position) {
             prevNode = currentNode;
-            currentNode = currentNode.next;
+            currentNode = currentNode!.next;
             currentPosition++;
         }
-        newNode.next = prevNode.next;
+        newNode.next = prevNode!.next;
         newNode.prev = prevNode;
-        prevNode.next = newNode;
+        prevNode!.next = newNode;
         this.size++;
     }
     insertAtHead (el: number) {
@@ -77,7 +77,7 @@ class MyCircularDoublyLinkedList {
         }
         newNode.prev = this.head.prev;
         newNode.next = this.head;
-        this.head.prev.next = newNode;
+        this.head.prev!.next = newNode;
         this.head.prev = newNode;
         this.head = newNode;
         this.size++;
@@ -102,13 +102,13 @@ class MyCircularDoublyLinkedList {
         if (!this.head.next) {
             this.head = null;
         } else {
-            let currentNode = this.head;
-            let prevNode: MyCircularDoublyNode = null;
-            while (currentNode.next !== this.head) {
+            let currentNode: null | MyCircularDoublyNode = this.head;
+            let prevNode: null | MyCircularDoublyNode = null;
+            while (currentNode!.next !== this.head) {
                 prevNode = currentNode;
-                currentNode = currentNode.next;
+                currentNode = currentNode!.next;
             }
-            prevNode.next = this.head;
+            prevNode!.next = this.head;
             this.head.prev = prevNode;
         }
         this.size--;
@@ -123,16 +123,16 @@ class MyCircularDoublyLinkedList {
         }
 
         let currentPosition = 0;
-        let currentNode = this.head;
-        let prevNode: MyCircularDoublyNode = null;
+        let currentNode: null | MyCircularDoublyNode = this.head;
+        let prevNode: null | MyCircularDoublyNode = null;
         while (currentPosition < position) {
             prevNode = currentNode;
-            currentNode = currentNode.next;
+            currentNode = currentNode!.next;
             currentPosition++;
         }
-        prevNode.next = currentNode.next;
-        if (currentNode.next) {
-            currentNode.next.prev = prevNode;
+        prevNode!.next = currentNode!.next;
+        if (currentNode!.next) {
+            currentNode!.next.prev = prevNode;
         }
         this.size--;
     }
@@ -141,10 +141,10 @@ class MyCircularDoublyLinkedList {
             console.log(this.head);
         }
         else {
-            let currentNode = this.head;
+            let currentNode: null | MyCircularDoublyNode = this.head;
             do {
-                console.log(currentNode.data);
-                currentNode = currentNode.next;
+                console.log(currentNode!.data);
+                currentNode = currentNode!.next;
             } while (currentNode !== this.head);
         }
     }

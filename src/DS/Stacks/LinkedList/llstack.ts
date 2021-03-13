@@ -1,21 +1,21 @@
-class MyNode {
+class MyStackNode {
     data: number;
-    next: MyNode;
-    constructor (data: number, next: MyNode = null) {
+    next: MyStackNode | null;
+    constructor (data: number, next: MyStackNode | null = null) {
         this.data = data;
         this.next = next;
     }
 }
 
-class MyLinkedList {
-    head: MyNode;
+class MyStackLinkedList {
+    head: MyStackNode | null;
     size: number;
     constructor () {
         this.head = null;
         this.size = 0;
     }
     push (el: number) {
-        const newNode = new MyNode(el);
+        const newNode = new MyStackNode(el);
         if (!this.head) {
             this.head = newNode;
         } else {
@@ -36,12 +36,12 @@ class MyLinkedList {
             this.head = null;
         } else {
             let currentNode = this.head;
-            let prevNode: MyNode = null;
+            let prevNode: MyStackNode | null = null;
             while (currentNode.next) {
                 prevNode = currentNode;
                 currentNode = currentNode.next;
             }
-            prevNode.next = null;
+            prevNode!.next = null;
         }
         this.size--;
     }
@@ -50,7 +50,7 @@ class MyLinkedList {
             console.log(this.head);
         }
         else {
-            let currentNode = this.head;
+            let currentNode: MyStackNode | null = this.head;
             while (currentNode) {
                 console.log(currentNode.data);
                 currentNode = currentNode.next;
@@ -62,11 +62,11 @@ class MyLinkedList {
     }
 }
 
-const ll1 = new MyLinkedList();
-ll1.push(1);
-ll1.push(2);
-ll1.push(3);
-ll1.push(4);
-ll1.pop();
-ll1.display();
+const msll = new MyStackLinkedList();
+msll.push(1);
+msll.push(2);
+msll.push(3);
+msll.push(4);
+msll.pop();
+msll.display();
 console.log(ll1.getSize());

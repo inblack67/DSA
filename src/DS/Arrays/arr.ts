@@ -12,10 +12,10 @@ class MyArray {
     pushAtLast (el: number): number {
         return this.arr.push(el);   // returns new length
     }
-    popLast (): number {
+    popLast (): number | undefined {
         return this.arr.pop();      // returns deleted el
     }
-    popFirst (): number {
+    popFirst (): number | undefined {
         return this.arr.shift();    // returns deleted el
     }
     pushAtFirst (el: number) {

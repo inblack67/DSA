@@ -1,8 +1,8 @@
 class MyDoublyNode {
     data: number;
-    next: MyDoublyNode;
-    prev: MyDoublyNode;
-    constructor (data: number, next: MyDoublyNode = null, prev: MyDoublyNode = null) {
+    next: null | MyDoublyNode;
+    prev: null | MyDoublyNode;
+    constructor (data: number, next: null | MyDoublyNode = null, prev: null | MyDoublyNode = null) {
         this.data = data;
         this.next = next;
         this.prev = prev;
@@ -10,7 +10,7 @@ class MyDoublyNode {
 }
 
 class MyDoublyLinkedList {
-    head: MyDoublyNode;
+    head: null | MyDoublyNode;
     size: number;
     constructor () {
         this.head = null;
@@ -39,15 +39,15 @@ class MyDoublyLinkedList {
         const newNode = new MyDoublyNode(el);
         let currentPosition = 0;
         let currentNode = this.head;
-        let prevNode: MyDoublyNode = null;
+        let prevNode: null | MyDoublyNode = null;
         while (currentPosition < position) {
             prevNode = currentNode;
-            currentNode = currentNode.next;
+            currentNode = currentNode!.next;
             currentPosition++;
         }
-        newNode.next = prevNode.next;
+        newNode.next = prevNode!.next;
         newNode.prev = prevNode;
-        prevNode.next = newNode;
+        prevNode!.next = newNode;
         this.size++;
     }
     insertAtHead (el: number) {
@@ -80,12 +80,12 @@ class MyDoublyLinkedList {
             this.head = null;
         } else {
             let currentNode = this.head;
-            let prevNode: MyDoublyNode = null;
+            let prevNode: null | MyDoublyNode = null;
             while (currentNode.next) {
                 prevNode = currentNode;
                 currentNode = currentNode.next;
             }
-            prevNode.next = null;
+            prevNode!.next = null;
         }
         this.size--;
     }
@@ -96,15 +96,15 @@ class MyDoublyLinkedList {
 
         let currentPosition = 0;
         let currentNode = this.head;
-        let prevNode: MyDoublyNode = null;
+        let prevNode: null | MyDoublyNode = null;
         while (currentPosition < position) {
             prevNode = currentNode;
-            currentNode = currentNode.next;
+            currentNode = currentNode!.next;
             currentPosition++;
         }
-        prevNode.next = currentNode.next;
-        if (currentNode.next) {
-            currentNode.next.prev = prevNode;
+        prevNode!.next = currentNode!.next;
+        if (currentNode!.next) {
+            currentNode!.next.prev = prevNode;
         }
         // delete currentNode.next;
         this.size--;
@@ -114,7 +114,7 @@ class MyDoublyLinkedList {
             console.log(this.head);
         }
         else {
-            let currentNode = this.head;
+            let currentNode: MyDoublyNode | null = this.head;
             while (currentNode) {
                 console.log(currentNode.data);
                 currentNode = currentNode.next;

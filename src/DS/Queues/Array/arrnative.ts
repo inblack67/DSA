@@ -1,4 +1,4 @@
-class Queue {
+class MyNativeArrayQueue {
     size: number;
     queue: number[];
     constructor () {
@@ -9,7 +9,7 @@ class Queue {
         this.queue.push(el);
         return ++this.size;
     }
-    dequeue (): number {
+    dequeue (): number | undefined {
         if (this.size === 0) {
             throw new Error('Queue is empty');
         }
@@ -25,11 +25,11 @@ class Queue {
     }
 }
 
-const q1 = new Queue();
-q1.enqueue(1);
-q1.enqueue(2);
-q1.enqueue(3);
-q1.enqueue(4);
-q1.dequeue();
-q1.display();
-console.log(q1.getSize());
+const mnaq = new MyNativeArrayQueue();
+mnaq.enqueue(1);
+mnaq.enqueue(2);
+mnaq.enqueue(3);
+mnaq.enqueue(4);
+mnaq.dequeue();
+mnaq.display();
+console.log(mnaq.getSize());

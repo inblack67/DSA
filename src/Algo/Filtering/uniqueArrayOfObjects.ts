@@ -1,6 +1,6 @@
 const getUniqueAOB = (arr: any[]): any[] => {
-    const obj = {};
-    const res = [];
+    const obj: any = {};
+    const res: any = [];
     let count = 0;
     for (let i = 0; i < arr.length; i++) {
         const el = arr[ i ];
@@ -16,9 +16,9 @@ const getUniqueAOB = (arr: any[]): any[] => {
     return res;
 };
 
-const arr = [
+const uniqueArrInput = [
     { "name": "john", "description": "doe", "isvalid": true }, { "name": "john", "description": "wick", "isvalid": false }
 ];
 
 // filter by name
-console.log(getUniqueAOB(arr));
+console.log(getUniqueAOB(uniqueArrInput));

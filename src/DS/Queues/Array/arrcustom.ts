@@ -1,4 +1,4 @@
-class Queue {
+class MyCustomArrayQueue {
     size: number;
     queue: number[];
     length: number;
@@ -38,12 +38,12 @@ class Queue {
     }
 }
 
-const q1 = new Queue(5);
-q1.enqueue(1);
-q1.enqueue(2);
-q1.enqueue(3);
-q1.enqueue(4);
-q1.dequeue();
-q1.dequeue();
-q1.display();
-console.log(q1.getSize());
+const mcaq = new MyCustomArrayQueue(5);
+mcaq.enqueue(1);
+mcaq.enqueue(2);
+mcaq.enqueue(3);
+mcaq.enqueue(4);
+mcaq.dequeue();
+mcaq.dequeue();
+mcaq.display();
+console.log(mcaq.getSize());

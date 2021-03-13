@@ -1,4 +1,4 @@
-class MyStack {
+class MyNativeStack {
     size: number;
     length: number;
     stack: number[];
@@ -20,7 +20,7 @@ class MyStack {
         }
         const popped = this.stack.pop();
         this.length--;
-        return popped;
+        return popped as number;
     }
     display () {
         console.log(this.stack);
@@ -33,13 +33,13 @@ class MyStack {
     }
 }
 
-const s1 = new MyStack(5);
-s1.push(1);
-s1.push(2);
-s1.push(3);
-s1.push(4);
-s1.push(5);
-s1.pop();
-s1.display();
-console.log(s1.isFull());
-console.log(s1.getSize());
+const mns1 = new MyNativeStack(5);
+mns1.push(1);
+mns1.push(2);
+mns1.push(3);
+mns1.push(4);
+mns1.push(5);
+mns1.pop();
+mns1.display();
+console.log(mns1.isFull());
+console.log(mns1.getSize());
