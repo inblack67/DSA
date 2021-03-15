@@ -16,23 +16,25 @@ class BinaryTree {
         this.queue = [];
         this.root = null;
     }
-    create () {
-        let j = 0;
-        const root = new MyBTNode(1);
+    async create (arr: number[]) {
+        const root = new MyBTNode(arr[ 0 ]);
         this.root = root;
         this.queue.push(root);
-        while (this.queue.length > 0) {
-            if (j === 3) {
-                break;
-            }
+        let i = 1;
+        while (this.queue.length > 0 && i < arr.length) {
             const someNode = this.queue.shift();
-            const leftChild = new MyBTNode(2);
-            const rightChild = new MyBTNode(3);
-            someNode!.left = leftChild;
-            someNode!.right = rightChild;
-            this.queue.push(leftChild);
-            this.queue.push(rightChild);
-            j++;
+            const leftChild = arr[ i++ ];
+            if (leftChild !== undefined) {
+                const left = new MyBTNode(leftChild);
+                someNode!.left = left;
+                this.queue.push(left);
+            }
+            const rightChild = arr[ i++ ];
+            if (rightChild !== undefined) {
+                const right = new MyBTNode(rightChild);
+                someNode!.right = right;
+                this.queue.push(right);
+            }
         }
     }
     preOrder (node1: MyBTNode | null) {
@@ -107,13 +109,30 @@ class BinaryTree {
             }
         }
     }
+    levelOrder (node1: MyBTNode | null) {
+        const queue: (MyBTNode | null)[] = [];
+        console.log(node1?.data);
+        queue.push(node1);
+        while (queue.length > 0) {
+            const popped = queue.shift();
+            if (popped?.left) {
+                console.log(popped.data);
+                queue.push(popped.left);
+            }
+            if (popped?.right) {
+                console.log(popped.data);
+                queue.push(popped.right);
+            }
+        }
+    }
 }
 
 const bt = new BinaryTree();
-bt.create();
+bt.create([ 1, 2, 3, 4, 5, 6 ]);
 bt.preOrder(bt.root);
 bt.iterativePreorder(bt.root);
 bt.inOrder(bt.root);
 bt.iterativeInorder(bt.root);
 bt.postOrder(bt.root);
 bt.iterativePostorder(bt.root);
+bt.levelOrder(bt.root);
