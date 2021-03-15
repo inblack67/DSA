@@ -43,12 +43,40 @@ class BinaryTree {
             this.preOrder(currentNode.right);
         }
     }
+    iterativePreorder (node1: MyBTNode | null) {
+        const stack: MyBTNode[] = [];
+        let currentNode = node1;
+        while (currentNode || stack.length > 0) {
+            if (currentNode) {
+                console.log(currentNode.data);
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            } else {
+                const prevNode = stack.pop();
+                currentNode = prevNode!.right;
+            }
+        }
+    }
     inOrder (node1: MyBTNode | null) {
         let currentNode = node1;
         if (currentNode) {
             this.inOrder(currentNode.left);
             console.log(currentNode.data);
             this.inOrder(currentNode.right);
+        }
+    }
+    iterativeInorder (node1: MyBTNode | null) {
+        const stack: MyBTNode[] = [];
+        let currentNode = node1;
+        while (currentNode || stack.length > 0) {
+            if (currentNode) {
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            } else {
+                const prevNode = stack.pop();
+                console.log(prevNode!.data);
+                currentNode = prevNode!.right;
+            }
         }
     }
     postOrder (node1: MyBTNode | null) {
@@ -59,10 +87,33 @@ class BinaryTree {
             console.log(currentNode.data);
         }
     }
+    iterativePostorder (node1: MyBTNode | null) {
+        const stack: MyBTNode[] = [];
+        let currentNode = node1;
+        let count = 0;
+        while (currentNode || stack.length > 0) {
+            if (currentNode) {
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            } else {
+                const prevNode = stack.pop();
+                if (count === 0) {
+                    stack.push(prevNode!);
+                    count++;
+                } else {
+                    console.log(prevNode!.data);
+                    currentNode = prevNode!.right;
+                }
+            }
+        }
+    }
 }
 
 const bt = new BinaryTree();
 bt.create();
 bt.preOrder(bt.root);
+bt.iterativePreorder(bt.root);
 bt.inOrder(bt.root);
+bt.iterativeInorder(bt.root);
 bt.postOrder(bt.root);
+bt.iterativePostorder(bt.root);
