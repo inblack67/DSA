@@ -116,11 +116,11 @@ class BinaryTree {
         while (queue.length > 0) {
             const popped = queue.shift();
             if (popped?.left) {
-                console.log(popped.data);
+                console.log(popped.left.data);
                 queue.push(popped.left);
             }
             if (popped?.right) {
-                console.log(popped.data);
+                console.log(popped.right.data);
                 queue.push(popped.right);
             }
         }
@@ -129,10 +129,10 @@ class BinaryTree {
 
 const bt = new BinaryTree();
 bt.create([ 1, 2, 3, 4, 5, 6 ]);
+bt.levelOrder(bt.root);
 bt.preOrder(bt.root);
 bt.iterativePreorder(bt.root);
 bt.inOrder(bt.root);
 bt.iterativeInorder(bt.root);
 bt.postOrder(bt.root);
 bt.iterativePostorder(bt.root);
-bt.levelOrder(bt.root);
