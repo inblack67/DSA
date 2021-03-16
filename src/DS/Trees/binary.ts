@@ -213,6 +213,32 @@ class BinaryTree {
         }
         return 0;
     }
+    countNodesWithDegreeOne (node1: MyBTNode | null): number {
+        let curr = node1;
+        if (curr) {
+            const leftCall = this.countNodesWithTwoChildren(curr.left);
+            const rightCall = this.countNodesWithTwoChildren(curr.right);
+            if (curr.left || curr.right) {
+                return leftCall + rightCall + 1;
+            } else {
+                return leftCall + rightCall;
+            }
+        }
+        return 0;
+    }
+    countLeafNodes (node1: MyBTNode | null): number {
+        let curr = node1;
+        if (curr) {
+            const leftCall = this.countNodesWithTwoChildren(curr.left);
+            const rightCall = this.countNodesWithTwoChildren(curr.right);
+            if (!curr.left && !curr.right) {
+                return leftCall + rightCall + 1;
+            } else {
+                return leftCall + rightCall;
+            }
+        }
+        return 0;
+    }
     getHeight (node1: MyBTNode | null): number {
         let curr = node1;
         if (curr) {
@@ -232,6 +258,7 @@ const bt = new BinaryTree();
 bt.create([ 1, 2, 3, 4, 5, 6 ]);
 console.log(bt.countNodes(bt.root));
 console.log(bt.countNodesWithTwoChildren(bt.root));
+console.log(bt.countLeafNodes(bt.root));
 console.log(bt.sumOfAllNodes(bt.root));
 console.log(bt.getHeight(bt.root));
 bt.levelOrder(bt.root);
