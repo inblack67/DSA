@@ -185,17 +185,62 @@ class BinaryTree {
             }
         }
     }
+    countNodes (node1: MyBTNode | null): number {
+        let curr = node1;
+        if (curr) {
+            // left => right => print => postorder
+            return this.countNodes(curr.left) + this.countNodes(curr.right) + 1;
+        }
+        return 0;
+    }
+    sumOfAllNodes (node1: MyBTNode | null): number {
+        let curr = node1;
+        if (curr) {
+            return this.countNodes(curr.left) + this.countNodes(curr.right) + curr.data;
+        }
+        return 0;
+    }
+    countNodesWithTwoChildren (node1: MyBTNode | null): number {
+        let curr = node1;
+        if (curr) {
+            const leftCall = this.countNodesWithTwoChildren(curr.left);
+            const rightCall = this.countNodesWithTwoChildren(curr.right);
+            if (curr.left && curr.right) {
+                return leftCall + rightCall + 1;
+            } else {
+                return leftCall + rightCall;
+            }
+        }
+        return 0;
+    }
+    getHeight (node1: MyBTNode | null): number {
+        let curr = node1;
+        if (curr) {
+            const leftCall = this.getHeight(curr.left);
+            const rightCall = this.getHeight(curr.right);
+            if (leftCall > rightCall) {
+                return leftCall + 1;
+            } else {
+                return rightCall + 1;
+            }
+        }
+        return 0;
+    }
 }
 
 const bt = new BinaryTree();
-// bt.create([ 1, 2, 3, 4, 5, 6 ]);
-// bt.levelOrder(bt.root);
-// bt.preOrder(bt.root);
-// bt.iterativePreorder(bt.root);
-// bt.inOrder(bt.root);
-// bt.iterativeInorder(bt.root);
-// bt.postOrder(bt.root);
-// bt.iterativePostorder(bt.root);
-bt.createFromString('-4(2(3)(1))(6(5))');
+bt.create([ 1, 2, 3, 4, 5, 6 ]);
+console.log(bt.countNodes(bt.root));
+console.log(bt.countNodesWithTwoChildren(bt.root));
+console.log(bt.sumOfAllNodes(bt.root));
+console.log(bt.getHeight(bt.root));
+bt.levelOrder(bt.root);
 bt.preOrder(bt.root);
+bt.iterativePreorder(bt.root);
+bt.inOrder(bt.root);
+bt.iterativeInorder(bt.root);
+bt.postOrder(bt.root);
+bt.iterativePostorder(bt.root);
+// bt.createFromString('-4(2(3)(1))(6(5))');
+// bt.preOrder(bt.root);
 // bt.createFromString('1(-1)');
