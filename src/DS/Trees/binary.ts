@@ -16,7 +16,7 @@ class BinaryTree {
         this.queue = [];
         this.root = null;
     }
-    async create (arr: number[]) {
+    create (arr: number[]) {
         const root = new MyBTNode(arr[ 0 ]);
         this.root = root;
         this.queue.push(root);
@@ -36,6 +36,66 @@ class BinaryTree {
                 this.queue.push(right);
             }
         }
+    }
+    createFromString (str: string) {
+        if (!str) { return; }
+
+        console.log(str);
+
+        const stack: string[] = [];
+        let lstIndex = 0;
+        let rstIndex = 0;
+        let visited = 0;
+
+        for (let i = 0; i < str.length; i++) {
+            const el = str[ i ];
+            if (el === '(') {
+                stack.push(el);
+            } else if (el === ')') {
+                stack.pop();
+                if (stack.length === 0) {
+                    console.log(i);
+                    if (visited === 0) {
+                        lstIndex = i;
+                        visited++;
+                    } else {
+                        rstIndex = i;
+                    }
+                }
+            }
+        }
+
+        const lst = str.slice(str.indexOf('('), lstIndex + 1);
+        const rst = str.slice(lstIndex + 1, rstIndex + 1);
+        const rootCandidate = str.match(/-?[0-9]/);
+        const rootData = rootCandidate![ 0 ];
+        const root = new MyBTNode(+rootData);
+        this.root = root;
+        this.queue.push(root);
+        const lstData = lst.match(/[0-9]/gi);
+        const rstData = rst.match(/[0-9]/gi);
+        let i = 0;
+        let j = 0;
+        while (this.queue.length > 0) {
+            const someNode = this.queue.shift();
+            if (lstData) {
+                const el = lstData[ i++ ];
+                if (el) {
+                    const newNode = new MyBTNode(+el);
+                    someNode!.left = newNode;
+                    this.queue.push(newNode);
+                }
+            }
+            if (rstData) {
+                const el = rstData[ j++ ];
+                if (el) {
+                    const newNode = new MyBTNode(+el);
+                    someNode!.right = newNode;
+                    this.queue.push(newNode);
+                }
+            }
+        }
+
     }
     preOrder (node1: MyBTNode | null) {
         let currentNode = node1;
@@ -128,11 +188,14 @@ class BinaryTree {
 }
 
 const bt = new BinaryTree();
-bt.create([ 1, 2, 3, 4, 5, 6 ]);
-bt.levelOrder(bt.root);
+// bt.create([ 1, 2, 3, 4, 5, 6 ]);
+// bt.levelOrder(bt.root);
+// bt.preOrder(bt.root);
+// bt.iterativePreorder(bt.root);
+// bt.inOrder(bt.root);
+// bt.iterativeInorder(bt.root);
+// bt.postOrder(bt.root);
+// bt.iterativePostorder(bt.root);
+bt.createFromString('-4(2(3)(1))(6(5))');
 bt.preOrder(bt.root);
-bt.iterativePreorder(bt.root);
-bt.inOrder(bt.root);
-bt.iterativeInorder(bt.root);
-bt.postOrder(bt.root);
-bt.iterativePostorder(bt.root);
+// bt.createFromString('1(-1)');
