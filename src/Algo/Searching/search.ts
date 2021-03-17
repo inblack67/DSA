@@ -22,10 +22,10 @@ class Search {
     }
     binarySearch (el: number): number {
         let low = 0;
-        let high = this.length;
-        while (low < high) {
+        let high = arr.length - 1;
+        while (low <= high) {
             const mid = Math.floor((low + high) / 2);
-            const midEl = this.arr[ mid ];
+            const midEl = arr[ mid ];
             if (el === midEl) {
                 return mid;
             }
