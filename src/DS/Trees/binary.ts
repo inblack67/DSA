@@ -252,22 +252,44 @@ class BinaryTree {
         }
         return 0;
     }
+    invertMe () {
+        if (!this.root) {
+            return;
+        }
+        const queue: MyBTNode[] = [];
+        queue.push(this.root);
+        while (queue.length > 0) {
+            const myNode = queue.shift();
+            if (myNode) {
+                const temp = myNode.left;
+                myNode.left = myNode.right;
+                myNode.right = temp;
+                if (myNode.left) {
+                    queue.push(myNode.left);
+                }
+                if (myNode.right) {
+                    queue.push(myNode.right);
+                }
+            }
+        }
+    }
 }
 
 const bt = new BinaryTree();
 bt.create([ 1, 2, 3, 4, 5, 6 ]);
-console.log(bt.countNodes(bt.root));
-console.log(bt.countNodesWithTwoChildren(bt.root));
-console.log(bt.countLeafNodes(bt.root));
-console.log(bt.sumOfAllNodes(bt.root));
-console.log(bt.getHeight(bt.root));
-bt.levelOrder(bt.root);
+bt.invertMe();
+// bt.levelOrder(bt.root);
 bt.preOrder(bt.root);
-bt.iterativePreorder(bt.root);
-bt.inOrder(bt.root);
-bt.iterativeInorder(bt.root);
-bt.postOrder(bt.root);
-bt.iterativePostorder(bt.root);
+// bt.iterativePreorder(bt.root);
+// bt.inOrder(bt.root);
+// bt.iterativeInorder(bt.root);
+// bt.postOrder(bt.root);
+// bt.iterativePostorder(bt.root);
+// console.log(bt.countNodes(bt.root));
+// console.log(bt.countNodesWithTwoChildren(bt.root));
+// console.log(bt.countLeafNodes(bt.root));
+// console.log(bt.sumOfAllNodes(bt.root));
+// console.log(bt.getHeight(bt.root));
 // bt.createFromString('-4(2(3)(1))(6(5))');
 // bt.preOrder(bt.root);
 // bt.createFromString('1(-1)');
