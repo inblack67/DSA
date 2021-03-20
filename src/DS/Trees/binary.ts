@@ -13,27 +13,27 @@ class BinaryTree {
     queue: MyBTNode[];
     root: MyBTNode | null;
     constructor () {
-        this.queue = [];
         this.root = null;
     }
     create (arr: number[]) {
         const root = new MyBTNode(arr[ 0 ]);
         this.root = root;
-        this.queue.push(root);
+        const queue: MyBTNode[] = [];
+        queue.push(root);
         let i = 1;
-        while (this.queue.length > 0 && i < arr.length) {
-            const someNode = this.queue.shift();
+        while (queue.length > 0 && i < arr.length) {
+            const someNode = queue.shift();
             const leftChild = arr[ i++ ];
             if (leftChild !== undefined) {
                 const left = new MyBTNode(leftChild);
                 someNode!.left = left;
-                this.queue.push(left);
+                queue.push(left);
             }
             const rightChild = arr[ i++ ];
             if (rightChild !== undefined) {
                 const right = new MyBTNode(rightChild);
                 someNode!.right = right;
-                this.queue.push(right);
+                queue.push(right);
             }
         }
     }
@@ -43,6 +43,7 @@ class BinaryTree {
         console.log(str);
 
         const stack: string[] = [];
+        const queue: MyBTNode[] = [];
         let lstIndex = 0;
         let rstIndex = 0;
         let visited = 0;
@@ -71,19 +72,19 @@ class BinaryTree {
         const rootData = rootCandidate![ 0 ];
         const root = new MyBTNode(+rootData);
         this.root = root;
-        this.queue.push(root);
+        queue.push(root);
         const lstData = lst.match(/[0-9]/gi);
         const rstData = rst.match(/[0-9]/gi);
         let i = 0;
         let j = 0;
-        while (this.queue.length > 0) {
-            const someNode = this.queue.shift();
+        while (queue.length > 0) {
+            const someNode = queue.shift();
             if (lstData) {
                 const el = lstData[ i++ ];
                 if (el) {
                     const newNode = new MyBTNode(+el);
                     someNode!.left = newNode;
-                    this.queue.push(newNode);
+                    queue.push(newNode);
                 }
             }
             if (rstData) {
@@ -91,7 +92,7 @@ class BinaryTree {
                 if (el) {
                     const newNode = new MyBTNode(+el);
                     someNode!.right = newNode;
-                    this.queue.push(newNode);
+                    queue.push(newNode);
                 }
             }
         }
@@ -278,18 +279,17 @@ class BinaryTree {
 const bt = new BinaryTree();
 bt.create([ 1, 2, 3, 4, 5, 6 ]);
 bt.invertMe();
-// bt.levelOrder(bt.root);
 bt.preOrder(bt.root);
-// bt.iterativePreorder(bt.root);
-// bt.inOrder(bt.root);
-// bt.iterativeInorder(bt.root);
-// bt.postOrder(bt.root);
-// bt.iterativePostorder(bt.root);
-// console.log(bt.countNodes(bt.root));
-// console.log(bt.countNodesWithTwoChildren(bt.root));
-// console.log(bt.countLeafNodes(bt.root));
-// console.log(bt.sumOfAllNodes(bt.root));
-// console.log(bt.getHeight(bt.root));
+bt.levelOrder(bt.root);
+bt.iterativePreorder(bt.root);
+bt.inOrder(bt.root);
+bt.iterativeInorder(bt.root);
+bt.postOrder(bt.root);
+bt.iterativePostorder(bt.root);
+console.log(bt.countNodes(bt.root));
+console.log(bt.countNodesWithTwoChildren(bt.root));
+console.log(bt.countLeafNodes(bt.root));
+console.log(bt.sumOfAllNodes(bt.root));
+console.log(bt.getHeight(bt.root));
 // bt.createFromString('-4(2(3)(1))(6(5))');
-// bt.preOrder(bt.root);
 // bt.createFromString('1(-1)');
