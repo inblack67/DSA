@@ -67,6 +67,19 @@ class BinarySearchTree {
             }
         }
     }
+    searchNode (key: number, root: TreeNode | null): TreeNode | null {
+        if (!root) {
+            return null;
+        }
+        if (key === root.val) {
+            return root;
+        }
+        if (key < root.val) {
+            return this.searchNode(key, root.left);
+        } else {
+            return this.searchNode(key, root.right);
+        }
+    }
     preorder (root: TreeNode | null) {
         let curr = root;
         if (curr) {
@@ -96,5 +109,6 @@ class BinarySearchTree {
 const bst = new BinarySearchTree();
 // bst.sortedArrayToBST([ 2, 10, -2, 5, 20, 1, 9, 0 ]);
 bst.sortedArrayToBST([ -10, -3, 0, 5, 9 ]);
+console.log(bst.searchNode(9, bst.root));
 // bst.createBST([ 9, 15, 5, 20, 16, 8, 12, 3, 6 ]);
 bst.preorder(bst.root);
