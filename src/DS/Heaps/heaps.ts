@@ -1,7 +1,7 @@
 class MaxHeap {
     heap: number[];
     constructor () {
-        this.heap = [ 20, 10 ];
+        this.heap = [];
     }
     getParentIndex (index: number) {
         const parentIndex = Math.floor((index - 1) / 2);
@@ -20,8 +20,7 @@ class MaxHeap {
         this.heap[ index1 ] = this.heap[ index2 ];
         this.heap[ index2 ] = temp;
     }
-    insert (el: number) {
-        this.heap.push(el);
+    insert () {
 
         // [ 20, 10, 30 ]
         let lastIndex = this.heap.length - 1; // 2
@@ -36,15 +35,17 @@ class MaxHeap {
         this.heap[ lastIndex ] = lastInsertedEl; // [ 30, 10, 20 ];
     }
     create (arr: number[]) {
-        console.log(arr);
+        for (let i = 1; i < arr.length; i++) {
+            const el = arr[ i ];
+            this.heap.push(el);
+            this.insert();
+        }
+        this.heap.push(arr[ 0 ]);
     }
     display () {
         console.log(this.heap);
     }
 }
 const mh1 = new MaxHeap();
-mh1.insert(30);
-mh1.insert(40);
-mh1.insert(5);
-// mh1.create([ 10, 20, 30 ]);
+mh1.create([ 20, 10, 30 ]);
 mh1.display();
