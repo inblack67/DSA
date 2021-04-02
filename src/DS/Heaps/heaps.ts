@@ -25,11 +25,12 @@ class MaxHeap {
             throw new Error('Heap is empty');
         }
 
+        // [ 30, 10, 20 ]
         let index = 0;
         let nextIndex = this.getLeftChildInex(index);
         const root = this.heap[ index ];
         this.heap[ index ] = this.heap[ this.heap.length - 1 ];
-        this.heap.pop();
+        this.heap.pop(); // [ 20, 10 ]
         while (nextIndex < this.heap.length - 1) {
             if (this.heap[ nextIndex + 1 ] > this.heap[ nextIndex ]) {
                 nextIndex += 1;
@@ -45,32 +46,29 @@ class MaxHeap {
         return root;
     }
     insert () {
-        // [ 20, 10, 30 ]
-        let lastIndex = this.heap.length - 1; // 2
-        const lastInsertedEl = this.heap[ lastIndex ]; // 30
-        const parentOfLastInserted = this.heap[ this.getParentIndex(lastIndex) ]; // 20
-        while (lastIndex > 0 && lastInsertedEl > parentOfLastInserted) {
-            // 30 > 20
-            this.heap[ lastIndex ] = this.heap[ this.getParentIndex(lastIndex) ]; // [ 20, 10, 20 ] 
-            lastIndex = this.getParentIndex(lastIndex); // 0
+        let i = this.heap.length - 1;
+        let temp = this.heap[ i ];
+        while (i > 0 && temp > this.heap[ this.getParentIndex(i) ]) {
+            this.heap[ i ] = this.heap[ this.getParentIndex(i) ];
+            i = this.getParentIndex(i);
         }
-        this.heap[ lastIndex ] = lastInsertedEl; // [ 30, 10, 20 ];
+        this.heap[ i ] = temp;
     }
     create (arr: number[]) {
-        for (let i = 1; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
             const el = arr[ i ];
             this.heap.push(el);
             this.insert();
         }
-        this.heap.push(arr[ 0 ]);
     }
     display () {
         console.log(this.heap);
     }
 }
 const mh1 = new MaxHeap();
-mh1.create([ 20, 10, 30 ]);
-console.log(mh1.delete());
-console.log(mh1.delete());
-console.log(mh1.delete());
+// mh1.create([ 20, 10, 30 ]);
+mh1.create([ 50, 10, 20, 30, 25, 5, 40, 35 ]);
+// console.log(mh1.delete());
+// console.log(mh1.delete());
+// console.log(mh1.delete());
 mh1.display();
