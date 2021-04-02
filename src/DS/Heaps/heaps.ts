@@ -61,6 +61,15 @@ class MaxHeap {
             this.insert();
         }
     }
+    heapSort () {
+        const arr: number[] = [];
+        const len = this.heap.length;
+        for (let i = 0; i < len; i++) {
+            const deletedEl = this.delete();
+            arr.push(deletedEl);
+        }
+        return arr;
+    }
     display () {
         console.log(this.heap);
     }
@@ -68,7 +77,6 @@ class MaxHeap {
 const mh1 = new MaxHeap();
 // mh1.create([ 20, 10, 30 ]);
 mh1.create([ 50, 10, 20, 30, 25, 5, 40, 35 ]);
-// console.log(mh1.delete());
-// console.log(mh1.delete());
+console.log(mh1.heapSort());    // sorted asc
 // console.log(mh1.delete());
 mh1.display();
