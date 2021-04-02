@@ -20,14 +20,36 @@ class MaxHeap {
         this.heap[ index1 ] = this.heap[ index2 ];
         this.heap[ index2 ] = temp;
     }
-    insert () {
+    delete () {
+        if (this.heap.length === 0) {
+            throw new Error('Heap is empty');
+        }
 
+        let index = 0;
+        let nextIndex = this.getLeftChildInex(index);
+        const root = this.heap[ index ];
+        this.heap[ index ] = this.heap[ this.heap.length - 1 ];
+        this.heap.pop();
+        while (nextIndex < this.heap.length - 1) {
+            if (this.heap[ nextIndex + 1 ] > this.heap[ nextIndex ]) {
+                nextIndex += 1;
+            }
+            if (this.heap[ nextIndex ] > this.heap[ index ]) {
+                this.swap(index, nextIndex);
+                index = nextIndex;
+                nextIndex = this.getLeftChildInex(nextIndex);
+            } else {
+                break;
+            }
+        }
+        return root;
+    }
+    insert () {
         // [ 20, 10, 30 ]
         let lastIndex = this.heap.length - 1; // 2
         const lastInsertedEl = this.heap[ lastIndex ]; // 30
         const parentOfLastInserted = this.heap[ this.getParentIndex(lastIndex) ]; // 20
         while (lastIndex > 0 && lastInsertedEl > parentOfLastInserted) {
-            console.log('object');
             // 30 > 20
             this.heap[ lastIndex ] = this.heap[ this.getParentIndex(lastIndex) ]; // [ 20, 10, 20 ] 
             lastIndex = this.getParentIndex(lastIndex); // 0
@@ -48,4 +70,7 @@ class MaxHeap {
 }
 const mh1 = new MaxHeap();
 mh1.create([ 20, 10, 30 ]);
+console.log(mh1.delete());
+console.log(mh1.delete());
+console.log(mh1.delete());
 mh1.display();
