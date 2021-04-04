@@ -2,7 +2,7 @@ const stairsMemo = new Map<number, number>();
 
 function climbStairs (n: number): number {
     if (n === 0) {
-        return 1;
+        return 1; // 0 => stay there => 1 path => 0 to 0
     }
     if (n < 0) {
         return 0;
@@ -24,7 +24,7 @@ console.log(climbStairs(3));
 // no recursion in tab
 const climbStairsTabulation = (n: number) => {
     const dp = new Array(n + 1).fill(0);
-    dp[ 0 ] = 1;    // 0 => stay there => 1 path
+    dp[ 0 ] = 1;    // 0 => stay there => 1 path => 0 to 0
     for (let i = 1; i <= n; i++) {
         if (i === 1) {
             dp[ i ] = dp[ i - 1 ];
