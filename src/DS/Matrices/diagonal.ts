@@ -1,3 +1,4 @@
+// wastage of space
 const getDiagonalMatrix2D = (size: number, diagonalElements: number[]): number[][] => {
     const mat: number[][] = new Array(size);
     for (let i = 0; i < mat.length; i++) {
