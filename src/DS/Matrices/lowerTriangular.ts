@@ -13,13 +13,23 @@ const getElemFromLowerRMOMat = (mat: number[], row: number, col: number) => {
     if (row < col) {
         return 0;
     }
-    const index = (row * (row - 1)) / 2 + (col - 1);
+    const index = ((row * (row - 1)) / 2) + (col - 1);
     return mat[ index ];
 };
 
 const lowerRMOMat = getLowerTriRMO(5, [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
 console.log(getElemFromLowerRMOMat(lowerRMOMat, 2, 2));
+console.log(getElemFromLowerRMOMat(lowerRMOMat, 4, 3));
 
-const getLowerTriCMO = () => {
+const getElemFromLowerCMOMat = (order: number, mat: number[], row: number, col: number) => {
+    if (row < col) {
+        return 0;
+    }
 
+    const index = (order * (col - 1) - ((col - 2) * (col - 1)) / 2) + (row - col);
+    return mat[ index ];
 };
+
+const lowerCMOMat = getLowerTriRMO(5, [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+console.log(getElemFromLowerCMOMat(5, lowerCMOMat, 2, 2));
+console.log(getElemFromLowerCMOMat(5, lowerCMOMat, 4, 3));
