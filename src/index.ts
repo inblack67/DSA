@@ -1,5 +1,5 @@
 const main = async () => {
-    console.log('hello')
+  console.log("hello");
 };
 
-main().catch(err => console.error(err));
+main().catch((err) => console.error(err));
