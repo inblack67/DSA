@@ -34,6 +34,19 @@ const queryUpperTraingularMatCMO = (
   return mat[index];
 };
 
+const numberOfNonZeroElements = (order: number) => {
+  return getSumOfNs(order);
+};
+
+const numberOfZeroElements = (
+  numberOfNonZeroElements: number,
+  order: number,
+) => {
+  return Math.pow(order, 2) - numberOfNonZeroElements;
+};
+
+const totalElements = (order: number) => Math.pow(order, 2);
+
 const mat2 = getUpperTriangular(5, [
   1,
   2,
