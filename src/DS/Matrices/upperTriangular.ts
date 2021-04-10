@@ -21,6 +21,19 @@ const queryUpperTraingularMatRMO = (
   return mat[index];
 };
 
+const queryUpperTraingularMatCMO = (
+  _: number,
+  mat: number[],
+  row: number,
+  col: number,
+) => {
+  if (row > col) {
+    return 0;
+  }
+  const index = getSumOfNs(col - 1) + (row - 1);
+  return mat[index];
+};
+
 const mat2 = getUpperTriangular(5, [
   1,
   2,
@@ -39,3 +52,4 @@ const mat2 = getUpperTriangular(5, [
   15,
 ]);
 console.log(queryUpperTraingularMatRMO(5, mat2, 4, 4));
+console.log(queryUpperTraingularMatCMO(5, mat2, 4, 5));
