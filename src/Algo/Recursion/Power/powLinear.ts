@@ -1,4 +1,4 @@
-const myPow = (x: number, n: number) => {
+const myPow = (x: number, n: number): number => {
   if (n === 0) {
     return 1;
   }
