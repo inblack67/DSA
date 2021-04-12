@@ -1,4 +1,4 @@
-const printArrayWithRecursion = (arr: number[], index: number = 0) => {
+const printArrayWithRecursion = (arr: number[], index: number = 0): void => {
   if (index === arr.length) {
     return;
   }
@@ -8,7 +8,10 @@ const printArrayWithRecursion = (arr: number[], index: number = 0) => {
 
 printArrayWithRecursion([1, 2, 3, 4, 5]);
 
-const printArrayInReverseWithRecursion = (arr: number[], index: number) => {
+const printArrayInReverseWithRecursion = (
+  arr: number[],
+  index: number,
+): void => {
   if (index === -1) {
     return;
   }
