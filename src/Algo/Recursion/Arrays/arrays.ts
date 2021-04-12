@@ -17,3 +17,18 @@ const printArrayInReverseWithRecursion = (arr: number[], index: number) => {
 };
 
 printArrayInReverseWithRecursion([1, 2, 3, 4, 5], 4);
+
+const maxOfArray = (nums: number[], index: number = 0): number => {
+  const current = nums[index];
+  if (index === nums.length - 1) {
+    return current;
+  }
+  const next = maxOfArray(nums, index + 1);
+  if (current > next) {
+    return current;
+  } else {
+    return next;
+  }
+};
+
+console.log(maxOfArray([12, 2, 4, 80, 19, 9]));
