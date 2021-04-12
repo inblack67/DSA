@@ -38,8 +38,17 @@ console.log(maxOfArray([12, 2, 4, 80, 19, 9]));
 
 const firstIndexOfOccurrence = (
   arr: number[],
-  index = 0,
-  data = -1,
-): number => {};
+  index: number,
+  data: number,
+): number => {
+  if (index === arr.length) {
+    return -1;
+  }
+  if (arr[index] === data) {
+    return index;
+  } else {
+    return firstIndexOfOccurrence(arr, index + 1, data);
+  }
+};
 
-console.log(firstIndexOfOccurrence([6, 3, 4, 2, 4, 2, 4, 1, 1]));
+console.log(firstIndexOfOccurrence([6, 3, 4, 2, 4, 2, 4, 1, 1], 0, 1));
