@@ -52,3 +52,21 @@ const firstIndexOfOccurrence = (
 };
 
 console.log(firstIndexOfOccurrence([6, 3, 4, 2, 4, 2, 4, 1, 1], 0, 1));
+
+const lasttIndexOfOccurrence = (
+  arr: number[],
+  index: number,
+  data: number,
+): number => {
+  if (index === arr.length) {
+    return -1;
+  }
+  const next = lasttIndexOfOccurrence(arr, index + 1, data);
+  if (arr[next] === data) {
+    return next;
+  } else {
+    return index;
+  }
+};
+
+console.log(lasttIndexOfOccurrence([6, 3, 4, 2, 4, 2, 4, 1, 1], 0, 2));
