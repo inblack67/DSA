@@ -12,14 +12,14 @@ const printArrayInReverseWithRecursion = (
   arr: number[],
   index: number,
 ): void => {
-  if (index === -1) {
+  if (index === arr.length) {
     return;
   }
+  printArrayInReverseWithRecursion(arr, index + 1);
   console.log(arr[index]);
-  return printArrayInReverseWithRecursion(arr, index - 1);
 };
 
-printArrayInReverseWithRecursion([1, 2, 3, 4, 5], 4);
+printArrayInReverseWithRecursion([1, 2, 3, 4, 5], 0);
 
 const maxOfArray = (nums: number[], index: number = 0): number => {
   const current = nums[index];
@@ -35,3 +35,11 @@ const maxOfArray = (nums: number[], index: number = 0): number => {
 };
 
 console.log(maxOfArray([12, 2, 4, 80, 19, 9]));
+
+const firstIndexOfOccurrence = (
+  arr: number[],
+  index = 0,
+  data = -1,
+): number => {};
+
+console.log(firstIndexOfOccurrence([6, 3, 4, 2, 4, 2, 4, 1, 1]));
