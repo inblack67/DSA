@@ -1,3 +1,4 @@
+// array size => 2^n =>  => 32gb is required for string of length 31
 const getSubSequence = (str: string): string[] => {
   // abc
   // expectation => - - - => yes/no per char => abc => 8 possibilities
@@ -19,3 +20,15 @@ const getSubSequence = (str: string): string[] => {
 };
 
 console.log(getSubSequence('abc'));
+
+const printSubSequence = (str: string, ans: string) => {
+  if (str.length === 0) {
+    console.log(ans);
+    return;
+  }
+  const sub = str.substring(1);
+  printSubSequence(sub, ans);
+  printSubSequence(sub, ans + str[0]);
+};
+
+printSubSequence('abc', '');
