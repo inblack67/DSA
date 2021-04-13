@@ -70,3 +70,32 @@ const lasttIndexOfOccurrence = (
 };
 
 console.log(lasttIndexOfOccurrence([6, 3, 4, 2, 4, 2, 4, 1, 1], 0, 2));
+
+const allIndexesOfOccurrence = (
+  arr: number[],
+  index: number,
+  data: number,
+  timesFound: number = 0,
+): number[] => {
+  if (index === arr.length) {
+    const res: number[] = new Array(timesFound);
+    return res;
+  }
+  const curr = arr[index];
+  if (curr === data) {
+    // found
+    const resArr1 = allIndexesOfOccurrence(
+      arr,
+      index + 1,
+      data,
+      timesFound + 1,
+    );
+    resArr1[timesFound] = index;
+    return resArr1
+  } else {
+    const resArr2 = allIndexesOfOccurrence(arr, index + 1, data, timesFound);
+    return resArr2;
+  }
+};
+
+console.log(allIndexesOfOccurrence([6, 3, 4, 2, 4, 2, 4, 1, 1], 0, 4));
