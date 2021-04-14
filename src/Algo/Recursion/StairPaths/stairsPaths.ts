@@ -24,3 +24,17 @@ const getStairsPath = (stairs: number): string[] => {
 };
 
 console.log(getStairsPath(3));
+
+const printStairsPath = (stairs: number, ans: string): void => {
+  if (stairs === 0) {
+    console.log(ans);
+    return;
+  } else if (stairs < 0) {
+    return;
+  }
+  printStairsPath(stairs - 1, ans + 1);
+  printStairsPath(stairs - 2, ans + 2);
+  printStairsPath(stairs - 3, ans + 3);
+};
+
+printStairsPath(3, '');
