@@ -29,4 +29,18 @@ const getKPC = (str: string): string[] => {
   return res;
 };
 
-console.log(getKPC('78')); // [tv, tw, tx, uv, uw, ux]
+// console.log(getKPC('78')); // [tv, tw, tx, uv, uw, ux]
+
+const printKPC = (str: string, combo: string) => {
+  if (str.length === 0) {
+    console.log(combo);
+    return;
+  }
+  const rest = str.substring(1);
+  for (let i = 0; i < dict[str[0]].length; i++) {
+    const el = dict[str[0]][i];
+    printKPC(rest, combo + el);
+  }
+};
+
+printKPC('78', '');
