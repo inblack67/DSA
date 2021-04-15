@@ -27,15 +27,29 @@ class Sorting {
   }
   insertionSort() {
     // [8, 5, 7, 3, 2];
-    for (let k = 0; k < this.arr.length - 1; k++) {
-      for (let i = 1; i < this.arr.length; i++) {
-        const el = this.arr[i];
-        const prev = this.arr[i - 1];
-        if (prev > el) {
-          this.swap(i, i - 1);
-        }
+
+    // first element is already sorted
+    for (let i = 1; i < this.arr.length; i++) {
+      const el = this.arr[i];
+      let prevIndex = i - 1;
+      const prev = this.arr[prevIndex];
+      while (prev > el && prevIndex > -1) {
+        this.arr[prevIndex + 1] = this.arr[prevIndex];
+        prevIndex--;
       }
+      this.arr[prevIndex + 1] = el;
     }
+
+    // calculated => n-1 comparisons in insertion sort
+    // for (let k = 0; k < this.arr.length - 1; k++) {
+    //   for (let i = 1; i < this.arr.length; i++) {
+    //     const el = this.arr[i];
+    //     const prev = this.arr[i - 1];
+    //     if (prev > el) {
+    //       this.swap(i, i - 1);
+    //     }
+    //   }
+    // }
   }
   getArr() {
     return this.arr;
