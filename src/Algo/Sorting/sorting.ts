@@ -25,11 +25,24 @@ class Sorting {
       }
     }
   }
+  insertionSort() {
+    // [8, 5, 7, 3, 2];
+    for (let k = 0; k < this.arr.length - 1; k++) {
+      for (let i = 1; i < this.arr.length; i++) {
+        const el = this.arr[i];
+        const prev = this.arr[i - 1];
+        if (prev > el) {
+          this.swap(i, i - 1);
+        }
+      }
+    }
+  }
   getArr() {
     return this.arr;
   }
 }
 
 const sort1 = new Sorting([8, 5, 7, 3, 2]);
-sort1.bubbleSort();
+// sort1.bubbleSort();
+sort1.insertionSort();
 console.log(sort1.getArr()); // [2,3,5,7,8]
