@@ -33,6 +33,8 @@ class Sorting {
       const el = this.arr[i];
       let prevIndex = i - 1;
       const prev = this.arr[prevIndex];
+
+      // maintaing the list sorted till the current element
       while (prev > el && prevIndex > -1) {
         this.arr[prevIndex + 1] = this.arr[prevIndex];
         prevIndex--;
@@ -51,6 +53,21 @@ class Sorting {
     //   }
     // }
   }
+
+  selectionSort() {
+    for (let i = 0; i < this.arr.length; i++) {
+      let k = i;
+      for (let j = i; j < this.arr.length; j++) {
+        const jEl = this.arr[j];
+        const kEl = this.arr[k];
+        if (jEl < kEl) {
+          k = j;
+        }
+      }
+      this.swap(i, k);
+    }
+  }
+
   getArr() {
     return this.arr;
   }
@@ -58,5 +75,6 @@ class Sorting {
 
 const sort1 = new Sorting([8, 5, 7, 3, 2]);
 // sort1.bubbleSort();
-sort1.insertionSort();
+// sort1.insertionSort();
+sort1.selectionSort();
 console.log(sort1.getArr()); // [2,3,5,7,8]
