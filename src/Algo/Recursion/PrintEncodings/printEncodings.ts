@@ -30,6 +30,7 @@ const printEncodings = (str: string, ans: string = ''): void => {
       const rest = str.substring(1);
       printEncodings(rest, ans + dict[first]);
     }
+    // for two digit char
     const first2 = str.substring(0, 2);
     const rest2 = str.substring(2);
     if (+first2 <= 26) {
