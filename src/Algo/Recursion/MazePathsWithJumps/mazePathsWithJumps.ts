@@ -46,3 +46,53 @@ const getMazePathsWithJumps = (
 
 const mazePathsWithJumps = getMazePathsWithJumps(1, 1, 2, 2);
 console.log(mazePathsWithJumps);
+
+const printMazePathsWithJumps = (
+  sourceRow: number,
+  sourceCol: number,
+  destRow: number,
+  destCol: number,
+  paths: string = '',
+): void => {
+  if (sourceRow === destRow && sourceCol === destCol) {
+    console.log(paths);
+  }
+  const horizontalPossibilities = destCol - sourceCol;
+  for (let i = 1; i <= horizontalPossibilities; i++) {
+    printMazePathsWithJumps(
+      sourceRow,
+      sourceCol + i,
+      destRow,
+      destCol,
+      paths + 'h' + i, // paths + horizontal move + number of jumps
+    );
+  }
+
+  const verticalPossibilities = destRow - sourceRow;
+  for (let i = 1; i <= verticalPossibilities; i++) {
+    printMazePathsWithJumps(
+      sourceRow + i,
+      sourceCol,
+      destRow,
+      destCol,
+      paths + 'v' + i,
+    );
+  }
+
+  // diagonal possibilities
+  for (
+    let i = 1;
+    i <= verticalPossibilities && i <= horizontalPossibilities;
+    i++
+  ) {
+    printMazePathsWithJumps(
+      sourceRow + i,
+      sourceCol + i,
+      destRow,
+      destCol,
+      paths + 'd' + i,
+    );
+  }
+};
+
+printMazePathsWithJumps(1, 1, 2, 2);
