@@ -1,9 +1,9 @@
-const visited = new Map<string, boolean>();
 const floodFilling = (
   row: number,
   col: number,
   maze: number[][],
   ans: string,
+  visited: Map<string, boolean>,
 ): void => {
   if (
     row < 0 ||
@@ -23,19 +23,17 @@ const floodFilling = (
 
   visited.set(`${row}${col}`, true);
 
-  floodFilling(row + 1, col, maze, ans + 'd');
-  floodFilling(row - 1, col, maze, ans + 't');
-  floodFilling(row, col + 1, maze, ans + 'r');
-  floodFilling(row, col - 1, maze, ans + 'l');
+  floodFilling(row + 1, col, maze, ans + 'd', visited);
+  floodFilling(row - 1, col, maze, ans + 't', visited);
+  floodFilling(row, col + 1, maze, ans + 'r', visited);
+  floodFilling(row, col - 1, maze, ans + 'l', visited);
 };
 
-floodFilling(
-  0,
-  0,
-  [
-    [0, 0, 0],
-    [1, 0, 1],
-    [0, 0, 0],
-  ],
-  '',
-);
+const visited = new Map<string, boolean>();
+const maze = [
+  [0, 0, 0],
+  [1, 0, 1],
+  [0, 0, 0],
+];
+
+floodFilling(0, 0, maze, '', visited);
