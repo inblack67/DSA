@@ -7,3 +7,5 @@ const myPow = (x: number, n: number): number => {
 };
 
 console.log(myPow(5, 3));
+console.log(myPow(10, 0));
+console.log(myPow(2, 5));
