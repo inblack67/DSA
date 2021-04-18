@@ -32,15 +32,19 @@ const isQueenSafe = (
   return true;
 };
 
-const getChess2 = (order: number): number[][] => {
+const getChess22 = (order: number): number[][] => {
   const chess = Array(order)
     .fill(null)
     .map(() => Array(order).fill(0));
   return chess;
 };
 
-const nQueensProblem = (order: number, row: number, ans: string): void => {
-  const chess: number[][] = getChess2(order);
+const nQueensProblem = (
+  chess: number[][],
+  order: number,
+  row: number,
+  ans: string,
+): void => {
   if (row === order) {
     console.log(ans);
     return;
@@ -49,10 +53,11 @@ const nQueensProblem = (order: number, row: number, ans: string): void => {
     // fill queen only if it's safe
     if (isQueenSafe(order, chess, row, col)) {
       chess[row][col] = 1; // queen established at each col of the row
-      nQueensProblem(order, row + 1, ans + `${row}-${col}, `);
+      nQueensProblem(chess, order, row + 1, ans + `${row}-${col}, `);
       chess[row][col] = 0;
     }
   }
 };
 
-nQueensProblem(4, 0, '');
+const chess22 = getChess22(4);
+nQueensProblem(chess22, 4, 0, '');
