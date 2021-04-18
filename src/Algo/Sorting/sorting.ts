@@ -68,6 +68,34 @@ class Sorting {
     }
   }
 
+  partition(low: number, high: number): number {
+    const pivot = this.arr[low];
+    let i = low;
+    let j = high;
+    while (i < j) {
+      do {
+        i++;
+      } while (this.arr[i] <= pivot);
+      do {
+        j--;
+      } while (this.arr[j] > pivot);
+      if (i < j) {
+        this.swap(i, j);
+      }
+    }
+    this.swap(low, j);
+    return j;
+  }
+
+  quickSort(low: number, high: number) {
+    if (low < high) {
+      // at least two els
+      let j = this.partition(low, high);
+      this.quickSort(low, j);
+      this.quickSort(j + 1, high);
+    }
+  }
+
   getArr() {
     return this.arr;
   }
@@ -76,5 +104,6 @@ class Sorting {
 const sort1 = new Sorting([8, 5, 7, 3, 2]);
 // sort1.bubbleSort();
 // sort1.insertionSort();
-sort1.selectionSort();
+// sort1.selectionSort();
+sort1.quickSort(0, 5);
 console.log(sort1.getArr()); // [2,3,5,7,8]
