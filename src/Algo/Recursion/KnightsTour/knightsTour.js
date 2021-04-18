@@ -1,17 +1,29 @@
-const getChess = (order: number): number[][] => {
+const fs = require('fs');
+
+const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
+
+let currentLine = 0;
+const readMe = () => input[currentLine++];
+
+const getChess = (order) => {
   const chess = Array(order)
     .fill(null)
     .map(() => Array(order).fill(0));
   return chess;
 };
 
-const knightsTour = (
-  chess: number[][],
-  order: number,
-  row: number,
-  col: number,
-  move: number,
-): void => {
+const displayChess = (chess, order) => {
+  for (let i = 0; i < order; i++) {
+    for (let j = 0; j < order; j++) {
+      const el = chess[i][j];
+      process.stdout.write(el.toString() + ' ');
+    }
+    console.log();
+  }
+  console.log();
+};
+
+const knightsTour = (chess, order, row, col, move) => {
   if (
     row < 0 ||
     col < 0 ||
@@ -22,7 +34,7 @@ const knightsTour = (
     return;
   } else if (move === order * order) {
     chess[row][col] = move;
-    console.log(chess);
+    displayChess(chess, order);
     chess[row][col] = 0;
     return;
   }
@@ -39,5 +51,12 @@ const knightsTour = (
   chess[row][col] = 0;
 };
 
-const chess = getChess(5);
-knightsTour(chess, chess.length, 2, 0, 1);
+const main = () => {
+  const order = readMe();
+  const row = readMe();
+  const col = readMe();
+  const chess = getChess(+order);
+  knightsTour(chess, +order, +row, +col, 1);
+};
+
+main();

@@ -32,8 +32,15 @@ const isQueenSafe = (
   return true;
 };
 
+const getChess2 = (order: number): number[][] => {
+  const chess = Array(order)
+    .fill(null)
+    .map(() => Array(order).fill(0));
+  return chess;
+};
+
 const nQueensProblem = (order: number, row: number, ans: string): void => {
-  const chess: number[][] = new Array(order).fill(new Array(order).fill(0));
+  const chess: number[][] = getChess2(order);
   if (row === order) {
     console.log(ans);
     return;
