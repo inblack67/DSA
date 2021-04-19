@@ -6,7 +6,7 @@ let currentLine = 0;
 const readMe = () => input[currentLine++];
 
 const fibonacciTabulation = (num) => {
-  const dp = new Array(num + 1).fill(0);
+  const dp = new Array(num + 1);
 
   // cell => fib sum of prev els
   // left to right
