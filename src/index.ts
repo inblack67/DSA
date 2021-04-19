@@ -1,14 +1,10 @@
-import { knightsTour } from './Algo/Recursion/KnightsTour/knightsTour';
-
-const getMyChess = (order: number): number[][] => {
-  const chess = new Array(order).fill(new Array(order).fill(0));
-  console.log('my chess = ', chess);
-  return chess;
-};
+import {
+  solveSudoku,
+  sudoku,
+} from './Algo/RecursionAndBackTracking/Sudoku/sudoku';
 
 const main = async () => {
-  const chess = getMyChess(5);
-  knightsTour(chess, chess.length, 2, 0, 1);
+  solveSudoku(sudoku, 0, 0, 3);
 };
 
 main().catch((err) => console.error(err));
