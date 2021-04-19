@@ -1,10 +1,7 @@
-import {
-  solveSudoku,
-  sudoku,
-} from './Algo/RecursionAndBackTracking/Sudoku/sudoku';
+import { printZ } from './Algo/Patterns/PrintZ/printZ';
 
 const main = async () => {
-  solveSudoku(sudoku, 0, 0, 3);
+  printZ(5);
 };
 
 main().catch((err) => console.error(err));
