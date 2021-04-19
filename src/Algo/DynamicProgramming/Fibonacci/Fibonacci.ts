@@ -1,23 +1,17 @@
+const fibonacciTabulation = (num: number): void => {
+  const dp = new Array(num + 1).fill(0);
 
+  // cell => fib sum of prev els
+  // left to right
+  // travel l to r and solve
+  dp[0] = 0;
+  dp[1] = 1;
 
-
-const memo = new Map<number, number>();
-const getMemoizedFibonacciSum = (range: number): number => {
-  if (range <= 1) {
-    memo.set(range, range);
-    return range;
+  for (let i = 2; i < dp.length; i++) {
+    dp[i] = dp[i - 1] + dp[i - 2];
   }
-
-  const saved = memo.get(range);
-  if (saved) {
-    return saved;
-  }
-
-  const cond1 = range - 1;
-  const cond2 = range - 2;
-  const fib = getMemoizedFibonacciSum(cond1) + getMemoizedFibonacciSum(cond2);
-  memo.set(range, fib);
-  return fib;
+  
+  console.log(dp[dp.length - 1]);
 };
 
-// console.log(getMemoizedFibonacciSum(5));
+fibonacciTabulation(5);
