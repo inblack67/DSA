@@ -1,4 +1,11 @@
-const climbStairsWithMinMoves = (jumps: number[]) => {
+const fs = require('fs');
+
+const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
+
+let currentLine = 0;
+const readMe = () => input[currentLine++];
+
+const climbStairsWithMinMoves = (jumps) => {
   const dp = new Array(jumps.length + 1).fill(null);
   dp[dp.length - 1] = 0;
   for (let i = dp.length - 2; i >= 0; i--) {
@@ -14,6 +21,9 @@ const climbStairsWithMinMoves = (jumps: number[]) => {
       // stop 0 from interfering the min comparison
       if (min !== Number.MAX_SAFE_INTEGER) {
         dp[i] = min + 1;
+      } else {
+        // if no path was found => consecutive nulls/0s
+        dp[i] = null;
       }
     }
   }
@@ -21,4 +31,14 @@ const climbStairsWithMinMoves = (jumps: number[]) => {
   console.log(dp[0]);
 };
 
-climbStairsWithMinMoves([3, 3, 0, 2, 1, 2, 4, 2, 0, 0]);
+const main = () => {
+  const arrSize = readMe();
+  const arr = new Array(+arrSize);
+  for (let i = 0; i < arr.length; i++) {
+    const el = readMe();
+    arr[i] = +el;
+  }
+  climbStairsWithMinMoves(arr);
+};
+
+main();
