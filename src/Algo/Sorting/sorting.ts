@@ -96,6 +96,38 @@ class Sorting {
     }
   }
 
+  merge(low: number, mid: number, high: number): void {
+    let i = low;
+    let j = mid + 1;
+    let k = low;
+    const newArr = new Array(high);
+    while (i <= mid && j <= high) {
+      if (this.arr[i] > this.arr[j]) {
+        newArr[k++] = this.arr[j++];
+      } else {
+        newArr[k++] = this.arr[i++];
+      }
+    }
+    for (; i <= mid; i++) {
+      newArr[k++] = this.arr[i];
+    }
+    for (; j <= high; j++) {
+      newArr[k++] = this.arr[j];
+    }
+    for (let i = low; i <= high; i++) {
+      this.arr[i] = newArr[i];
+    }
+  }
+
+  mergeSort(low: number = 0, high: number = this.arr.length - 1) {
+    if (low < high) {
+      const mid = Math.floor((low + high) / 2);
+      this.mergeSort(low, mid);
+      this.mergeSort(mid + 1, high);
+      this.merge(low, mid, high);
+    }
+  }
+
   getArr() {
     return this.arr;
   }
@@ -105,5 +137,6 @@ const sort1 = new Sorting([8, 5, 7, 3, 2]);
 // sort1.bubbleSort();
 // sort1.insertionSort();
 // sort1.selectionSort();
-sort1.quickSort(0, 5);
+// sort1.quickSort(0, 5);
+sort1.mergeSort();
 console.log(sort1.getArr()); // [2,3,5,7,8]
