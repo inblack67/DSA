@@ -128,15 +128,35 @@ class Sorting {
     }
   }
 
+  // [8, 3, 7, 4, 9, 2, 6, 5]
+  iterativeMergeSort() {
+    // sorted list of this.arr.length elements (1 el per list => each is sorted)
+    // passes
+    let i: number = 2;
+    for (; i < this.arr.length; i *= 2) {
+      for (let j = 0; j < this.arr.length; j += i) {
+        const low = j;
+        const high = i + j - 1;
+        const mid = Math.floor((low + high) / 2);
+        this.merge(low, mid, high);
+      }
+    }
+    if (i / 2 < this.arr.length) {
+      this.merge(0, i / 2, this.arr.length - 1);
+    }
+  }
+
   getArr() {
     return this.arr;
   }
 }
 
-const sort1 = new Sorting([8, 5, 7, 3, 2]);
+const sort1 = new Sorting([8, 3, 7, 4, 9, 2, 6, 5]);
+// const sort1 = new Sorting([8, 5, 7, 3, 2]);
 // sort1.bubbleSort();
 // sort1.insertionSort();
 // sort1.selectionSort();
 // sort1.quickSort(0, 5);
-sort1.mergeSort();
+// sort1.mergeSort();
+sort1.iterativeMergeSort();
 console.log(sort1.getArr()); // [2,3,5,7,8]
