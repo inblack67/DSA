@@ -1,6 +1,11 @@
-function minPathSum(grid: number[][]): number {
-  // number of rows => dp.length
-  // number of cols = > dp[0].length
+const fs = require('fs');
+
+const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
+
+let currentLine = 0;
+const readMe = () => input[currentLine++];
+
+const minPathSum = (grid) => {
   const dp = new Array(grid.length)
     .fill(null)
     .map(() => new Array(grid[0].length).fill(0));
@@ -23,19 +28,28 @@ function minPathSum(grid: number[][]): number {
       }
     }
   }
-  return dp[0][0];
-}
+  console.log(dp[0][0]);
+};
 
-console.log(
-  minPathSum([
-    [1, 2, 3],
-    [4, 5, 6],
-  ]),
-); // 12
-console.log(
-  minPathSum([
-    [1, 3, 1],
-    [1, 5, 1],
-    [4, 2, 1],
-  ]),
-); // 7
+const get2DArray = (rows, cols, fillZeroes = true) => {
+  const arr = new Array(rows)
+    .fill(null)
+    .map(() => new Array(cols).fill(fillZeroes ? 0 : null));
+  return arr;
+};
+
+const main = () => {
+  const rows = +readMe();
+  const cols = +readMe();
+  const grid = get2DArray(rows, cols);
+  for (let i = 0; i < rows; i++) {
+    const row = readMe().split(' ');
+    for (let j = 0; j < cols; j++) {
+      const el = row[j];
+      grid[i][j] = +el;
+    }
+  }
+  minPathSum(grid);
+};
+
+main();
