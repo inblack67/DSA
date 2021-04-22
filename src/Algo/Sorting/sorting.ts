@@ -132,17 +132,17 @@ class Sorting {
   iterativeMergeSort() {
     // sorted list of this.arr.length elements (1 el per list => each is sorted)
     // passes
-    let i: number = 2;
-    for (; i < this.arr.length; i *= 2) {
-      for (let j = 0; j < this.arr.length; j += i) {
-        const low = j;
-        const high = i + j - 1;
-        const mid = Math.floor((low + high) / 2);
+    let p = 2;
+    for (; p < this.arr.length; p *= 2) {
+      for (let i = 0; i + p - 1 < this.arr.length; i += p) {
+        let low = i;
+        let high = i + p - 1;
+        let mid = Math.floor((low + high) / 2);
         this.merge(low, mid, high);
       }
     }
-    if (i / 2 < this.arr.length) {
-      this.merge(0, i / 2, this.arr.length - 1);
+    if (Math.floor(p / 2) < this.arr.length) {
+      this.merge(0, Math.floor(p / 2) - 1, this.arr.length - 1);
     }
   }
 
