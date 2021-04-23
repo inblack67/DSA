@@ -295,6 +295,49 @@ class Sorting {
     }
   }
 
+  calculateGap(len: number): number {
+    return Math.floor(len / 2);
+  }
+
+  shellSort() {
+    let gap = this.calculateGap(this.arr.length);
+    let i = 0,
+      j = 0,
+      temp = 0;
+    for (; gap >= 1; gap = this.calculateGap(gap)) {
+      for (i = gap; i < this.arr.length; i++) {
+        temp = this.arr[i];
+        j = i - gap;
+        while (j >= 0 && this.arr[j] > temp) {
+          this.arr[j + gap] = this.arr[j];
+          j -= gap;
+        }
+        this.arr[j + gap] = temp;
+      }
+    }
+  }
+  // shellSort2() {
+  //   let gap = this.calculateGap(this.arr.length);
+
+  //   for (; gap >= 1; gap = this.calculateGap(gap)) {
+  //     let index1 = 0;
+  //     let index2 = gap - index1 - 1;
+  //     while (index2 < this.arr.length) {
+  //       let diff = index1 - gap;
+  //       if (this.arr[index1] > this.arr[index2]) {
+  //         this.swap(index1, index2);
+  //       }
+  //       if (diff >= 0) {
+  //         if (this.arr[diff] > this.arr[index1]) {
+  //           this.swap(diff, index1);
+  //         }
+  //       }
+  //       index1++;
+  //       index2++;
+  //     }
+  //   }
+  // }
+
   getArr() {
     return this.arr;
   }
@@ -303,7 +346,8 @@ class Sorting {
 // const sort1 = new Sorting([8, 3, 7, 4, 9, 2, 6, 5]);
 // const sort1 = new Sorting([7, 8, 5, 3, 5, 7, 3, 2, 2, 8]);
 // const sort1 = new Sorting([8, 5, 7, 3, 2]);
-const sort1 = new Sorting([237, 146, 259, 348, 152, 163, 235, 48, 36, 62]);
+// const sort1 = new Sorting([237, 146, 259, 348, 152, 163, 235, 48, 36, 62]);
+const sort1 = new Sorting([9, 5, 16, 8, 13, 6, 12, 10, 4, 2, 3]);
 // sort1.bubbleSort();
 // sort1.insertionSort();
 // sort1.selectionSort();
@@ -312,5 +356,6 @@ const sort1 = new Sorting([237, 146, 259, 348, 152, 163, 235, 48, 36, 62]);
 // sort1.iterativeMergeSort();
 // sort1.countSort();
 // sort1.binBucketSort();
-sort1.radixSort();
+// sort1.radixSort();
+sort1.shellSort();
 console.log(sort1.getArr()); // [2,3,5,7,8]
