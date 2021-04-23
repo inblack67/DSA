@@ -316,27 +316,6 @@ class Sorting {
       }
     }
   }
-  // shellSort2() {
-  //   let gap = this.calculateGap(this.arr.length);
-
-  //   for (; gap >= 1; gap = this.calculateGap(gap)) {
-  //     let index1 = 0;
-  //     let index2 = gap - index1 - 1;
-  //     while (index2 < this.arr.length) {
-  //       let diff = index1 - gap;
-  //       if (this.arr[index1] > this.arr[index2]) {
-  //         this.swap(index1, index2);
-  //       }
-  //       if (diff >= 0) {
-  //         if (this.arr[diff] > this.arr[index1]) {
-  //           this.swap(diff, index1);
-  //         }
-  //       }
-  //       index1++;
-  //       index2++;
-  //     }
-  //   }
-  // }
 
   getArr() {
     return this.arr;
