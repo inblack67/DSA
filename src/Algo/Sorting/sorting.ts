@@ -1,3 +1,70 @@
+class BinNode {
+  data: number;
+  next: BinNode | null;
+  constructor(data: number, next: BinNode | null = null) {
+    this.data = data;
+    this.next = next;
+  }
+}
+
+class BinBucket {
+  private head: BinNode | null;
+  private size: number;
+  constructor() {
+    this.head = null;
+    this.size = 0;
+  }
+  append(el: number) {
+    const newNode = new BinNode(el);
+    if (!this.head) {
+      this.head = newNode;
+      this.size++;
+    } else {
+      let curr = this.head;
+      while (curr.next) {
+        curr = curr.next;
+      }
+      curr.next = newNode;
+      this.size++;
+    }
+  }
+  pop(): number {
+    if (!this.head) {
+      throw new Error('Nothing to pop');
+    }
+    if (this.size === 1) {
+      const popped = this.head.data;
+      this.head = null;
+      this.size--;
+      return popped;
+    }
+    let curr = this.head;
+    let prev: BinNode | null = null;
+    while (curr.next) {
+      prev = curr;
+      curr = curr.next;
+    }
+    const popped = curr.data;
+    prev!.next = null;
+    this.size--;
+    return popped;
+  }
+  getSize() {
+    return this.size;
+  }
+  display() {
+    if (!this.head) {
+      console.log(this.head);
+      return;
+    }
+    let curr: BinNode | null = this.head;
+    while (curr) {
+      console.log(curr.data);
+      curr = curr.next;
+    }
+  }
+}
+
 class Sorting {
   private arr: number[];
   constructor(arr: number[]) {
@@ -165,19 +232,48 @@ class Sorting {
     }
   }
 
+  binBucketSort() {
+    const maxEl = Math.max(...this.arr);
+    const bin: BinBucket[] = new Array(maxEl + 1).fill(null);
+
+    for (let i = 0; i < bin.length; i++) {
+      const binll = new BinBucket();
+      bin[i] = binll;
+    }
+
+    for (let i = 0; i < this.arr.length; i++) {
+      const el = this.arr[i];
+      bin[el].append(el);
+    }
+
+    let arrIndex = 0;
+    let j = 0;
+
+    while (arrIndex < this.arr.length) {
+      const currentBin = bin[j];
+      if (currentBin.getSize() > 0) {
+        let popped = currentBin.pop();
+        this.arr[arrIndex++] = popped;
+      } else {
+        j++;
+      }
+    }
+  }
+
   getArr() {
     return this.arr;
   }
 }
 
-const sort1 = new Sorting([8, 3, 7, 4, 9, 2, 6, 5]);
+// const sort1 = new Sorting([8, 3, 7, 4, 9, 2, 6, 5]);
 // const sort1 = new Sorting([7, 8, 5, 3, 5, 7, 3, 2, 2, 8]);
-// const sort1 = new Sorting([8, 5, 7, 3, 2]);
+const sort1 = new Sorting([8, 5, 7, 3, 2]);
 // sort1.bubbleSort();
 // sort1.insertionSort();
 // sort1.selectionSort();
 // sort1.quickSort(0, 5);
 // sort1.mergeSort();
 // sort1.iterativeMergeSort();
-sort1.countSort();
+// sort1.countSort();
+sort1.binBucketSort();
 console.log(sort1.getArr()); // [2,3,5,7,8]
