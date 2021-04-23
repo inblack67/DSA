@@ -260,6 +260,41 @@ class Sorting {
     }
   }
 
+  radixSort(base: number = 10) {
+    const maxEl = Math.max(...this.arr);
+    const maxElLength = maxEl.toString().length;
+    const bin: BinBucket[] = new Array(base).fill(null);
+
+    for (let i = 0; i < bin.length; i++) {
+      const binll = new BinBucket();
+      bin[i] = binll;
+    }
+
+    let modVal = 1;
+    for (let i = 0; i < maxElLength; i++) {
+      for (let k = 0; k < this.arr.length; k++) {
+        const el = this.arr[k];
+        const digit = Math.floor(el / modVal) % base;
+        bin[digit].append(el);
+      }
+
+      let arrIndex = 0;
+      let j = 0;
+
+      while (arrIndex < this.arr.length) {
+        const currentBin = bin[j];
+        if (currentBin.getSize() > 0) {
+          let popped = currentBin.pop();
+          this.arr[arrIndex++] = popped;
+        } else {
+          j++;
+        }
+      }
+
+      modVal *= base;
+    }
+  }
+
   getArr() {
     return this.arr;
   }
@@ -267,7 +302,8 @@ class Sorting {
 
 // const sort1 = new Sorting([8, 3, 7, 4, 9, 2, 6, 5]);
 // const sort1 = new Sorting([7, 8, 5, 3, 5, 7, 3, 2, 2, 8]);
-const sort1 = new Sorting([8, 5, 7, 3, 2]);
+// const sort1 = new Sorting([8, 5, 7, 3, 2]);
+const sort1 = new Sorting([237, 146, 259, 348, 152, 163, 235, 48, 36, 62]);
 // sort1.bubbleSort();
 // sort1.insertionSort();
 // sort1.selectionSort();
@@ -275,5 +311,6 @@ const sort1 = new Sorting([8, 5, 7, 3, 2]);
 // sort1.mergeSort();
 // sort1.iterativeMergeSort();
 // sort1.countSort();
-sort1.binBucketSort();
+// sort1.binBucketSort();
+sort1.radixSort();
 console.log(sort1.getArr()); // [2,3,5,7,8]
