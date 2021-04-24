@@ -20,13 +20,23 @@ class Graph {
       }
     }
   }
-  depthFirstSearch() {}
+  depthFirstSearch(startIndex: number = 1, visited: boolean[]) {
+    if (visited[startIndex] === false) {
+      console.log(startIndex);
+      visited[startIndex] = true;
+      for (let i = 1; i < this.matrix.length; i++) {
+        if (visited[i] === false && this.matrix[startIndex][i] === 1) {
+          this.depthFirstSearch(i, visited);
+        }
+      }
+    }
+  }
   display() {
     console.log(this.matrix);
   }
 }
 
-const g1 = new Graph([
+const matrix = [
   [0, 0, 0, 0, 0, 0, 0],
   [0, 0, 1, 1, 0, 0, 0],
   [0, 1, 0, 0, 1, 0, 0],
@@ -34,6 +44,10 @@ const g1 = new Graph([
   [0, 0, 1, 1, 0, 1, 1],
   [0, 0, 0, 0, 1, 0, 0],
   [0, 0, 0, 0, 1, 0, 0],
-]);
+];
+const g1 = new Graph(matrix);
 
 g1.breadthFirstSearch(5);
+
+const visitedRows: boolean[] = new Array(matrix.length + 1).fill(false);
+g1.depthFirstSearch(1, visitedRows);
