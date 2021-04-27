@@ -1,4 +1,11 @@
-const countSubs = (str: string): void => {
+const fs = require('fs');
+
+const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
+
+let currentLine = 0;
+const readMe = () => input[currentLine++];
+
+const countSubs = (str) => {
   let a = 0,
     ab = 0,
     abc = 0;
@@ -15,4 +22,9 @@ const countSubs = (str: string): void => {
   console.log(abc);
 };
 
-countSubs('abcabc');
+const main = () => {
+  const str = readMe();
+  countSubs(str);
+};
+
+main();
