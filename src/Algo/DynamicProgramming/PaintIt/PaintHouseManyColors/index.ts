@@ -1,4 +1,5 @@
-const paintHouseManyColorsMinCost = (rates: number[][]) => {
+// O(n^3)
+const paintHouseManyColorsMinCost2 = (rates: number[][]) => {
   const dp = new Array(rates.length)
     .fill(null)
     .map(() => new Array(rates[0].length).fill(0));
@@ -30,6 +31,56 @@ const paintHouseManyColorsMinCost = (rates: number[][]) => {
     }
   }
   console.log(min);
+};
+
+// O(n^2)
+const paintHouseManyColorsMinCost = (rates: number[][]) => {
+  const dp = new Array(rates.length)
+    .fill(null)
+    .map(() => new Array(rates[0].length).fill(0));
+
+  let firstMin = Number.MAX_SAFE_INTEGER;
+  let secondMin = Number.MAX_SAFE_INTEGER;
+
+  for (let col = 0; col < rates[0].length; col++) {
+    const el = rates[0][col];
+    dp[0][col] = el;
+    if (el < firstMin) {
+      secondMin = firstMin;
+      firstMin = el;
+    } else if (el < secondMin) {
+      secondMin = el;
+    }
+  }
+
+  for (let row = 1; row < dp.length; row++) {
+    let newFirstMin = Number.MAX_SAFE_INTEGER;
+    let newSecondMin = Number.MAX_SAFE_INTEGER;
+    for (let col = 0; col < dp[0].length; col++) {
+      let min = Number.MAX_SAFE_INTEGER;
+      const prev = dp[row - 1][col];
+      if (prev === firstMin) {
+        min = secondMin;
+      } else {
+        min = firstMin;
+      }
+
+      dp[row][col] = rates[row][col] + min;
+
+      // calc for the second row
+      const el = dp[row][col];
+      if (el < newFirstMin) {
+        newSecondMin = newFirstMin;
+        newFirstMin = el;
+      } else if (el < newSecondMin) {
+        newSecondMin = el;
+      }
+    }
+    firstMin = newFirstMin;
+    secondMin = newSecondMin;
+  }
+
+  console.log(Math.min(...dp[dp.length - 1]));
 };
 
 paintHouseManyColorsMinCost([
