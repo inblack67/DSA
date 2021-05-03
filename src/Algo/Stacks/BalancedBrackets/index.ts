@@ -13,7 +13,6 @@ const closedBraces: any = {
 const isBalanced = (str: string): void => {
   const stack: string[] = [];
   for (let i = 0; i < str.length; i++) {
-    console.log(stack);
     const el = str[i];
     if (openBraces[el]) {
       // open brace => push
