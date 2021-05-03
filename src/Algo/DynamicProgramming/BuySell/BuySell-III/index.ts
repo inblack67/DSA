@@ -1,16 +1,18 @@
 const buySell3 = (stocks: number[], fee: number) => {
-  let profit = 0;
-  let buy = 0;
-  let sell = 0;
-  for (let i = 0; i < stocks.length; i++) {
-    if (stocks[i] >= stocks[i - 1]) {
-      sell++;
-    } else {
-      profit += stocks[sell] - stocks[buy];
-      buy = sell = i;
+  let buySellBuy = -stocks[0]; // buy sell buy => one buy extra loan
+  let buySell = 0; // complete cycle of buy sell
+  for (let i = 1; i < stocks.length; i++) {
+    const el = stocks[i];
+    let newBuySellBuy = buySell - el;
+    let newBuySell = el + buySellBuy - fee;
+    if (newBuySellBuy > buySellBuy) {
+      buySellBuy = newBuySellBuy;
+    }
+    if (newBuySell > buySell) {
+      buySell = newBuySell;
     }
   }
-  console.log(profit);
+  console.log(buySell);
 };
 
 buySell3([10, 15, 17, 20, 16, 18, 22, 20, 22, 20, 23, 25], 3);
