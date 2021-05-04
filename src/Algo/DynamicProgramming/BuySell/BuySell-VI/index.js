@@ -5,48 +5,33 @@ const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
 let currentLine = 0;
 const readMe = () => input[currentLine++];
 
-const buySell5 = (stocks) => {
-  let minBuy = stocks[0];
-  const dp = new Array(stocks.length).fill(0);
-  dp[0] = 0;
-  // sell today => max profit till date
-  for (let i = 1; i < stocks.length; i++) {
-    const el = stocks[i];
-    const todayProfit = el - minBuy;
-    if (todayProfit > dp[i - 1]) {
-      dp[i] = todayProfit;
-    } else {
-      dp[i] = dp[i - 1];
-    }
-    if (el < minBuy) {
-      // mainting min buy
-      minBuy = el;
-    }
-  }
-  const dp2 = new Array(stocks.length).fill(0);
-  dp2[0] = 0;
-  let minBuy2 = stocks[stocks.length - 1];
-  // buy today => max profit in future
-  for (let i = stocks.length - 2; i >= 0; i--) {
-    const el = stocks[i];
-    let currProfit = minBuy2 - el;
-    if (currProfit > dp2[i + 1]) {
-      dp2[i] = currProfit;
-    } else {
-      dp2[i] = dp2[i + 1];
-    }
-    if (el > minBuy2) {
-      minBuy2 = el;
+const buySell6 = (stocks, transactions) => {
+  // rows => transactions => 0 to k
+  // cols => stocks
+  const dp = new Array(transactions + 1)
+    .fill(null)
+    .map(() => new Array(stocks.length).fill(0));
+  for (let row = 0; row < dp.length; row++) {
+    for (let col = 0; col < dp[0].length; col++) {
+      if (row === 0) {
+        // no transactions => no profit
+        dp[row][col] = 0;
+      } else if (col === 0) {
+        // bought stock of stocks[0] and sell on the same day => profit => 0
+        dp[row][col] = 0;
+      } else {
+        let candidate = dp[row][col - 1]; // all transactions completed on the prev day
+        for (let j = 0; j < col; j++) {
+          const profit = stocks[col] - stocks[j] + dp[row - 1][j];
+          if (profit > candidate) {
+            candidate = profit;
+          }
+        }
+        dp[row][col] = candidate;
+      }
     }
   }
-  let res = 0;
-  for (let i = 0; i < stocks.length; i++) {
-    const sum = dp[i] + dp2[i];
-    if (sum > res) {
-      res = sum;
-    }
-  }
-  console.log(res);
+  console.log(dp[dp.length - 1][dp[0].length - 1]);
 };
 
 const main = () => {
@@ -56,7 +41,8 @@ const main = () => {
     const el = +readMe();
     arr.push(el);
   }
-  buySell5(arr);
+  const transactions = +readMe();
+  buySell6(arr, transactions);
 };
 
 main();
