@@ -1,7 +1,8 @@
-import { partitionIntoSubsets } from './Algo/DynamicProgramming/PartitionIntoSubsets';
+import { performBubbleSort } from './Algo/Sorting/BubbleSort';
 
 const main = async () => {
-  partitionIntoSubsets(4, 3);
+  const myArray = [7, -2, 4, 1, 3];
+  performBubbleSort(myArray);
 };
 
 main().catch((err) => console.error(err));
