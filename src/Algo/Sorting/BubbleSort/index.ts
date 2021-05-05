@@ -14,8 +14,10 @@ export const displayArray = (arr: number[]): void => {
 
 // in place => adaptive => does not swap already sorted list
 export const performBubbleSort = (arr: number[]): void => {
+  // n-1 passes
   for (let pass = 0; pass < arr.length - 1; pass++) {
     let isSwapped = false; // to avoid further swapping in already sorted list
+    // going till second last el & decrementing one el in each pass to avoid unecessary comparisons
     for (let i = 0; i < arr.length - 1 - pass; i++) {
       const nextIndex = i + 1;
       console.log(`Comparing ${arr[nextIndex]} and ${arr[i]}`);
@@ -35,7 +37,9 @@ export const performBubbleSort = (arr: number[]): void => {
 
 // inplace => but not adaptive
 export const performBubbleSort2 = (arr: number[]): void => {
+  // n-1 comparisons
   for (let pass = 0; pass < arr.length - 1; pass++) {
+    // going till second last el & decrementing one el in each pass to avoid unecessary comparisons
     for (let i = 0; i < arr.length - 1 - pass; i++) {
       const nextIndex = i + 1;
       console.log(`Comparing ${arr[nextIndex]} and ${arr[i]}`);
