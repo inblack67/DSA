@@ -18,12 +18,10 @@ export const performBubbleSort = (arr: number[]): void => {
     let isSwapped = false; // to avoid further swapping in already sorted list
     for (let i = 0; i < arr.length - 1 - pass; i++) {
       const nextIndex = i + 1;
-      if (nextIndex < arr.length) {
-        console.log(`Comparing ${arr[nextIndex]} and ${arr[i]}`);
-        if (arr[i] > arr[nextIndex]) {
-          swap(arr, nextIndex, i);
-          isSwapped = true;
-        }
+      console.log(`Comparing ${arr[nextIndex]} and ${arr[i]}`);
+      if (arr[i] > arr[nextIndex]) {
+        swap(arr, nextIndex, i);
+        isSwapped = true;
       }
     }
     if (!isSwapped) {
@@ -40,11 +38,9 @@ export const performBubbleSort2 = (arr: number[]): void => {
   for (let pass = 0; pass < arr.length - 1; pass++) {
     for (let i = 0; i < arr.length - 1 - pass; i++) {
       const nextIndex = i + 1;
-      if (nextIndex < arr.length) {
-        console.log(`Comparing ${arr[nextIndex]} and ${arr[i]}`);
-        if (arr[i] > arr[nextIndex]) {
-          swap(arr, nextIndex, i);
-        }
+      console.log(`Comparing ${arr[nextIndex]} and ${arr[i]}`);
+      if (arr[i] > arr[nextIndex]) {
+        swap(arr, nextIndex, i);
       }
     }
   }
