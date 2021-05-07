@@ -108,26 +108,13 @@ class Sorting {
       }
       this.arr[prevIndex + 1] = el;
     }
-
-    // calculated => n-1 comparisons in insertion sort
-    // for (let k = 0; k < this.arr.length - 1; k++) {
-    //   for (let i = 1; i < this.arr.length; i++) {
-    //     const el = this.arr[i];
-    //     const prev = this.arr[i - 1];
-    //     if (prev > el) {
-    //       this.swap(i, i - 1);
-    //     }
-    //   }
-    // }
   }
 
   selectionSort() {
     for (let i = 0; i < this.arr.length; i++) {
       let k = i;
-      for (let j = i; j < this.arr.length; j++) {
-        const jEl = this.arr[j];
-        const kEl = this.arr[k];
-        if (jEl < kEl) {
+      for (let j = i + 1; j < this.arr.length; j++) {
+        if (this.arr[j] < this.arr[k]) {
           k = j;
         }
       }
