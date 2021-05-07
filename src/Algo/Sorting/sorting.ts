@@ -200,7 +200,8 @@ class Sorting {
     }
   }
 
-  countSort() {
+  // not stable and does not sort negative nums
+  countSort_2() {
     const maxEl = Math.max(...this.arr);
     const hash: number[] = new Array(maxEl + 1).fill(0);
     for (let i = 0; i < this.arr.length; i++) {
@@ -216,6 +217,78 @@ class Sorting {
       } else {
         hashIndex++;
       }
+    }
+  }
+
+  // sorts negative nums but is not stable
+  countSort_3() {
+    let max = 0;
+    let min = Number.MAX_SAFE_INTEGER;
+    // calc min max
+    for (let i = 0; i < this.arr.length; i++) {
+      const el = this.arr[i];
+      if (el > max) {
+        max = el;
+      }
+      if (el < min) {
+        min = el;
+      }
+    }
+    const range = max - min;
+    const freq = new Array(range + 1).fill(0); // +1 => because max diff can be max num in the array => when doing max - min for max num's turn
+    for (let i = 0; i < this.arr.length; i++) {
+      const el = this.arr[i];
+      const index = el - min;
+      freq[index]++;
+    }
+    let j = 0;
+    for (let i = 0; i < freq.length; i++) {
+      let el = freq[i];
+      while (el > 0) {
+        const val = i + min;
+        this.arr[j++] = val;
+        el--;
+      }
+    }
+  }
+
+  // perfect count sort => sorts -ve nums and is stable
+  countSort() {
+    let max = 0;
+    let min = Number.MAX_SAFE_INTEGER;
+    // calc min max
+    for (let i = 0; i < this.arr.length; i++) {
+      const el = this.arr[i];
+      if (el > max) {
+        max = el;
+      }
+      if (el < min) {
+        min = el;
+      }
+    }
+    const range = max - min;
+    const freq = new Array(range + 1).fill(0); // +1 => because max diff can be max num in the array => when doing max - min for max num's turn
+    for (let i = 0; i < this.arr.length; i++) {
+      const el = this.arr[i];
+      const index = el - min;
+      freq[index]++;
+    }
+
+    // converting frequency array to prefix sum array
+    for (let i = 1; i < freq.length; i++) {
+      freq[i] += freq[i - 1];
+    }
+
+    const ans = new Array(this.arr.length);
+    for (let i = this.arr.length - 1; i >= 0; i--) {
+      const el = this.arr[i];
+      const index = freq[el - min] - 1; // el - min has the freq stored of the el in the freq arr => -1 because we need the index
+      ans[index] = el;
+      freq[el - min]--; // does not affect the res of the algo as the loop will run only this.arr.length times anyway
+    }
+
+    for (let i = 0; i < ans.length; i++) {
+      this.arr[i] = ans[i];
     }
   }
 
@@ -311,17 +384,17 @@ class Sorting {
 
 // const sort1 = new Sorting([8, 3, 7, 4, 9, 2, 6, 5]);
 // const sort1 = new Sorting([7, 8, 5, 3, 5, 7, 3, 2, 2, 8]);
-// const sort1 = new Sorting([8, 5, 7, 3, 2]);
+const sort1 = new Sorting([8, 5, 7, 3, 2, -2]);
 // const sort1 = new Sorting([237, 146, 259, 348, 152, 163, 235, 48, 36, 62]);
-const sort1 = new Sorting([9, 5, 16, 8, 13, 6, 12, 10, 4, 2, 3]);
+// const sort1 = new Sorting([9, 5, 16, 8, 13, 6, 12, 10, 4, 2, 3]);
 // sort1.bubbleSort();
 // sort1.insertionSort();
 // sort1.selectionSort();
 // sort1.quickSort(0, 5);
 // sort1.mergeSort();
 // sort1.iterativeMergeSort();
-// sort1.countSort();
+sort1.countSort();
 // sort1.binBucketSort();
 // sort1.radixSort();
-sort1.shellSort();
-console.log(sort1.getArr()); // [2,3,5,7,8]
+// sort1.shellSort();
+console.log(sort1.getArr());
