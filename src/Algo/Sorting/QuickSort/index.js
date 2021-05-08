@@ -6,31 +6,32 @@ let currentLine = 0;
 const readMe = () => input[currentLine++];
 
 // in place
-const swap = (arr, index1, index2) => {
+const swap_5 = (arr, index1, index2) => {
   console.log(`Swapping ${arr[index1]} and ${arr[index2]}`);
   const temp = arr[index1];
   arr[index1] = arr[index2];
   arr[index2] = temp;
 };
 
-const displayArray = (arr) => {
+const displayArray_5 = (arr) => {
   for (let i = 0; i < arr.length; i++) {
-    console.log(arr[i]);
+    process.stdout.write(`${arr[i]} `);
   }
 };
 
-// in place => but not stable
-const performBubbleSort = (arr) => {
-  for (let pass = 0; pass < arr.length - 1; pass++) {
-    for (let i = 0; i < arr.length - 1 - pass; i++) {
-      const nextIndex = i + 1;
-      console.log(`Comparing ${arr[nextIndex]} and ${arr[i]}`);
-      if (arr[i] > arr[nextIndex]) {
-        swap(arr, nextIndex, i);
-      }
+const performParitioning = (arr, pivot) => {
+  let i = 0;
+  let j = 0;
+  while (i < arr.length) {
+    if (arr[i] > pivot) {
+      i++;
+    } else {
+      swap_5(arr, i, j);
+      i++;
+      j++;
     }
   }
-  displayArray(arr);
+  displayArray_5(arr);
 };
 
 const main = () => {
@@ -40,7 +41,8 @@ const main = () => {
     const el = +readMe();
     arr.push(el);
   }
-  performBubbleSort(arr);
+  const pivot = +readMe();
+  performParitioning(arr, pivot);
 };
 
 main();

@@ -8,7 +8,7 @@ const swap_5 = (arr: number[], index1: number, index2: number): void => {
 
 const displayArray_5 = (arr: number[]): void => {
   for (let i = 0; i < arr.length; i++) {
-    process.stdout.write(`${arr[i]}`);
+    process.stdout.write(`${arr[i]} `);
   }
 };
 
@@ -36,8 +36,26 @@ const performParitioning = (arr: number[]): number => {
 };
 
 // const myArray_5 = [8, 3, 7, 4, 9, 2, 6, 5];
-// const myArray_5 = [1.5,2,7, -2, 4, 1, 3, 3];
 const myArray_5 = [50, 70, 60, 90, 40, 80, 10, 20, 30];
-// const myArray_5 = [7, -2, 4, 1, 3];
-performParitioning(myArray_5, 3);
+performParitioning(myArray_5);
 console.log(myArray_5);
+
+const performParitioning_2 = (arr: number[], pivot: number): void => {
+  let i = 0;
+  let j = 0;
+  while (i < arr.length) {
+    if (arr[i] > pivot) {
+      i++;
+    } else {
+      swap_5(arr, i, j);
+      i++;
+      j++;
+    }
+  }
+  console.log(arr);
+  displayArray_5(arr);
+};
+
+const myArray_6 = [7, -2, 4, 1, 3];
+performParitioning_2(myArray_5, 3);
+console.log(myArray_6);
