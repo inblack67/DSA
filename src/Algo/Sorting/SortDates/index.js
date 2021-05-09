@@ -5,31 +5,18 @@ const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
 let currentLine = 0;
 const readMe = () => input[currentLine++];
 
-const displayArray_3 = (arr) => {
+const displayArray_8 = (arr) => {
   for (let i = 0; i < arr.length; i++) {
-    process.stdout.write(`${arr[i]} `);
+    console.log(arr[i]);
   }
-  console.log();
 };
 
-// gives back the number at the specified digitPlace in the num
-const getDigitPlaceNum = (num, digitPlace) => {
-  return Math.floor((num / digitPlace) % 10);
-};
-
-// perfect count sort => sorts -ve nums and is stable
-const performCountSortForRadixSort = (
-  arr,
-  digitPlace, // 1, 10, 100, ... (one's, ten's...)
-) => {
-  // range will now only between 0-9
-  // 0 will be min always
-
+const myCountSort = (arr, range, divisor, modulo) => {
   // filling up frequency array
-  const frequency = new Array(10).fill(0);
+  const frequency = new Array(range).fill(0);
 
   for (let i = 0; i < arr.length; i++) {
-    const index = getDigitPlaceNum(arr[i], digitPlace);
+    const index = Math.floor(+arr[i] / divisor) % modulo;
     frequency[index]++;
   }
 
@@ -41,7 +28,7 @@ const performCountSortForRadixSort = (
   const ans = new Array(arr.length);
 
   for (let i = ans.length - 1; i >= 0; i--) {
-    const value = getDigitPlaceNum(arr[i], digitPlace);
+    const value = Math.floor(+arr[i] / divisor) % modulo;
     const index = frequency[value] - 1;
     ans[index] = arr[i];
     frequency[value]--;
@@ -50,33 +37,38 @@ const performCountSortForRadixSort = (
   for (let i = 0; i < ans.length; i++) {
     arr[i] = ans[i];
   }
-
-  process.stdout.write(
-    'After sorting on ' + digitPlace.toString() + ' place -> ',
-  );
-  displayArray_3(arr);
 };
 
-const performRadixSort = (arr) => {
-  const max = Math.max(...arr);
-  // running till the max length => max digit's length
+const sortDates = (arr) => {
+  // day:-
+  // range => 32 => 0-31 indexed arr
+  // divisor => Math.pow(10, 6) => DD/MM/YYYY
+  // modulo => 100
+  myCountSort(arr, 32, Math.pow(10, 6), 100);
 
-  let digitPlace = 1;
-  while (digitPlace <= max) {
-    performCountSortForRadixSort(arr, digitPlace);
-    digitPlace *= 10;
-  }
-  displayArray_3(arr);
+  // month:-
+  // range => 13 => 0-12 indexed arr
+  // divisor => Math.pow(10, 4)
+  // modulo => 100
+  myCountSort(arr, 13, Math.pow(10, 4), 100);
+
+  // year:-
+  // range => 2501 => 0-2500 indexed arr
+  // divisor => Math.pow(10, 4)
+  // modulo => 1
+  myCountSort(arr, 2501, Math.pow(10, 4), 1);
+
+  displayArray_8(arr);
 };
 
 const main = () => {
   const arrSize = +readMe();
   const arr = [];
   for (let i = 0; i < arrSize; i++) {
-    const el = +readMe();
+    const el = readMe();
     arr.push(el);
   }
-  performRadixSort(arr);
+  sortDates(arr);
 };
 
 main();
