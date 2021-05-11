@@ -1,19 +1,24 @@
 const ngtr = (arr: number[]): void => {
   const stack: number[] = [];
-  stack.push(arr[0]);
-  for (let i = 1; i < arr.length; i++) {
+  const res: number[] = new Array(arr.length);
+  stack.push(arr[arr.length - 1]);
+  res[arr.length - 1] = -1; // -1 for the last el as no one is on it's right
+  for (let i = arr.length - 2; i >= 0; i--) {
     const el = arr[i];
-    while (stack.length > 0) {
-      if (el > stack[stack.length - 1]) {
-        console.log(el);
-        stack.pop();
-      } else {
-        console.log(-1);
+    if (el < stack[stack.length - 1]) {
+      res[i] = stack[stack.length - 1];
+      stack.push(el);
+    } else {
+      // runs only some times so it's not O(n^2)
+      // for arr => 5, 3, 8, -2, 7 => for 8 it will run etc..
+      while (el > stack[stack.length - 1]) {
         stack.pop();
       }
+      res[i] = stack[stack.length - 1] || -1;
+      stack.push(el);
     }
-    stack.push(el);
   }
+  console.log(res);
 };
 
-ngtr([2, 5, 9, 3, 1, 12, 6, 8, 7]);
+ngtr([5, 3, 8, -2, 7]);
