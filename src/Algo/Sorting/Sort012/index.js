@@ -6,31 +6,38 @@ let currentLine = 0;
 const readMe = () => input[currentLine++];
 
 // in place
-const swap_5 = (arr, index1, index2) => {
+const swap_10 = (arr, index1, index2) => {
   console.log(`Swapping index ${index1} and index ${index2}`);
   const temp = arr[index1];
   arr[index1] = arr[index2];
   arr[index2] = temp;
 };
 
-const displayArray_5 = (arr) => {
+const displayArray_10 = (arr) => {
   for (let i = 0; i < arr.length; i++) {
     console.log(arr[i]);
   }
 };
 
-const performParitioning_4 = (arr, pivot) => {
-  let i = 0;
-  let j = 0;
-  while (i < arr.length) {
-    if (arr[i] > pivot) {
-      i++;
-    } else {
-      swap_5(arr, i, j);
+const sort012 = (arr) => {
+  let j = 0; // 0 to j-1 => 0's area
+  let i = 0; // j to i - 1 => 1's area
+  let k = arr.length - 1; // k + 1 to end => 2's area
+  // i to k => unkown
+  while (i <= k) {
+    if (arr[i] === 0) {
+      swap_10(arr, i, j);
       i++;
       j++;
+    } else if (arr[i] === 1) {
+      i++;
+    } else {
+      // arr[i] === 2
+      swap_10(arr, i, k);
+      k--;
     }
   }
+  displayArray_10(arr);
 };
 
 const main = () => {
@@ -40,8 +47,7 @@ const main = () => {
     const el = +readMe();
     arr.push(el);
   }
-  performParitioning_4(arr, 0);
-  displayArray_5(arr);
+  sort012(arr);
 };
 
 main();
