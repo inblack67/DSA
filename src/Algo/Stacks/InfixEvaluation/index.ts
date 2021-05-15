@@ -4,7 +4,7 @@ const operatorPriorities: any = {
   '+': 1,
   '-': 1,
   '*': 2,
-  '3': 2,
+  '/': 2,
 };
 
 const infixEval = (expression: string): void => {
@@ -30,12 +30,12 @@ const infixEval = (expression: string): void => {
         } else if (operator === '*') {
           res = v1! * v2!;
         } else {
+          // div operator
           res = Math.floor(v1! / v2!);
-          // / operator
         }
         operandsStack.push(res); // popping '('
       }
-      operatorsStack.pop();
+      operatorsStack.pop(); // popping '('
     } else if (el === '+' || el === '-' || el === '*' || el === '/') {
       while (
         operatorsStack.length > 0 &&
@@ -62,8 +62,6 @@ const infixEval = (expression: string): void => {
       operatorsStack.push(el);
     }
   }
-  console.log(operandsStack);
-  console.log(operatorsStack);
   while (operatorsStack.length > 0) {
     const operator = operatorsStack.pop();
     const v2 = operandsStack.pop();
@@ -76,7 +74,6 @@ const infixEval = (expression: string): void => {
     } else if (operator === '*') {
       res = v1! * v2!;
     } else {
-      console.log(v1, v2)
       res = Math.floor(v1! / v2!);
       // / operator
     }

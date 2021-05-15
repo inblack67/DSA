@@ -11,7 +11,7 @@ const operatorPriorities = {
   '+': 1,
   '-': 1,
   '*': 2,
-  3: 2,
+  '/': 2,
 };
 
 const infixEval = (expression) => {
@@ -37,12 +37,12 @@ const infixEval = (expression) => {
         } else if (operator === '*') {
           res = v1 * v2;
         } else {
+          // div operator
           res = Math.floor(v1 / v2);
-          // / operator
         }
-        operandsStack.push(res);
+        operandsStack.push(res); // popping '('
       }
-      operatorsStack.pop();
+      operatorsStack.pop(); // popping '('
     } else if (el === '+' || el === '-' || el === '*' || el === '/') {
       while (
         operatorsStack.length > 0 &&
@@ -86,8 +86,9 @@ const infixEval = (expression) => {
     }
     operandsStack.push(res);
   }
-  console.log(operandsStack[operandsStack.length - 1]);
+  console.log(operandsStack[0]);
 };
+
 
 const main = () => {
   infixEval(readMe());
