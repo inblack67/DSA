@@ -30,23 +30,26 @@ class MyStack_2 {
     const popped = this.stack[this.top];
     delete this.stack[this.top];
     this.top--;
+    console.log(popped);
     return popped;
   }
   display() {
-    for (let i = this.stack.length - 1; i >= 0; i--) {
+    for (let i = this.top; i >= 0; i--) {
       const el = this.stack[i];
       process.stdout.write(`${el} `);
     }
     console.log();
   }
   getTopElement() {
-    if (this.size === 0) {
+    if (this.top === -1) {
       console.log('Stack underflow');
       return;
     }
+    console.log(this.stack[this.top]);
     return this.stack[this.top];
   }
   getSize() {
+    console.log(this.top + 1);
     return this.top + 1;
   }
   isFull() {
@@ -64,19 +67,15 @@ const main = () => {
 
   let input = readMe();
   while (input !== 'quit') {
-    console.log(input);
-    const data = input.split(' ');
+    const data = input.split(' ').map((el) => el.trim());
     if (data[0] === 'push') {
       stack.push(+data[1]);
     } else if (data[0] === 'pop') {
-      const popped = stack.pop();
-      console.log(popped);
+      stack.pop();
     } else if (data[0] === 'top') {
-      const top = stack.getTopElement();
-      console.log(top);
+      stack.getTopElement();
     } else if (data[0] === 'size') {
-      const size = stack.getSize();
-      console.log(size);
+      stack.getSize();
     } else if (data[0] === 'display') {
       stack.display();
     }
