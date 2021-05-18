@@ -1,7 +1,6 @@
 1. You are given the code of our CustomStack class which mimics the java.util.Stack class.
 2. Here is the list of functions that are written in the class
-   2.1. push -> Accepts new data if there is space available in the underlying array or
-   print "Stack overflow" otherwise
+   2.1. push -> Accepts new data if there is space available in the underlying array
    2.2. pop -> Removes and returns last data if available or print "Stack underflow"
    otherwise and returns -1
    2.3. top -> Return last data if available or print "Stack underflow" otherwise and
