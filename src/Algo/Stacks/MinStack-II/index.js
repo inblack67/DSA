@@ -77,16 +77,22 @@ class MinStack {
     if (popped === undefined) {
       return;
     }
+    if (popped >= this.minStack) {
+      console.log(popped);
+      return popped;
+    }
     if (popped < this.minStack) {
       this.minStack = 2 * this.minStack - popped;
     }
+    console.log(popped);
     return popped;
   }
   display() {
     this.stack.display();
   }
   getTopElement() {
-    if (this.stack.peek() === undefined) {
+    if (this.stack.size === 0) {
+      console.log(`Stack underflow`);
       return;
     }
     if (this.stack.peek() < this.minStack) {
@@ -118,7 +124,7 @@ const main = () => {
     if (data[0] === 'push') {
       stack.push(+data[1]);
     } else if (data[0] === 'pop') {
-      console.log(stack.pop());
+      stack.pop();
     } else if (data[0] === 'top') {
       stack.getTopElement();
     } else if (data[0] === 'size') {
