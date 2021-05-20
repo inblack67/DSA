@@ -7,89 +7,66 @@ const readMe = () => input[currentLine++];
 
 class TwoStacksInArray {
   arr;
-  size1;
-  size2;
+  top1;
+  top2;
   constructor(size) {
     this.arr = new Array(size);
-    this.size1 = 0;
-    this.size2 = 0;
+    this.top1 = -1;
+    this.top2 = this.arr.length;
   }
   push1(el) {
-    if (this.isFull()) {
+    if (this.top2 === this.top1 + 1) {
       console.log(`Stack overflow`);
       return null;
     }
-    const index = this.size1;
-    this.arr[index] = el;
-    return ++this.size1;
+    this.arr[++this.top1] = el;
   }
   push2(el) {
-    if (this.isFull()) {
+    if (this.top2 === this.top1 + 1) {
       console.log(`Stack overflow`);
       return null;
     }
-    const index = this.arr.length - 1 - this.size2;
-    this.arr[index] = el;
-    return ++this.size2;
+    this.arr[--this.top2] = el;
   }
-  top1() {
-    if (this.isEmpty()) {
+  getTop1() {
+    if (this.getSize1() === 0) {
       console.log(`Stack underflow`);
       return null;
     }
-    const index = this.size1 - 1;
-    return this.arr[index];
+    return this.arr[this.top1];
   }
-  top2() {
-    if (this.isEmpty()) {
+  getTop2() {
+    if (this.getSize2() === 0) {
       console.log(`Stack underflow`);
       return null;
     }
-    const index = this.arr.length - this.size2;
-    return this.arr[index];
+    return this.arr[this.top2];
   }
   pop1() {
-    if (this.isEmpty()) {
+    if (this.getSize1() === 0) {
       console.log(`Stack underflow`);
       return null;
     }
-    const deletedEl = this.arr[this.size1 - 1];
-    delete this.arr[this.size1 - 1];
-    this.size1--;
+    const deletedEl = this.arr[this.top1];
+    delete this.arr[this.top1];
+    this.top1--;
     return deletedEl;
   }
   pop2() {
-    if (this.isEmpty()) {
+    if (this.getSize2() === 0) {
       console.log(`Stack underflow`);
       return null;
     }
-    const deletedEl = this.arr[this.arr.length - this.size2];
-    delete this.arr[this.arr.length - this.size2];
-    this.size2--;
+    const deletedEl = this.arr[this.top2];
+    delete this.arr[this.top2];
+    this.top2++;
     return deletedEl;
   }
   getSize1() {
-    return this.size1;
+    return this.top1 + 1;
   }
   getSize2() {
-    return this.size2;
-  }
-  isFull() {
-    const sizes = this.size1 + this.size2;
-    if (sizes === this.arr.length) {
-      return true;
-    }
-    return false;
-  }
-  isEmpty() {
-    const sizes = this.size1 + this.size2;
-    if (sizes === 0) {
-      return true;
-    }
-    return false;
-  }
-  display() {
-    console.log(this.arr);
+    return this.arr.length - this.top2;
   }
 }
 
@@ -114,12 +91,12 @@ const main = () => {
         console.log(removedEl);
       }
     } else if (data[0] === 'top1') {
-      const el = stack.top1();
+      const el = stack.getTop1();
       if (el !== null && el !== undefined) {
         console.log(el);
       }
     } else if (data[0] === 'top2') {
-      const el = stack.top2();
+      const el = stack.getTop2();
       if (el !== null && el !== undefined) {
         console.log(el);
       }
