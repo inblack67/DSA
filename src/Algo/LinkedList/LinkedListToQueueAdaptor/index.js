@@ -16,9 +16,11 @@ class MyNode {
 
 class MyLinkedList {
   head;
+  tail;
   size;
   constructor() {
     this.head = null;
+    this.tail = null;
     this.size = 0;
   }
   append(el) {
@@ -26,12 +28,10 @@ class MyLinkedList {
     if (!this.head) {
       // first node
       this.head = newNode;
+      this.tail = newNode;
     } else {
-      let currentNode = this.head;
-      while (currentNode.next) {
-        currentNode = currentNode.next;
-      }
-      currentNode.next = newNode;
+      this.tail.next = newNode;
+      this.tail = newNode;
     }
     return ++this.size;
   }
@@ -39,11 +39,7 @@ class MyLinkedList {
     if (this.size === 0) {
       return null;
     }
-    let curr = this.head;
-    while (curr.next) {
-      curr = curr.next;
-    }
-    return curr.data.data;
+    return this.tail.data.data;
   }
   getFirst() {
     if (this.size === 0) {
@@ -57,6 +53,12 @@ class MyLinkedList {
     }
     if (index >= this.size || index < 0) {
       return null;
+    }
+    if (index === 0) {
+      return this.getFirst();
+    }
+    if (index === this.size - 1) {
+      return this.getLast();
     }
     let curr = this.head;
     let count = 0;
@@ -72,8 +74,11 @@ class MyLinkedList {
     }
 
     if (position === 0) {
-      this.insertAtHead(el);
-      return;
+      return this.insertAtHead(el);
+    }
+
+    if (position === size - 1) {
+      return this.append(el);
     }
 
     const newNode = new MyNode(el);
@@ -92,8 +97,8 @@ class MyLinkedList {
   insertAtHead(el) {
     const newNode = new MyNode(el);
     if (!this.head) {
-      // first node
       this.head = newNode;
+      this.tail = newNode;
     } else {
       newNode.next = this.head;
       this.head = newNode;
@@ -107,6 +112,7 @@ class MyLinkedList {
     const deletedItem = this.head.data.data;
     if (!this.head.next) {
       this.head = null;
+      this.tail = null;
     } else {
       this.head = this.head.next;
     }
@@ -121,6 +127,7 @@ class MyLinkedList {
     if (!this.head.next) {
       deletedItem = this.head.data.data;
       this.head = null;
+      this.tail = null;
     } else {
       let currentNode = this.head;
       let prevNode = null;
@@ -130,6 +137,7 @@ class MyLinkedList {
       }
       deletedItem = currentNode.data.data;
       prevNode.next = null;
+      this.tail = prevNode;
     }
     this.size--;
     return deletedItem;
@@ -140,8 +148,11 @@ class MyLinkedList {
     }
 
     if (position === 0) {
-      this.deleteFirst(position);
-      return;
+      return this.deleteFirst(position);
+    }
+
+    if (position === this.size - 1) {
+      return this.deleteLast();
     }
 
     let currentPosition = 0;
@@ -154,7 +165,6 @@ class MyLinkedList {
     }
     const deletedItem = currentNode.data.data;
     prevNode.next = currentNode.next;
-    // delete currentNode.next;
     this.size--;
     return deletedItem;
   }
@@ -166,13 +176,14 @@ class MyLinkedList {
     if (index >= this.size || index < 0) {
       return null;
     }
-    let curr = this.head;
-    let count = 0;
-    while (count < index) {
-      curr = curr.next;
-      count++;
+
+    if (index === 0) {
+      return this.head;
     }
-    return curr;
+
+    if (index === this.size - 1) {
+      return this.tail;
+    }
   }
 
   reverseViaData() {
@@ -203,6 +214,7 @@ class MyLinkedList {
       prev = curr;
       curr = temp;
     }
+    this.tail = this.head;
     this.head = prev;
   }
 
@@ -213,7 +225,7 @@ class MyLinkedList {
     } else {
       let currentNode = this.head;
       while (currentNode) {
-        process.stdout.write(currentNode.data.toString() + ' ');
+        process.stdout.write(currentNode.data.data.toString() + ' ');
         currentNode = currentNode.next;
       }
     }
@@ -224,45 +236,48 @@ class MyLinkedList {
   }
 }
 
-class LLToStackAdapter {
-  stack;
+class LLToQueueAdapter {
+  queue;
   constructor() {
-    this.stack = new MyLinkedList();
+    this.queue = new MyLinkedList();
   }
-  push(el) {
+  add(el) {
     const newNode = new MyNode(el);
-    this.stack.insertAtHead(newNode);
+    this.queue.append(newNode);
   }
-  pop() {
-    return this.stack.deleteFirst();
+  remove() {
+    return this.queue.deleteFirst();
   }
   peek() {
-    return this.stack.getFirst();
+    return this.queue.getFirst();
   }
   getSize() {
-    return this.stack.getSize();
+    return this.queue.getSize();
+  }
+  display() {
+    this.queue.display();
   }
 }
 
 const main = () => {
   let str = readMe().split(' ');
-  const stack = new LLToStackAdapter();
+  const queue = new LLToQueueAdapter();
   while (str[0] !== 'quit') {
-    if (str[0] === 'push') {
-      stack.push(+str[1]);
+    if (str[0] === 'add') {
+      queue.add(+str[1]);
     } else if (str[0].match('size')) {
-      console.log(stack.getSize());
-    } else if (str[0].match('pop')) {
-      const popped = stack.pop();
+      console.log(queue.getSize());
+    } else if (str[0].match('remove')) {
+      const popped = queue.remove();
       if (popped === null) {
-        console.log(`Stack underflow`);
+        console.log(`Queue underflow`);
       } else {
         console.log(popped);
       }
-    } else if (str[0].match('top')) {
-      const el = stack.peek();
+    } else if (str[0].match('peek')) {
+      const el = queue.peek();
       if (el === null) {
-        console.log(`Stack underflow`);
+        console.log(`Queue underflow`);
       } else {
         console.log(el);
       }
