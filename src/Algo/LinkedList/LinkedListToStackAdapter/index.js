@@ -43,13 +43,13 @@ class MyLinkedList {
     while (curr.next) {
       curr = curr.next;
     }
-    return curr.data.data;
+    return curr.data;
   }
   getFirst() {
     if (this.size === 0) {
       return null;
     }
-    return this.head.data.data;
+    return this.head.data;
   }
   getAt(index) {
     if (this.size === 0) {
@@ -104,7 +104,7 @@ class MyLinkedList {
     if (!this.head) {
       return null;
     }
-    const deletedItem = this.head.data.data;
+    const deletedItem = this.head.data;
     if (!this.head.next) {
       this.head = null;
     } else {
@@ -119,7 +119,7 @@ class MyLinkedList {
     }
     let deletedItem;
     if (!this.head.next) {
-      deletedItem = this.head.data.data;
+      deletedItem = this.head.data;
       this.head = null;
     } else {
       let currentNode = this.head;
@@ -128,7 +128,7 @@ class MyLinkedList {
         prevNode = currentNode;
         currentNode = currentNode.next;
       }
-      deletedItem = currentNode.data.data;
+      deletedItem = currentNode.data;
       prevNode.next = null;
     }
     this.size--;
@@ -152,7 +152,7 @@ class MyLinkedList {
       currentNode = currentNode.next;
       currentPosition++;
     }
-    const deletedItem = currentNode.data.data;
+    const deletedItem = currentNode.data;
     prevNode.next = currentNode.next;
     // delete currentNode.next;
     this.size--;
@@ -230,8 +230,7 @@ class LLToStackAdapter {
     this.stack = new MyLinkedList();
   }
   push(el) {
-    const newNode = new MyNode(el);
-    this.stack.insertAtHead(newNode);
+    this.stack.insertAtHead(el);
   }
   pop() {
     return this.stack.deleteFirst();

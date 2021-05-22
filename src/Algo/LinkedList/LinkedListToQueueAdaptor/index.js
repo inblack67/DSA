@@ -39,13 +39,13 @@ class MyLinkedList {
     if (this.size === 0) {
       return null;
     }
-    return this.tail.data.data;
+    return this.tail.data;
   }
   getFirst() {
     if (this.size === 0) {
       return null;
     }
-    return this.head.data.data;
+    return this.head.data;
   }
   getAt(index) {
     if (this.size === 0) {
@@ -109,7 +109,7 @@ class MyLinkedList {
     if (!this.head) {
       return null;
     }
-    const deletedItem = this.head.data.data;
+    const deletedItem = this.head.data;
     if (!this.head.next) {
       this.head = null;
       this.tail = null;
@@ -125,7 +125,7 @@ class MyLinkedList {
     }
     let deletedItem;
     if (!this.head.next) {
-      deletedItem = this.head.data.data;
+      deletedItem = this.head.data;
       this.head = null;
       this.tail = null;
     } else {
@@ -135,7 +135,7 @@ class MyLinkedList {
         prevNode = currentNode;
         currentNode = currentNode.next;
       }
-      deletedItem = currentNode.data.data;
+      deletedItem = currentNode.data;
       prevNode.next = null;
       this.tail = prevNode;
     }
@@ -163,7 +163,7 @@ class MyLinkedList {
       currentNode = currentNode.next;
       currentPosition++;
     }
-    const deletedItem = currentNode.data.data;
+    const deletedItem = currentNode.data;
     prevNode.next = currentNode.next;
     this.size--;
     return deletedItem;
@@ -225,7 +225,7 @@ class MyLinkedList {
     } else {
       let currentNode = this.head;
       while (currentNode) {
-        process.stdout.write(currentNode.data.data.toString() + ' ');
+        process.stdout.write(currentNode.data.toString() + ' ');
         currentNode = currentNode.next;
       }
     }
@@ -242,8 +242,7 @@ class LLToQueueAdapter {
     this.queue = new MyLinkedList();
   }
   add(el) {
-    const newNode = new MyNode(el);
-    this.queue.append(newNode);
+    this.queue.append(el);
   }
   remove() {
     return this.queue.deleteFirst();
