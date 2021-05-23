@@ -235,7 +235,7 @@ class MyLinkedList {
   getKthElementFromTheEnd(k) {
     if (this.getSize() === 0) {
       console.log(`List is empty`);
-      return;
+      return null;
     }
 
     if (k >= this.getSize() || k < 0) {
@@ -261,6 +261,27 @@ class MyLinkedList {
     }
     return prev.data;
   }
+
+  getMidEl() {
+    if (!this.head) {
+      console.log(`List is empty`);
+      return null;
+    }
+
+    if (this.getSize() === 1) {
+      return this.head.data;
+    }
+
+    // when fast moves 2 steps, slow moves 1
+    let fast = this.head;
+    let slow = this.head;
+    while (fast.next && fast.next.next) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+    return slow.data;
+  }
+
   display() {
     if (!this.head) {
       console.log();
@@ -314,6 +335,11 @@ const main = () => {
       mll.insertAtPosition(+str[2], +str[1]);
     } else if (str[0].match('kthFromEnd')) {
       const res = mll.getKthElementFromTheEnd(+str[1]);
+      if (res !== null && res !== undefined) {
+        console.log(res);
+      }
+    } else if (str[0].match('mid')) {
+      const res = mll.getMidEl();
       if (res !== null && res !== undefined) {
         console.log(res);
       }
