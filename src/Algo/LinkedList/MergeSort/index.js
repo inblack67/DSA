@@ -281,20 +281,11 @@ class MyLinkedList {
     }
     return slow.data;
   }
-  getMidNode() {
-    if (!this.head) {
-      console.log(`List is empty`);
-      return null;
-    }
-
-    if (this.getSize() === 1) {
-      return this.head.data;
-    }
-
+  getMidNode(head, tail) {
     // when fast moves 2 steps, slow moves 1
-    let fast = this.head;
-    let slow = this.head;
-    while (fast.next && fast.next.next) {
+    let fast = head;
+    let slow = head;
+    while (fast !== tail && fast.next !== tail) {
       slow = slow.next;
       fast = fast.next.next;
     }
@@ -374,10 +365,10 @@ class MyLinkedList {
       return newLL;
     }
 
-    const mid = this.getMidNode();
+    const mid = this.getMidNode(low, high);
     const first = this.mergeSort(low, mid);
     const second = this.mergeSort(mid.next, high);
-    const mergedLL = this.mergeTwoSortedList(first, second);
+    const mergedLL = this.mergeTwoSortedList2(first, second);
     return mergedLL;
   }
 
@@ -413,11 +404,9 @@ const main = () => {
     readMe();
   }
 
+  const res = ll1.mergeSort(ll1.head, ll1.tail);
+  res.display();
   ll1.display();
-  ll1.mergeSort(ll1.head, ll1.tail);
-  
-  // const ll2 = new MyLinkedList();
-  // ll2.display();
 };
 
 main();
