@@ -1,23 +1,30 @@
-export class MyGenericTreeNode {
-  children: MyGenericTreeNode[];
-  data: number;
-  constructor(data: number) {
+const fs = require('fs');
+
+const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
+
+let currentLine = 0;
+const readMe = () => input[currentLine++];
+
+class MyGenericTreeNode {
+  children;
+  data;
+  constructor(data) {
     this.data = data;
     this.children = [];
   }
 }
 
-export class MyGenericTree {
-  private root: MyGenericTreeNode | null;
-  private size: number;
+class MyGenericTree {
+  root;
+  size;
 
   constructor() {
     this.root = null;
     this.size = 0;
   }
 
-  create(arr: number[]): void {
-    const stack: MyGenericTreeNode[] = [];
+  create(arr) {
+    const stack = [];
     for (let i = 0; i < arr.length; i++) {
       const el = arr[i];
       if (el === -1) {
@@ -39,7 +46,7 @@ export class MyGenericTree {
     }
   }
 
-  display(treeNode: MyGenericTreeNode | null = this.root): void {
+  display(treeNode = this.root) {
     if (!treeNode) {
       return;
     }
@@ -53,16 +60,17 @@ export class MyGenericTree {
       this.display(child);
     });
   }
-  getMax(treeNode: MyGenericTreeNode | null = this.root): number | null {
+
+  getMax(treeNode = this.root) {
     if (!treeNode) {
       return null;
     }
 
-    let max: number = Number.MIN_SAFE_INTEGER;
+    let max = Number.MIN_SAFE_INTEGER;
 
     // faith => all children of root will give their max
     treeNode.children.forEach((child) => {
-      const maxCandidate = this.getMax(child) as number;
+      const maxCandidate = this.getMax(child);
       max = Math.max(max, maxCandidate);
     });
 
@@ -71,13 +79,20 @@ export class MyGenericTree {
 
     return max;
   }
-  getSize(): number {
+
+  getSize() {
     return this.size;
   }
 }
 
-const mygt = new MyGenericTree();
-mygt.create([10, 20, -1, 30, 50, -1, 60, -1, -1, 40, -1, -1]);
-mygt.display();
-console.log(mygt.getMax());
-console.log(mygt.getSize());
+const main = () => {
+  const arrSize = +readMe();
+  const arr = readMe()
+    .split(' ')
+    .map((el) => +el);
+  const mybt = new MyGenericTree();
+  mybt.create(arr);
+  console.log(mybt.getMax());
+};
+
+main();
