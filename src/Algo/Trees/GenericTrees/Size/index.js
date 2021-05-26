@@ -1,23 +1,30 @@
+const fs = require('fs');
+
+const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
+
+let currentLine = 0;
+const readMe = () => input[currentLine++];
+
 class MyGenericTreeNode {
-  children: MyGenericTreeNode[];
-  data: number;
-  constructor(data: number) {
+  children;
+  data;
+  constructor(data) {
     this.data = data;
     this.children = [];
   }
 }
 
 class MyGenericTree {
-  private root: MyGenericTreeNode | null;
-  private size: number;
+  root;
+  size;
 
   constructor() {
     this.root = null;
     this.size = 0;
   }
 
-  create(arr: number[]) {
-    const stack: MyGenericTreeNode[] = [];
+  create(arr) {
+    const stack = [];
     for (let i = 0; i < arr.length; i++) {
       const el = arr[i];
       if (el === -1) {
@@ -39,7 +46,7 @@ class MyGenericTree {
     }
   }
 
-  display(treeNode: MyGenericTreeNode | null = this.root) {
+  display(treeNode = this.root) {
     if (!treeNode) {
       return;
     }
@@ -58,7 +65,14 @@ class MyGenericTree {
   }
 }
 
-const mygt = new MyGenericTree();
-mygt.create([10, 20, -1, 30, 50, -1, 60, -1, -1, 40, -1, -1]);
-mygt.display();
-console.log(mygt.getSize());
+const main = () => {
+  const arrSize = +readMe();
+  const arr = readMe()
+    .split(' ')
+    .map((el) => +el);
+  const mybt = new MyGenericTree();
+  mybt.create(arr);
+  console.log(mybt.getSize());
+};
+
+main();
