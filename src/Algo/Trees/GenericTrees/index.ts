@@ -53,6 +53,51 @@ export class MyGenericTree {
       this.display(child);
     });
   }
+
+  preOrder(treeNode: MyGenericTreeNode | null = this.root): void {
+    if (!treeNode) {
+      return;
+    }
+    console.log(`Node Pre ${treeNode.data}`);
+    treeNode.children.forEach((child) => {
+      console.log(`Edge Pre ${treeNode.data}--${child.data}`);
+      this.preOrder(child);
+      console.log(`Edge Post ${treeNode.data}--${child.data}`);
+    });
+    console.log(`Node Post ${treeNode.data}`);
+  }
+
+  levelOrder(treeNode: MyGenericTreeNode | null = this.root): void {
+    if (!treeNode) {
+      return;
+    }
+    const queue: MyGenericTreeNode[] = [];
+    queue.push(treeNode);
+    while (queue.length > 0) {
+      const node = queue.shift() as MyGenericTreeNode;
+      console.log(node.data);
+      node.children.forEach((child) => {
+        queue.push(child);
+      });
+    }
+  }
+
+  levelOrderLineWise(treeNode: MyGenericTreeNode | null = this.root): void {
+    if (!treeNode) {
+      return;
+    }
+    const queue: MyGenericTreeNode[] = [];
+    queue.push(treeNode);
+    while (queue.length > 0) {
+      const node = queue.shift() as MyGenericTreeNode;
+      process.stdout.write(`${node.data} `);
+      node.children.forEach((child) => {
+        queue.push(child);
+        console.log();
+      });
+    }
+  }
+
   getMax(treeNode: MyGenericTreeNode | null = this.root): number | null {
     if (!treeNode) {
       return null;
@@ -71,6 +116,17 @@ export class MyGenericTree {
 
     return max;
   }
+  getHeight(treeNode: MyGenericTreeNode | null = this.root) {
+    if (!treeNode) {
+      return 0;
+    }
+    let height = 0;
+    treeNode.children.forEach((child) => {
+      const newHeight = this.getHeight(child);
+      height = Math.max(newHeight + 1, height);
+    });
+    return height;
+  }
   getSize(): number {
     return this.size;
   }
@@ -79,5 +135,9 @@ export class MyGenericTree {
 const mygt = new MyGenericTree();
 mygt.create([10, 20, -1, 30, 50, -1, 60, -1, -1, 40, -1, -1]);
 mygt.display();
+mygt.preOrder();
+mygt.levelOrder();
+mygt.levelOrderLineWise();
 console.log(mygt.getMax());
+console.log(mygt.getHeight());
 console.log(mygt.getSize());
