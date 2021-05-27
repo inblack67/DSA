@@ -75,7 +75,8 @@ export class MyGenericTree {
     queue.push(treeNode);
     while (queue.length > 0) {
       const node = queue.shift() as MyGenericTreeNode;
-      console.log(node.data);
+      // console.log(node.data);
+      process.stdout.write(`${node.data} `);
       node.children.forEach((child) => {
         queue.push(child);
       });
@@ -86,15 +87,20 @@ export class MyGenericTree {
     if (!treeNode) {
       return;
     }
-    const queue: MyGenericTreeNode[] = [];
+    let queue: MyGenericTreeNode[] = [];
     queue.push(treeNode);
+    let childQueue: MyGenericTreeNode[] = [];
     while (queue.length > 0) {
       const node = queue.shift() as MyGenericTreeNode;
       process.stdout.write(`${node.data} `);
       node.children.forEach((child) => {
-        queue.push(child);
-        console.log();
+        childQueue.push(child);
       });
+      if (queue.length === 0) {
+        queue = [...childQueue];
+        childQueue = [];
+        console.log();
+      }
     }
   }
 

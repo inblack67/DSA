@@ -80,13 +80,33 @@ class MyGenericTree {
     }
     const queue = [];
     queue.push(treeNode);
-    console.log();
     while (queue.length > 0) {
       const node = queue.shift();
       process.stdout.write(`${node.data} `);
       node.children.forEach((child) => {
         queue.push(child);
       });
+    }
+  }
+  levelOrderLineWise(treeNode = this.root) {
+    if (!treeNode) {
+      return;
+    }
+
+    let queue = [];
+    queue.push(treeNode);
+    let childQueue = [];
+    while (queue.length > 0) {
+      const node = queue.shift();
+      process.stdout.write(`${node.data} `);
+      node.children.forEach((child) => {
+        childQueue.push(child);
+      });
+      if (queue.length === 0) {
+        queue = [...childQueue];
+        childQueue = [];
+        console.log();
+      }
     }
   }
 
@@ -113,7 +133,7 @@ const main = () => {
     .map((el) => +el);
   const mybt = new MyGenericTree();
   mybt.create(arr);
-  mybt.levelOrder();
+  mybt.levelOrderLineWise();
 };
 
 main();
