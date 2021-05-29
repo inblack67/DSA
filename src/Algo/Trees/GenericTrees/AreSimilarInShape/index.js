@@ -1,23 +1,30 @@
+const fs = require('fs');
+
+const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
+
+let currentLine = 0;
+const readMe = () => input[currentLine++];
+
 class MyGenericTreeNode {
-  children: MyGenericTreeNode[];
-  data: number;
-  constructor(data: number) {
+  children;
+  data;
+  constructor(data) {
     this.data = data;
     this.children = [];
   }
 }
 
 class MyGenericTree {
-  private root: MyGenericTreeNode | null;
-  private size: number;
+  root;
+  size;
 
   constructor() {
     this.root = null;
     this.size = 0;
   }
 
-  create(arr: number[]): void {
-    const stack: MyGenericTreeNode[] = [];
+  create(arr) {
+    const stack = [];
     for (let i = 0; i < arr.length; i++) {
       const el = arr[i];
       if (el === -1) {
@@ -39,7 +46,7 @@ class MyGenericTree {
     }
   }
 
-  display(treeNode: MyGenericTreeNode | null = this.root): void {
+  display(treeNode = this.root) {
     if (!treeNode) {
       return;
     }
@@ -54,7 +61,7 @@ class MyGenericTree {
     });
   }
 
-  preOrder(treeNode: MyGenericTreeNode | null = this.root): void {
+  preOrder(treeNode = this.root) {
     if (!treeNode) {
       return;
     }
@@ -67,31 +74,30 @@ class MyGenericTree {
     console.log(`Node Post ${treeNode.data}`);
   }
 
-  levelOrder(treeNode: MyGenericTreeNode | null = this.root): void {
+  levelOrder(treeNode = this.root) {
     if (!treeNode) {
       return;
     }
-    const queue: MyGenericTreeNode[] = [];
+    const queue = [];
     queue.push(treeNode);
     while (queue.length > 0) {
-      const node = queue.shift() as MyGenericTreeNode;
-      // console.log(node.data);
+      const node = queue.shift();
       process.stdout.write(`${node.data} `);
       node.children.forEach((child) => {
         queue.push(child);
       });
     }
   }
-
-  levelOrderLineWise(treeNode: MyGenericTreeNode | null = this.root): void {
+  levelOrderLineWise(treeNode = this.root) {
     if (!treeNode) {
       return;
     }
-    let queue: MyGenericTreeNode[] = [];
+
+    let queue = [];
     queue.push(treeNode);
-    let childQueue: MyGenericTreeNode[] = [];
+    let childQueue = [];
     while (queue.length > 0) {
-      const node = queue.shift() as MyGenericTreeNode;
+      const node = queue.shift();
       process.stdout.write(`${node.data} `);
       node.children.forEach((child) => {
         childQueue.push(child);
@@ -104,18 +110,16 @@ class MyGenericTree {
     }
   }
 
-  levelOrderLineWiseZigZag(
-    treeNode: MyGenericTreeNode | null = this.root,
-  ): void {
+  levelOrderLineWiseZigZag(treeNode = this.root) {
     if (!treeNode) {
       return;
     }
-    let mainStack: MyGenericTreeNode[] = [];
+    let mainStack = [];
     mainStack.push(treeNode);
-    let stack: MyGenericTreeNode[] = [];
+    let stack = [];
     let level = 1;
     while (mainStack.length > 0) {
-      const node = mainStack.pop() as MyGenericTreeNode;
+      const node = mainStack.pop();
       process.stdout.write(`${node.data} `);
       if (level % 2 !== 0) {
         node.children.forEach((child) => {
@@ -136,8 +140,20 @@ class MyGenericTree {
     }
   }
 
-  // invert, mirror etc
-  reflect(treeNode: MyGenericTreeNode | null = this.root) {
+  reverseArr = (arr) => {
+    let i = 0;
+    let j = arr.length - 1;
+    while (i < j) {
+      const temp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = temp;
+      i++;
+      j--;
+    }
+    return arr;
+  };
+
+  reflect(treeNode = this.root) {
     if (!treeNode) {
       return;
     }
@@ -147,25 +163,7 @@ class MyGenericTree {
     treeNode.children.reverse();
   }
 
-  removeLeaves(treeNode: MyGenericTreeNode | null = this.root) {
-    if (!treeNode) {
-      return;
-    }
-
-    treeNode.children.forEach((child) => {
-      if (child.children.length === 0) {
-        treeNode.children = treeNode.children.filter((node) => node !== child);
-      }
-    });
-
-    treeNode.children.forEach((child) => {
-      this.removeLeaves(child);
-    });
-  }
-
-  linearize(
-    treeNode: MyGenericTreeNode | null = this.root,
-  ): MyGenericTreeNode | void {
+  linearize(treeNode = this.root) {
     if (!treeNode) {
       return;
     }
@@ -174,37 +172,15 @@ class MyGenericTree {
     }
     const lastTail = treeNode.children[treeNode.children.length - 1];
     while (treeNode.children.length > 1) {
-      const last = treeNode.children.pop() as MyGenericTreeNode;
+      const last = treeNode.children.pop();
       const prev = treeNode.children[treeNode.children.length - 1];
-      const prevTail = this.linearize(prev) as MyGenericTreeNode;
+      const prevTail = this.linearize(prev);
       prevTail.children.push(last);
     }
     return lastTail;
   }
 
-  find(data: number, treeNode: MyGenericTreeNode | null = this.root): boolean {
-    if (!treeNode) {
-      return false;
-    }
-    if (treeNode.data === data) {
-      return true;
-    }
-
-    for (let i = 0; i < treeNode.children.length; i++) {
-      const child = treeNode.children[i];
-      const res = this.find(data, child);
-      if (res) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  nodeToRootPath(
-    data: number,
-    treeNode: MyGenericTreeNode | null = this.root,
-  ): number[] {
+  nodeToRootPath(data, treeNode = this.root) {
     if (!treeNode) {
       return [];
     }
@@ -227,11 +203,7 @@ class MyGenericTree {
   }
 
   // immediate but same parent of two nodes
-  lowestCommonAncestor(
-    data1: number,
-    data2: number,
-    treeNode: MyGenericTreeNode | null = this.root,
-  ): number | null {
+  lowestCommonAncestor(data1, data2, treeNode = this.root) {
     if (!treeNode) {
       return null;
     }
@@ -249,11 +221,7 @@ class MyGenericTree {
     return path1[i];
   }
 
-  distanceBetween2Nodes(
-    data1: number,
-    data2: number,
-    treeNode: MyGenericTreeNode | null = this.root,
-  ): number | null {
+  distanceBetween2Nodes(data1, data2, treeNode = this.root) {
     if (!treeNode) {
       return null;
     }
@@ -269,13 +237,10 @@ class MyGenericTree {
     }
     i++;
     j++;
-    return i + j; // i and j depitcs how far they are from the 0th index
+    return i + j;
   }
 
-  areSimilar(
-    treeNode1: MyGenericTreeNode | null = this.root,
-    treeNode2: MyGenericTreeNode | null = this.root,
-  ): boolean | null {
+  areSimilar(treeNode1 = this.root, treeNode2 = this.root) {
     if (!treeNode1 && !treeNode2) {
       return null;
     }
@@ -295,25 +260,7 @@ class MyGenericTree {
     return true;
   }
 
-  getMax(treeNode: MyGenericTreeNode | null = this.root): number | null {
-    if (!treeNode) {
-      return null;
-    }
-
-    let max: number = Number.MIN_SAFE_INTEGER;
-
-    // faith => all children of root will give their max
-    treeNode.children.forEach((child) => {
-      const maxCandidate = this.getMax(child) as number;
-      max = Math.max(max, maxCandidate);
-    });
-
-    // now comparing max of all children, with root
-    max = Math.max(treeNode.data, max);
-
-    return max;
-  }
-  getHeight(treeNode: MyGenericTreeNode | null = this.root) {
+  getHeight(treeNode = this.root) {
     if (!treeNode) {
       return 0;
     }
@@ -324,26 +271,25 @@ class MyGenericTree {
     });
     return height;
   }
-  getSize(): number {
+  getSize() {
     return this.size;
   }
 }
 
-const mygt = new MyGenericTree();
-// mygt.create([10, 20, -1, 30, 50, -1, 60, -1, -1, 40, -1, -1]);
-mygt.create([
-  10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1,
-  40, 100, -1, -1, -1,
-]);
-// mygt.reflect();
-// mygt.linearize();
-// console.log(mygt.find(10));
-// console.log(mygt.nodeToRootPath(120));
-console.log(mygt.distanceBetween2Nodes(100, 110));
-mygt.display();
-// mygt.preOrder();
-// mygt.levelOrder();
-// mygt.levelOrderLineWise();
-// console.log(mygt.getMax());
-// console.log(mygt.getHeight());
-// console.log(mygt.getSize());
+const main = () => {
+  const arrSize1 = +readMe();
+  const arr1 = readMe()
+    .split(' ')
+    .map((el) => +el);
+  const mybt1 = new MyGenericTree();
+  mybt1.create(arr1);
+  const arrSize2 = +readMe();
+  const arr2 = readMe()
+    .split(' ')
+    .map((el) => +el);
+  const mybt2 = new MyGenericTree();
+  mybt2.create(arr2);
+  console.log(mybt2.areSimilar(mybt1.root, mybt2.root));
+};
+
+main();
