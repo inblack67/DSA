@@ -10,10 +10,16 @@ class MyGenericTreeNode {
 class MyGenericTree {
   private root: MyGenericTreeNode | null;
   private size: number;
+  private predecessor: MyGenericTreeNode | null;
+  private successor: MyGenericTreeNode | null;
+  private state: number;
 
   constructor() {
     this.root = null;
     this.size = 0;
+    this.predecessor = null;
+    this.successor = null;
+    this.state = 0;
   }
 
   create(arr: number[]): void {
@@ -339,7 +345,37 @@ class MyGenericTree {
     if ((!treeNode1 && !treeNode2) || !treeNode1 || !treeNode2) {
       return null;
     }
-    return this.areMirror(treeNode1, treeNode2)
+    return this.areMirror(treeNode1, treeNode2);
+  }
+
+  calculatePredecessorAndSuccessor(
+    data: number,
+    treeNode: MyGenericTreeNode | null = this.root,
+  ): void {
+    if (!treeNode) {
+      return;
+    }
+    if (this.state === 0) {
+      if (treeNode.data === data) {
+        this.state = 1;
+      } else {
+        this.predecessor = treeNode;
+      }
+    } else if (this.state === 1) {
+      this.successor = treeNode;
+      this.state = 2;
+    }
+    treeNode.children.forEach((child) =>
+      this.calculatePredecessorAndSuccessor(data, child),
+    );
+  }
+
+  getPredecessor() {
+    return this.predecessor;
+  }
+
+  getSuccessor() {
+    return this.successor;
   }
 
   getMax(treeNode: MyGenericTreeNode | null = this.root): number | null {
