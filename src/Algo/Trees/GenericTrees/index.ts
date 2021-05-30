@@ -295,6 +295,43 @@ class MyGenericTree {
     return true;
   }
 
+  areMirror2(
+    treeNode1: MyGenericTreeNode | null = this.root,
+    treeNode2: MyGenericTreeNode | null = this.root,
+  ): boolean | null {
+    if (!treeNode1 && !treeNode2) {
+      return null;
+    }
+    if (!treeNode1 || !treeNode2) {
+      return null;
+    }
+    this.reflect(treeNode2);
+    return this.areSimilar(treeNode1, treeNode2);
+  }
+
+  areMirror(
+    treeNode1: MyGenericTreeNode | null = this.root,
+    treeNode2: MyGenericTreeNode | null = this.root,
+  ): boolean | null {
+    if ((!treeNode1 && !treeNode2) || !treeNode1 || !treeNode2) {
+      return null;
+    }
+    if (treeNode1.children.length !== treeNode2.children.length) {
+      return false;
+    }
+
+    let j = treeNode2.children.length - 1;
+    for (let i = 0; i < treeNode1.children.length; i++) {
+      const child1 = treeNode1.children[i];
+      const child2 = treeNode2.children[j--];
+      const res = this.areMirror(child1, child2);
+      if (!res) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   getMax(treeNode: MyGenericTreeNode | null = this.root): number | null {
     if (!treeNode) {
       return null;

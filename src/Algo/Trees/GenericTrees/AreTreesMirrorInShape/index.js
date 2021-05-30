@@ -260,37 +260,6 @@ class MyGenericTree {
     return true;
   }
 
-  areMirror2(treeNode1 = this.root, treeNode2 = this.root) {
-    if (!treeNode1 && !treeNode2) {
-      return null;
-    }
-    if (!treeNode1 || !treeNode2) {
-      return null;
-    }
-    this.reflect(treeNode2);
-    return this.areSimilar(treeNode1, treeNode2);
-  }
-
-  areMirror(treeNode1 = this.root, treeNode2 = this.root) {
-    if ((!treeNode1 && !treeNode2) || !treeNode1 || !treeNode2) {
-      return null;
-    }
-    if (treeNode1.children.length !== treeNode2.children.length) {
-      return false;
-    }
-
-    let j = treeNode2.children.length - 1;
-    for (let i = 0; i < treeNode1.children.length; i++) {
-      const child1 = treeNode1.children[i];
-      const child2 = treeNode2.children[j--];
-      const res = this.areMirror(child1, child2);
-      if (!res) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   getHeight(treeNode = this.root) {
     if (!treeNode) {
       return 0;
@@ -320,7 +289,7 @@ const main = () => {
     .map((el) => +el);
   const mybt2 = new MyGenericTree();
   mybt2.create(arr2);
-  console.log(mybt2.areMirror(mybt1.root, mybt2.root));
+  console.log(mybt2.areSimilar(mybt1.root, mybt2.root));
 };
 
 main();
