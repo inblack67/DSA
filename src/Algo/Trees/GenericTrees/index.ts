@@ -13,6 +13,8 @@ class MyGenericTree {
   private predecessor: MyGenericTreeNode | null;
   private successor: MyGenericTreeNode | null;
   private state: number;
+  private ceil: number;
+  private floor: number;
 
   constructor() {
     this.root = null;
@@ -20,6 +22,8 @@ class MyGenericTree {
     this.predecessor = null;
     this.successor = null;
     this.state = 0;
+    this.ceil = Number.MAX_SAFE_INTEGER;
+    this.floor = Number.MIN_SAFE_INTEGER;
   }
 
   create(arr: number[]): void {
@@ -376,6 +380,37 @@ class MyGenericTree {
 
   getSuccessor() {
     return this.successor;
+  }
+
+  calculateCeilAndFloor(
+    data: number,
+    treeNode: MyGenericTreeNode | null = this.root,
+  ): void {
+    if (!treeNode) {
+      return;
+    }
+    if (treeNode.data > data) {
+      if (treeNode.data < this.ceil) {
+        this.ceil = treeNode.data;
+      }
+    }
+    if (treeNode.data < data) {
+      if (treeNode.data > this.floor) {
+        this.floor = treeNode.data;
+      }
+    }
+
+    treeNode.children.forEach((child) => {
+      this.calculateCeilAndFloor(data, child);
+    });
+  }
+
+  getCeil(): number {
+    return this.ceil;
+  }
+
+  getFloor(): number {
+    return this.floor;
   }
 
   getMax(treeNode: MyGenericTreeNode | null = this.root): number | null {
