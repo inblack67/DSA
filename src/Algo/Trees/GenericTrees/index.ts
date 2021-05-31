@@ -22,6 +22,7 @@ class MyGenericTree {
   private floor: number;
   private maxSubtreeSumNode: MyGenericTreeNode | null;
   private maxSubtreeSum: number;
+  private diameter: number;
 
   constructor() {
     this.root = null;
@@ -33,6 +34,7 @@ class MyGenericTree {
     this.floor = Number.MIN_SAFE_INTEGER;
     this.maxSubtreeSumNode = null;
     this.maxSubtreeSum = 0;
+    this.diameter = 0;
   }
 
   create(arr: number[]): void {
@@ -479,6 +481,38 @@ class MyGenericTree {
     };
   }
 
+  // second heighest height + heigest height + 2 => at every node => max => diameter
+  calculateDiameter(
+    treeNode: MyGenericTreeNode | null = this.root,
+  ): number | null {
+    if (!treeNode) {
+      return null;
+    }
+    let maxHeight = -1;
+    let secondMaxHeight = -1;
+    treeNode.children.forEach((child) => {
+      const height = this.calculateDiameter(child) as number;
+      if (height > maxHeight) {
+        secondMaxHeight = maxHeight;
+        maxHeight = height;
+      } else if (height > secondMaxHeight) {
+        secondMaxHeight = height;
+      }
+    });
+
+    const candidate = secondMaxHeight + maxHeight + 2; // through me => 2 edges
+    if (candidate > this.diameter) {
+      this.diameter = candidate;
+    }
+
+    maxHeight += 1;
+    return maxHeight;
+  }
+
+  getDiameter(): number {
+    return this.diameter;
+  }
+
   getHeight(treeNode: MyGenericTreeNode | null = this.root) {
     if (!treeNode) {
       return 0;
@@ -498,17 +532,23 @@ class MyGenericTree {
 const mygt = new MyGenericTree();
 // mygt.create([10, 20, -1, 30, 50, -1, 60, -1, -1, 40, -1, -1]);
 mygt.create([
-  10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1,
-  40, 100, -1, -1, -1,
+  10, 20, -50, -1, 60, -1, -1, 30, -70, -1, 80, -1, 90, -1, -1, 40, -100, -1,
+  -1, -1,
 ]);
+// mygt.create([
+//   10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1,
+//   40, 100, -1, -1, -1,
+// ]);
 // mygt.reflect();
 // mygt.linearize();
 // console.log(mygt.find(10));
 // console.log(mygt.nodeToRootPath(120));
 // console.log(mygt.distanceBetween2Nodes(100, 110));
 // console.log(mygt.kthLargest(8));
-mygt.nodeWithMaxSubtreeSum();
-console.log(mygt.getMaxSubTreeSumData());
+// mygt.nodeWithMaxSubtreeSum();
+// console.log(mygt.getMaxSubTreeSumData());
+mygt.calculateDiameter();
+console.log(mygt.getDiameter());
 mygt.display();
 // mygt.preOrder();
 // mygt.levelOrder();
