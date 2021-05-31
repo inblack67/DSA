@@ -7,6 +7,11 @@ class MyGenericTreeNode {
   }
 }
 
+type TMaxSubtreeSum = {
+  node: MyGenericTreeNode;
+  data: number;
+};
+
 class MyGenericTree {
   private root: MyGenericTreeNode | null;
   private size: number;
@@ -15,6 +20,8 @@ class MyGenericTree {
   private state: number;
   private ceil: number;
   private floor: number;
+  private maxSubtreeSumNode: MyGenericTreeNode | null;
+  private maxSubtreeSum: number;
 
   constructor() {
     this.root = null;
@@ -24,6 +31,8 @@ class MyGenericTree {
     this.state = 0;
     this.ceil = Number.MAX_SAFE_INTEGER;
     this.floor = Number.MIN_SAFE_INTEGER;
+    this.maxSubtreeSumNode = null;
+    this.maxSubtreeSum = 0;
   }
 
   create(arr: number[]): void {
@@ -443,6 +452,33 @@ class MyGenericTree {
     return res;
   }
 
+  nodeWithMaxSubtreeSum(treeNode: MyGenericTreeNode | null = this.root) {
+    if (!treeNode) {
+      return null;
+    }
+    let sum = 0;
+    treeNode.children.forEach((child) => {
+      const subtreeSum = this.nodeWithMaxSubtreeSum(child) as number;
+      sum += subtreeSum;
+    });
+
+    sum += treeNode.data;
+
+    if (sum > this.maxSubtreeSum) {
+      this.maxSubtreeSum = sum;
+      this.maxSubtreeSumNode = treeNode;
+    }
+
+    return sum;
+  }
+
+  getMaxSubTreeSumData(): TMaxSubtreeSum {
+    return {
+      node: this.maxSubtreeSumNode as MyGenericTreeNode,
+      data: this.maxSubtreeSum,
+    };
+  }
+
   getHeight(treeNode: MyGenericTreeNode | null = this.root) {
     if (!treeNode) {
       return 0;
@@ -470,7 +506,9 @@ mygt.create([
 // console.log(mygt.find(10));
 // console.log(mygt.nodeToRootPath(120));
 // console.log(mygt.distanceBetween2Nodes(100, 110));
-console.log(mygt.kthLargest(8));
+// console.log(mygt.kthLargest(8));
+mygt.nodeWithMaxSubtreeSum();
+console.log(mygt.getMaxSubTreeSumData());
 mygt.display();
 // mygt.preOrder();
 // mygt.levelOrder();
