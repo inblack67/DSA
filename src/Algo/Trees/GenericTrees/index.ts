@@ -431,6 +431,18 @@ class MyGenericTree {
 
     return max;
   }
+
+  kthLargest(k: number, treeNode: MyGenericTreeNode | null = this.root) {
+    let res = Number.MAX_SAFE_INTEGER;
+    this.floor = Number.MIN_SAFE_INTEGER;
+    for (let i = 0; i < k; i++) {
+      this.calculateCeilAndFloor(res, treeNode);
+      res = this.floor;
+      this.floor = Number.MIN_SAFE_INTEGER;
+    }
+    return res;
+  }
+
   getHeight(treeNode: MyGenericTreeNode | null = this.root) {
     if (!treeNode) {
       return 0;
@@ -457,7 +469,8 @@ mygt.create([
 // mygt.linearize();
 // console.log(mygt.find(10));
 // console.log(mygt.nodeToRootPath(120));
-console.log(mygt.distanceBetween2Nodes(100, 110));
+// console.log(mygt.distanceBetween2Nodes(100, 110));
+console.log(mygt.kthLargest(8));
 mygt.display();
 // mygt.preOrder();
 // mygt.levelOrder();
