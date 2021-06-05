@@ -1,62 +1,101 @@
 class MyBinaryTreeNode {
+  data: number;
   left: MyBinaryTreeNode | null;
   right: MyBinaryTreeNode | null;
-  data: number;
   constructor(
     data: number,
     left: MyBinaryTreeNode | null = null,
     right: MyBinaryTreeNode | null = null,
   ) {
+    this.data = data;
     this.left = left;
     this.right = right;
-    this.data = data;
+  }
+}
+
+class Pair {
+  someNode: MyBinaryTreeNode;
+  // 0 -> left child to be added
+  // 1 -> right
+  // 2 -> pop
+  state: number;
+  constructor(someNode: MyBinaryTreeNode, state = 0) {
+    this.someNode = someNode;
+    this.state = state;
   }
 }
 
 class MyBinaryTree {
   private root: MyBinaryTreeNode | null;
-  private size: number;
   constructor() {
     this.root = null;
-    this.size = 0;
   }
-  create(arr: number[]) {
-    const rootNode = new MyBinaryTreeNode(arr[0]);
-    this.root = rootNode;
-    this.size++;
-    const queue: MyBinaryTreeNode[] = [];
-    queue.push(rootNode);
+  create(arr: (number | null)[]): void {
+    const newNode = new MyBinaryTreeNode(arr[0] as number);
+    const pair = new Pair(newNode);
+    this.root = newNode;
     let i = 1;
-    while (i < arr.length && queue.length > 0) {
-      const currNode = queue.shift() as MyBinaryTreeNode;
-      if (i < arr.length) {
-        const leftNode = new MyBinaryTreeNode(arr[i++]);
-        currNode.left = leftNode;
-        this.size++;
-        queue.push(leftNode);
-      }
-      if (i < arr.length) {
-        const rightNode = new MyBinaryTreeNode(arr[i++]);
-        currNode.right = rightNode;
-        this.size++;
-        queue.push(rightNode);
+    const stack: Pair[] = [];
+    stack.push(pair);
+    while (stack.length > 0) {
+      const stackTop = stack[stack.length - 1];
+      if (stackTop.state === 0) {
+        // add left child
+        const el = arr[i++];
+        if (el !== null) {
+          const newNode = new MyBinaryTreeNode(el);
+          const newPair = new Pair(newNode);
+          stackTop.someNode.left = newNode;
+          stack.push(newPair);
+        }
+        stackTop.state++;
+      } else if (stackTop.state === 1) {
+        // add right child
+        const el = arr[i++];
+        if (el !== null) {
+          const newNode = new MyBinaryTreeNode(el);
+          const newPair = new Pair(newNode);
+          stackTop.someNode.right = newNode;
+          stack.push(newPair);
+        }
+        stackTop.state++;
+      } else {
+        // i === 2 => pop
+        stack.pop();
       }
     }
   }
-  preOrder(treeNode: MyBinaryTreeNode | null = this.root) {
-    if (!treeNode) {
+
+  preOrder(rootNode = this.root): void {
+    if (rootNode === null) {
       return;
     }
-    this.preOrder(treeNode.left);
-    console.log(treeNode.data);
-    this.preOrder(treeNode.right);
-  }
-  getSize() {
-    return this.size;
+    console.log(rootNode.data);
+    this.preOrder(rootNode.left);
+    this.preOrder(rootNode.right);
   }
 }
 
 const mybt = new MyBinaryTree();
-mybt.create([1, 2, 3]);
+mybt.create([
+  50,
+  25,
+  12,
+  null,
+  null,
+  37,
+  30,
+  null,
+  null,
+  null,
+  75,
+  62,
+  null,
+  70,
+  null,
+  null,
+  87,
+  null,
+  null,
+]);
 mybt.preOrder();
-console.log(mybt.getSize());
