@@ -80,6 +80,15 @@ class MyBinaryTree {
     this.preOrder(rootNode.right);
   }
 
+  calculateSize(rootNode = this.root): number {
+    if (!rootNode) {
+      return 0;
+    }
+    const lhsSize = this.calculateSize(rootNode.left);
+    const rhsSize = this.calculateSize(rootNode.right);
+    return lhsSize + rhsSize + 1;
+  }
+
   get getSize() {
     return this.size;
   }
@@ -109,3 +118,4 @@ mybt.create([
 ]);
 mybt.preOrder();
 console.log(mybt.getSize);
+console.log(mybt.calculateSize());
