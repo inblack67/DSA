@@ -80,6 +80,24 @@ class MyBinaryTree {
     this.preOrder(rootNode.right);
   }
 
+  inOrder(rootNode = this.root): void {
+    if (rootNode === null) {
+      return;
+    }
+    this.inOrder(rootNode.left);
+    console.log(rootNode.data);
+    this.inOrder(rootNode.right);
+  }
+
+  postOrder(rootNode = this.root): void {
+    if (rootNode === null) {
+      return;
+    }
+    this.postOrder(rootNode.left);
+    this.postOrder(rootNode.right);
+    console.log(rootNode.data);
+  }
+
   calculateSize(rootNode = this.root): number {
     if (!rootNode) {
       return 0;
@@ -196,6 +214,8 @@ mybt.create([
 //   null,
 // ]);
 mybt.preOrder();
+mybt.inOrder();
+mybt.postOrder();
 console.log(mybt.getSize);
 console.log(mybt.calculateSize());
 console.log(mybt.calculateSum());
