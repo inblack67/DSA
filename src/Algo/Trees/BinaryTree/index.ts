@@ -117,6 +117,24 @@ class MyBinaryTree {
     return max > candidate ? max : candidate;
   }
 
+  calculateHeight_2(treeNode = this.root): number {
+    if (!treeNode) {
+      return 0;
+    }
+
+    let height = 1;
+
+    const lhsHeight = this.calculateHeight(treeNode.left);
+    const rhsHeight = this.calculateHeight(treeNode.right);
+
+    if (lhsHeight > rhsHeight) {
+      height += lhsHeight;
+    } else {
+      height += rhsHeight;
+    }
+    return height;
+  }
+
   calculateHeight(treeNode = this.root): number {
     if (treeNode === null || treeNode === undefined) {
       return -1; // -1 for edges, 0 for nodes
