@@ -118,21 +118,15 @@ class MyBinaryTree {
   }
 
   calculateHeight(treeNode = this.root): number {
-    if (!treeNode) {
-      return 0;
+    if (treeNode === null || treeNode === undefined) {
+      return -1; // -1 for edges, 0 for nodes
     }
-
-    let height = 1;
 
     const lhsHeight = this.calculateHeight(treeNode.left);
     const rhsHeight = this.calculateHeight(treeNode.right);
 
-    if (lhsHeight > rhsHeight) {
-      height += lhsHeight;
-    } else {
-      height += rhsHeight;
-    }
-    return height;
+    const res = Math.max(lhsHeight, rhsHeight) + 1;
+    return res;
   }
 
   get getSize() {
@@ -162,6 +156,27 @@ mybt.create([
   null,
   null,
 ]);
+// mybt.create([
+//   50,
+//   25,
+//   12,
+//   null,
+//   null,
+//   37,
+//   30,
+//   null,
+//   null,
+//   null,
+//   75,
+//   62,
+//   null,
+//   70,
+//   null,
+//   null,
+//   87,
+//   null,
+//   null,
+// ]);
 mybt.preOrder();
 console.log(mybt.getSize);
 console.log(mybt.calculateSize());
