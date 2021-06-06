@@ -1,12 +1,14 @@
+const fs = require('fs');
+const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
+
+let currentLine = 0;
+const readMe = () => input[currentLine++];
+
 class MyBinaryTreeNode {
-  data: number;
-  left: MyBinaryTreeNode | null;
-  right: MyBinaryTreeNode | null;
-  constructor(
-    data: number,
-    left: MyBinaryTreeNode | null = null,
-    right: MyBinaryTreeNode | null = null,
-  ) {
+  data;
+  left;
+  right;
+  constructor(data, left, right) {
     this.data = data;
     this.left = left;
     this.right = right;
@@ -14,31 +16,31 @@ class MyBinaryTreeNode {
 }
 
 class Pair {
-  someNode: MyBinaryTreeNode;
+  someNode;
   // 0 -> left child to be added
   // 1 -> right
   // 2 -> pop
-  state: number;
-  constructor(someNode: MyBinaryTreeNode, state = 0) {
+  state;
+  constructor(someNode, state) {
     this.someNode = someNode;
     this.state = state;
   }
 }
 
 class MyBinaryTree {
-  private root: MyBinaryTreeNode | null;
-  private size: number;
+  root;
+  size;
   constructor() {
     this.root = null;
     this.size = 0;
   }
-  create(arr: (number | null)[]): void {
-    const newNode = new MyBinaryTreeNode(arr[0] as number);
+  create(arr) {
+    const newNode = new MyBinaryTreeNode(arr[0]);
     const pair = new Pair(newNode);
     this.root = newNode;
     this.size++;
     let i = 1;
-    const stack: Pair[] = [];
+    const stack = [];
     stack.push(pair);
     while (stack.length > 0) {
       const stackTop = stack[stack.length - 1];
@@ -71,7 +73,7 @@ class MyBinaryTree {
     }
   }
 
-  preOrder(rootNode = this.root): void {
+  preOrder(rootNode = this.root) {
     if (rootNode === null) {
       return;
     }
@@ -80,7 +82,7 @@ class MyBinaryTree {
     this.preOrder(rootNode.right);
   }
 
-  calculateSize(rootNode = this.root): number {
+  calculateSize(rootNode = this.root) {
     if (!rootNode) {
       return 0;
     }
@@ -89,7 +91,7 @@ class MyBinaryTree {
     return lhsSize + rhsSize + 1;
   }
 
-  calculateSum(rootNode = this.root): number {
+  calculateSum(rootNode = this.root) {
     if (!rootNode) {
       return 0;
     }
@@ -98,54 +100,28 @@ class MyBinaryTree {
     return lhsSum + rhsSum + rootNode.data;
   }
 
-  calculateMax(treeNode = this.root): number {
-    if (!treeNode) {
-      return 0;
-    }
-    let max = treeNode.data;
-    const lhsMax = this.calculateMax(treeNode.left);
-    const rhsMax = this.calculateMax(treeNode.right);
-
-    let candidate: number;
-
-    if (lhsMax > rhsMax) {
-      candidate = lhsMax;
-    } else {
-      candidate = rhsMax;
-    }
-
-    return max > candidate ? max : candidate;
-  }
-
   get getSize() {
     return this.size;
   }
 }
 
-const mybt = new MyBinaryTree();
-mybt.create([
-  50,
-  25,
-  12,
-  null,
-  null,
-  37,
-  30,
-  null,
-  null,
-  null,
-  75,
-  62,
-  null,
-  70,
-  null,
-  null,
-  87,
-  null,
-  null,
-]);
-mybt.preOrder();
-console.log(mybt.getSize);
-console.log(mybt.calculateSize());
-console.log(mybt.calculateSum());
-console.log(mybt.calculateMax());
+const main = () => {
+  const size = +readMe();
+  const arr = readMe()
+    .trim()
+    .split(' ')
+    .map((el) => {
+      if (el.trim() === 'n') {
+        return null;
+      } else {
+        return +el.trim();
+      }
+    });
+  const mybt = new MyBinaryTree();
+  mybt.create(arr);
+  console.log(mybt.getSize);
+  //   console.log(mybt.calculateSize());
+  //   console.log(mybt.calculateSum());
+};
+
+main();
