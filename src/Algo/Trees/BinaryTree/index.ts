@@ -27,13 +27,16 @@ class Pair {
 
 class MyBinaryTree {
   private root: MyBinaryTreeNode | null;
+  private size: number;
   constructor() {
     this.root = null;
+    this.size = 0;
   }
   create(arr: (number | null)[]): void {
     const newNode = new MyBinaryTreeNode(arr[0] as number);
     const pair = new Pair(newNode);
     this.root = newNode;
+    this.size++;
     let i = 1;
     const stack: Pair[] = [];
     stack.push(pair);
@@ -47,6 +50,7 @@ class MyBinaryTree {
           const newPair = new Pair(newNode);
           stackTop.someNode.left = newNode;
           stack.push(newPair);
+          this.size++;
         }
         stackTop.state++;
       } else if (stackTop.state === 1) {
@@ -57,6 +61,7 @@ class MyBinaryTree {
           const newPair = new Pair(newNode);
           stackTop.someNode.right = newNode;
           stack.push(newPair);
+          this.size++;
         }
         stackTop.state++;
       } else {
@@ -73,6 +78,10 @@ class MyBinaryTree {
     console.log(rootNode.data);
     this.preOrder(rootNode.left);
     this.preOrder(rootNode.right);
+  }
+
+  get getSize() {
+    return this.size;
   }
 }
 
@@ -99,3 +108,4 @@ mybt.create([
   null,
 ]);
 mybt.preOrder();
+console.log(mybt.getSize);
