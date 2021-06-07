@@ -98,6 +98,27 @@ class MyBinaryTree {
     console.log(rootNode.data);
   }
 
+  levelOrder(treeNode = this.root): void {
+    if (!treeNode) {
+      return;
+    }
+    const queue: MyBinaryTreeNode[] = [];
+    queue.push(treeNode);
+    while (queue.length > 0) {
+      const numberOfNodesInALevel = queue.length;
+      for (let i = 0; i < numberOfNodesInALevel; i++) {
+        const node = queue.shift() as MyBinaryTreeNode;
+        console.log(node.data);
+        if (node.left) {
+          queue.push(node.left);
+        }
+        if (node.right) {
+          queue.push(node.right);
+        }
+      }
+    }
+  }
+
   calculateSize(rootNode = this.root): number {
     if (!rootNode) {
       return 0;
@@ -213,11 +234,33 @@ mybt.create([
 //   null,
 //   null,
 // ]);
-mybt.preOrder();
-mybt.inOrder();
-mybt.postOrder();
-console.log(mybt.getSize);
-console.log(mybt.calculateSize());
-console.log(mybt.calculateSum());
-console.log(mybt.calculateMax());
-console.log(mybt.calculateHeight());
+// mybt.create([
+//   50,
+//   25,
+//   12,
+//   null,
+//   null,
+//   37,
+//   30,
+//   null,
+//   null,
+//   null,
+//   75,
+//   62,
+//   null,
+//   70,
+//   null,
+//   null,
+//   87,
+//   null,
+//   null,
+// ]);
+// mybt.preOrder();
+// mybt.inOrder();
+// mybt.postOrder();
+mybt.levelOrder();
+// console.log(mybt.getSize);
+// console.log(mybt.calculateSize());
+// console.log(mybt.calculateSum());
+// console.log(mybt.calculateMax());
+// console.log(mybt.calculateHeight());
