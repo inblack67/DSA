@@ -213,6 +213,17 @@ class MyBinaryTree {
     return false;
   }
 
+  printKLevelsDown(k: number, treeNode = this.root): void {
+    if (!treeNode || k < 0) {
+      return;
+    }
+    if (k === 0) {
+      console.log(treeNode.data);
+    }
+    this.printKLevelsDown(k - 1, treeNode.left);
+    this.printKLevelsDown(k - 1, treeNode.right);
+  }
+
   get getNodeToRootPath() {
     return this.nodeToRootPath;
   }
@@ -290,8 +301,9 @@ mybt.create([
 // mybt.inOrder();
 // mybt.postOrder();
 // mybt.levelOrder();
-mybt.calculateNodeToRootPath(30);
-console.log(mybt.getNodeToRootPath);
+mybt.printKLevelsDown(3);
+// mybt.calculateNodeToRootPath(30);
+// console.log(mybt.getNodeToRootPath);
 // console.log(mybt.getSize);
 // console.log(mybt.calculateSize());
 // console.log(mybt.calculateSum());
