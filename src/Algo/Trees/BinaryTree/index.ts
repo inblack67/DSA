@@ -28,9 +28,11 @@ class Pair {
 class MyBinaryTree {
   private root: MyBinaryTreeNode | null;
   private size: number;
+  private nodeToRootPath: number[];
   constructor() {
     this.root = null;
     this.size = 0;
+    this.nodeToRootPath = [];
   }
   create(arr: (number | null)[]): void {
     const newNode = new MyBinaryTreeNode(arr[0] as number);
@@ -186,6 +188,35 @@ class MyBinaryTree {
     return res;
   }
 
+  calculateNodeToRootPath(data: number, treeNode = this.root): boolean {
+    if (!treeNode) {
+      return false;
+    }
+    if (treeNode.data === data) {
+      this.nodeToRootPath.push(treeNode.data);
+      return true;
+    }
+    const isPresentInLHS = this.calculateNodeToRootPath(data, treeNode.left);
+
+    if (isPresentInLHS) {
+      this.nodeToRootPath.push(treeNode.data);
+      return true;
+    }
+
+    const isPresentInRHS = this.calculateNodeToRootPath(data, treeNode.right);
+
+    if (isPresentInRHS) {
+      this.nodeToRootPath.push(treeNode.data);
+      return true;
+    }
+
+    return false;
+  }
+
+  get getNodeToRootPath() {
+    return this.nodeToRootPath;
+  }
+
   get getSize() {
     return this.size;
   }
@@ -258,7 +289,9 @@ mybt.create([
 // mybt.preOrder();
 // mybt.inOrder();
 // mybt.postOrder();
-mybt.levelOrder();
+// mybt.levelOrder();
+mybt.calculateNodeToRootPath(30);
+console.log(mybt.getNodeToRootPath);
 // console.log(mybt.getSize);
 // console.log(mybt.calculateSize());
 // console.log(mybt.calculateSum());
