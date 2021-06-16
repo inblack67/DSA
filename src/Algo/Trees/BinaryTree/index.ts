@@ -242,6 +242,40 @@ class MyBinaryTree {
     }
   }
 
+  calculatePathToLeafFromRootInRange(
+    low: number,
+    high: number,
+    treeNode = this.root,
+    path = '',
+    sum = 0,
+  ): void {
+    if (!treeNode) {
+      return;
+    }
+    // leaf
+    if (!treeNode.left && !treeNode.right) {
+      sum += treeNode.data; // adding the leaf's data too
+      if (sum >= low && sum <= high) {
+        console.log(path + ` ${treeNode.data}`);
+      }
+      return;
+    }
+    this.calculatePathToLeafFromRootInRange(
+      low,
+      high,
+      treeNode.left,
+      path + ` ${treeNode.data}`,
+      sum + treeNode.data,
+    );
+    this.calculatePathToLeafFromRootInRange(
+      low,
+      high,
+      treeNode.right,
+      path + ` ${treeNode.data}`,
+      sum + treeNode.data,
+    );
+  }
+
   get getNodeToRootPath() {
     return this.nodeToRootPath;
   }
@@ -320,7 +354,8 @@ mybt.create([
 // mybt.postOrder();
 // mybt.levelOrder();
 // mybt.printKLevelsDown(3);
-mybt.printKNodesAway(37, 2);
+// mybt.printKNodesAway(37, 2);
+mybt.calculatePathToLeafFromRootInRange(150, 250);
 // mybt.calculateNodeToRootPath(30);
 // console.log(mybt.getNodeToRootPath);
 // console.log(mybt.getSize);
