@@ -28,7 +28,7 @@ class Pair {
 class MyBinaryTree {
   private root: MyBinaryTreeNode | null;
   private size: number;
-  private nodeToRootPath: number[];
+  private nodeToRootPath: MyBinaryTreeNode[];
   constructor() {
     this.root = null;
     this.size = 0;
@@ -192,36 +192,54 @@ class MyBinaryTree {
     if (!treeNode) {
       return false;
     }
+
     if (treeNode.data === data) {
-      this.nodeToRootPath.push(treeNode.data);
+      this.nodeToRootPath.push(treeNode);
       return true;
     }
+
     const isPresentInLHS = this.calculateNodeToRootPath(data, treeNode.left);
 
     if (isPresentInLHS) {
-      this.nodeToRootPath.push(treeNode.data);
+      this.nodeToRootPath.push(treeNode);
       return true;
     }
 
     const isPresentInRHS = this.calculateNodeToRootPath(data, treeNode.right);
 
     if (isPresentInRHS) {
-      this.nodeToRootPath.push(treeNode.data);
+      this.nodeToRootPath.push(treeNode);
       return true;
     }
 
     return false;
   }
 
-  printKLevelsDown(k: number, treeNode = this.root): void {
-    if (!treeNode || k < 0) {
+  printKLevelsDown(
+    k: number,
+    treeNode = this.root,
+    blocker: MyBinaryTreeNode | null,
+  ): void {
+    if (!treeNode || k < 0 || treeNode === blocker) {
       return;
     }
+
     if (k === 0) {
       console.log(treeNode.data);
     }
-    this.printKLevelsDown(k - 1, treeNode.left);
-    this.printKLevelsDown(k - 1, treeNode.right);
+
+    this.printKLevelsDown(k - 1, treeNode.left, blocker);
+    this.printKLevelsDown(k - 1, treeNode.right, blocker);
+  }
+
+  // awaiy => from top and the bottom
+  printKNodesAway(data: number, k: number, treeNode = this.root): void {
+    this.calculateNodeToRootPath(data, treeNode);
+    const path = this.getNodeToRootPath;
+    for (let i = 0; i < path.length; i++) {
+      const current = path[i];
+      this.printKLevelsDown(k - i, current, i === 0 ? null : path[i - 1]);
+    }
   }
 
   get getNodeToRootPath() {
@@ -301,7 +319,8 @@ mybt.create([
 // mybt.inOrder();
 // mybt.postOrder();
 // mybt.levelOrder();
-mybt.printKLevelsDown(3);
+// mybt.printKLevelsDown(3);
+mybt.printKNodesAway(37, 2);
 // mybt.calculateNodeToRootPath(30);
 // console.log(mybt.getNodeToRootPath);
 // console.log(mybt.getSize);
