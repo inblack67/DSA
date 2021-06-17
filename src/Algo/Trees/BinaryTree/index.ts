@@ -322,6 +322,21 @@ class MyBinaryTree {
     this.printSingleChildNodes(treeNode.right, treeNode);
   }
 
+  removeLeaves(treeNode = this.root) {
+    if (!treeNode) {
+      return null;
+    }
+
+    // leaf
+    if (!treeNode.left && !treeNode.right) {
+      return null; // returning null in place of a node
+    }
+
+    treeNode.left = this.removeLeaves(treeNode.left);
+    treeNode.right = this.removeLeaves(treeNode.right);
+    return treeNode;
+  }
+
   get getNodeToRootPath() {
     return this.nodeToRootPath;
   }
@@ -405,7 +420,9 @@ mybt.create([
 // mybt.transformToLeftClonedTree();
 // mybt.transformBackFromLeftClonedTree();
 // mybt.preOrder();
-mybt.printSingleChildNodes();
+// mybt.printSingleChildNodes();
+mybt.removeLeaves();
+mybt.preOrder();
 // mybt.calculateNodeToRootPath(30);
 // console.log(mybt.getNodeToRootPath);
 // console.log(mybt.getSize);
