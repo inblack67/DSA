@@ -281,11 +281,23 @@ class MyBinaryTree {
       return null;
     }
 
-    const leftNode = this.transformToLeftClonedTree(treeNode.left);
-    const rightNode = this.transformToLeftClonedTree(treeNode.right);
-    const newNode = new MyBinaryTreeNode(treeNode.data, leftNode);
+    const leftClonedTree = this.transformToLeftClonedTree(treeNode.left);
+    const rightClonedTree = this.transformToLeftClonedTree(treeNode.right);
+    const newNode = new MyBinaryTreeNode(treeNode.data, leftClonedTree);
     treeNode.left = newNode;
-    treeNode.right = rightNode;
+    treeNode.right = rightClonedTree;
+    return treeNode;
+  }
+
+  transformBackFromLeftClonedTree(treeNode = this.root) {
+    if (!treeNode) {
+      return null;
+    }
+
+    const leftTree = this.transformBackFromLeftClonedTree(treeNode.left?.left); // 2 nodes are same so left => left
+    const rightTree = this.transformBackFromLeftClonedTree(treeNode.right);
+    treeNode.left = leftTree;
+    treeNode.right = rightTree;
     return treeNode;
   }
 
@@ -370,6 +382,7 @@ mybt.create([
 // mybt.printKNodesAway(37, 2);
 // mybt.calculatePathToLeafFromRootInRange(150, 250);
 mybt.transformToLeftClonedTree();
+mybt.transformBackFromLeftClonedTree();
 mybt.preOrder();
 // mybt.calculateNodeToRootPath(30);
 // console.log(mybt.getNodeToRootPath);
