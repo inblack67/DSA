@@ -276,6 +276,19 @@ class MyBinaryTree {
     );
   }
 
+  transformToLeftClonedTree(treeNode = this.root) {
+    if (!treeNode) {
+      return null;
+    }
+
+    const leftNode = this.transformToLeftClonedTree(treeNode.left);
+    const rightNode = this.transformToLeftClonedTree(treeNode.right);
+    const newNode = new MyBinaryTreeNode(treeNode.data, leftNode);
+    treeNode.left = newNode;
+    treeNode.right = rightNode;
+    return treeNode;
+  }
+
   get getNodeToRootPath() {
     return this.nodeToRootPath;
   }
@@ -355,7 +368,9 @@ mybt.create([
 // mybt.levelOrder();
 // mybt.printKLevelsDown(3);
 // mybt.printKNodesAway(37, 2);
-mybt.calculatePathToLeafFromRootInRange(150, 250);
+// mybt.calculatePathToLeafFromRootInRange(150, 250);
+mybt.transformToLeftClonedTree();
+mybt.preOrder();
 // mybt.calculateNodeToRootPath(30);
 // console.log(mybt.getNodeToRootPath);
 // console.log(mybt.getSize);
