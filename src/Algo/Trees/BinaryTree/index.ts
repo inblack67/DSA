@@ -301,6 +301,27 @@ class MyBinaryTree {
     return treeNode;
   }
 
+  // print nodes which are the only child of their parents
+  printSingleChildNodes(
+    treeNode = this.root,
+    parent: MyBinaryTreeNode | null = null,
+  ) {
+    if (!treeNode) {
+      return;
+    }
+
+    if (
+      (parent && parent.left && !parent.right) ||
+      (parent && parent.right && !parent.left)
+    ) {
+      console.log(treeNode.data);
+      return;
+    }
+
+    this.printSingleChildNodes(treeNode.left, treeNode);
+    this.printSingleChildNodes(treeNode.right, treeNode);
+  }
+
   get getNodeToRootPath() {
     return this.nodeToRootPath;
   }
@@ -381,9 +402,10 @@ mybt.create([
 // mybt.printKLevelsDown(3);
 // mybt.printKNodesAway(37, 2);
 // mybt.calculatePathToLeafFromRootInRange(150, 250);
-mybt.transformToLeftClonedTree();
-mybt.transformBackFromLeftClonedTree();
-mybt.preOrder();
+// mybt.transformToLeftClonedTree();
+// mybt.transformBackFromLeftClonedTree();
+// mybt.preOrder();
+mybt.printSingleChildNodes();
 // mybt.calculateNodeToRootPath(30);
 // console.log(mybt.getNodeToRootPath);
 // console.log(mybt.getSize);
