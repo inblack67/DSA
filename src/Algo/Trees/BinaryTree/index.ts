@@ -337,6 +337,24 @@ class MyBinaryTree {
     return treeNode;
   }
 
+  // max number of edges between two farthest nodes
+  calculateDiameter(treeNode = this.root) {
+    if (!treeNode) {
+      return 0;
+    }
+    const lhsDiameter = this.calculateDiameter(treeNode.left) as number;
+    const rhsDiameter = this.calculateDiameter(treeNode.right) as number;
+    const currentHeight =
+      this.calculateHeight(treeNode.left) +
+      this.calculateHeight(treeNode.right) +
+      2;
+    const diameter = Math.max(
+      currentHeight,
+      Math.max(lhsDiameter, rhsDiameter),
+    );
+    return diameter;
+  }
+
   get getNodeToRootPath() {
     return this.nodeToRootPath;
   }
@@ -421,8 +439,8 @@ mybt.create([
 // mybt.transformBackFromLeftClonedTree();
 // mybt.preOrder();
 // mybt.printSingleChildNodes();
-mybt.removeLeaves();
-mybt.preOrder();
+// mybt.removeLeaves();
+// mybt.preOrder();
 // mybt.calculateNodeToRootPath(30);
 // console.log(mybt.getNodeToRootPath);
 // console.log(mybt.getSize);
@@ -430,3 +448,4 @@ mybt.preOrder();
 // console.log(mybt.calculateSum());
 // console.log(mybt.calculateMax());
 // console.log(mybt.calculateHeight());
+console.log(mybt.calculateDiameter());
