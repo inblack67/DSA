@@ -355,6 +355,8 @@ class MyBinaryTree {
     return diameter;
   }
 
+  isBST(treeNode = this.root) {}
+
   get getNodeToRootPath() {
     return this.nodeToRootPath;
   }
