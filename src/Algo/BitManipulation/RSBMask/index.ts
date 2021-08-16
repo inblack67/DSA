@@ -1,4 +1,9 @@
-export const rsbMask = (num: number): string => {
+interface RSBMaskRes {
+  binary: string;
+  decimal: number;
+}
+
+export const rsbMask = (num: number): RSBMaskRes => {
   // first 1 from the right => rest zero
   //   num and with 2's complement of num
   const res = num & -num;
@@ -10,7 +15,10 @@ export const rsbMask = (num: number): string => {
   // If you run (-1 >>> 0).toString(2) you will shift your number 0 bits to the right, which doesn't change the number itself but it will be represented as an unsigned integer
 
   const binaryRes = (res >>> 0).toString(2);
-  return binaryRes;
+  return {
+    decimal: res,
+    binary: binaryRes,
+  };
 };
 
 console.log(rsbMask(58));
