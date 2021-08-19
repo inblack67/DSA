@@ -1,4 +1,4 @@
-const dict = {
+const dict: Record<number, string> = {
   0: '.;',
   1: 'abc',
   2: 'def',
@@ -19,8 +19,8 @@ const getKPC = (str: string): string[] => {
   const rest = str.substring(1);
   const restRes = getKPC(rest);
   const res: string[] = [];
-  for (let i = 0; i < dict[str[0]].length; i++) {
-    const el = dict[str[0]][i];
+  for (let i = 0; i < dict[+str[0]].length; i++) {
+    const el = dict[+str[0]][i];
     for (let j = 0; j < restRes.length; j++) {
       const el2 = restRes[j];
       res.push(`${el}${el2}`);
@@ -37,8 +37,8 @@ const printKPC = (str: string, combo: string) => {
     return;
   }
   const rest = str.substring(1);
-  for (let i = 0; i < dict[str[0]].length; i++) {
-    const el = dict[str[0]][i];
+  for (let i = 0; i < dict[+str[0]].length; i++) {
+    const el = dict[+str[0]][i];
     printKPC(rest, combo + el);
   }
 };
