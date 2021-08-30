@@ -1,5 +1,5 @@
-const getNumAlphaMapping = () => {
-  const dict: any = {};
+export const getNumAlphaMapping = () => {
+  const dict: Record<string, string> = {};
   let count = 0;
   for (let i = 97; i <= 122; i++) {
     count++;
