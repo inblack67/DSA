@@ -1,39 +1,40 @@
-const floodFilling = (
-  row: number,
-  col: number,
-  maze: number[][],
-  ans: string,
+const visitedMe = new Map<string, boolean>();
+
+const myFloodFill = (
+  path: number[][],
   visited: Map<string, boolean>,
-): void => {
+  row: number = 0,
+  col: number = 0,
+  ans: string = '',
+) => {
   if (
     row < 0 ||
+    row === path.length ||
     col < 0 ||
-    row === maze[0].length ||
-    col === maze[1].length ||
-    maze[row][col] === 1 ||
-    visited.get(`${row}${col}`) === true
+    col === path[0].length ||
+    path[row][col] === 1 ||
+    visited.get(`${row}-${col}`)
   ) {
     return;
   }
-
-  if (row === maze[0].length - 1 && col === maze[1].length - 1) {
+  if (row === path.length - 1 && col === path[0].length - 1) {
     console.log(ans);
     return;
   }
 
-  visited.set(`${row}${col}`, true);
+  visited.set(`${row}-${col}`, true);
 
-  floodFilling(row + 1, col, maze, ans + 'd', visited);
-  floodFilling(row - 1, col, maze, ans + 't', visited);
-  floodFilling(row, col + 1, maze, ans + 'r', visited);
-  floodFilling(row, col - 1, maze, ans + 'l', visited);
+  myFloodFill(path, visited, row, col + 1, ans + 'r');
+  myFloodFill(path, visited, row + 1, col, ans + 'd');
+  myFloodFill(path, visited, row, col - 1, ans + 'l');
+  myFloodFill(path, visited, row - 1, col, ans + 't');
 };
 
-const visited = new Map<string, boolean>();
-const maze = [
-  [0, 0, 0],
-  [1, 0, 1],
-  [0, 0, 0],
-];
-
-floodFilling(0, 0, maze, '', visited);
+myFloodFill(
+  [
+    [0, 0, 0],
+    [1, 0, 1],
+    [0, 0, 0],
+  ],
+  visitedMe,
+);
