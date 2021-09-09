@@ -17,7 +17,7 @@ const knightsTour = (
     col < 0 ||
     row >= order ||
     col >= order ||
-    chess[row][col] > 0
+    chess[row][col] > 0 // has to be last => row & col need to be validated first
   ) {
     return;
   } else if (move === order * order) {
