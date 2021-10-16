@@ -1,29 +1,36 @@
-function searchSuggestions(repository, customerQuery) {
-  const res = [];
-  if (customerQuery.length > 1) {
-    for (let j = 0; j < customerQuery.length; j++) {
-      const arr = [];
-      const hints = customerQuery
-        .split('')
-        .slice(0, j + 2)
-        .join('');
-      console.log(hints);
-      for (let i = 0; i < repository.length; i++) {
-        const item = repository[i];
-        const itemHints = item.slice(0, hints.length);
-        if (hints && itemHints && hints === itemHints) {
-          arr.push(item);
+const isPathSafe = (lot, row, col) => {
+  if (lot[row][col] === 1 || lot[row][col] === 9) {
+    return true;
+  }
+  return false;
+};
+
+const solveThis = (lot) => {
+  let count = 0;
+  for (let i = 0; i < lot.length; i++) {
+    for (let j = 0; j < lot[0].length; j++) {
+      if (isPathSafe(lot, i, j)) {
+        if (lot[i][j] === 9) {
+          return count;
         }
+        count++;
+      } else {
+        continue;
       }
-      res.push(arr);
     }
   }
+  return -1;
+};
+
+function distanceTraversed(lot) {
+  const res = solveThis(lot);
   return res;
 }
 
 console.log(
-  searchSuggestions(
-    ['mouse', 'mousepad', 'mobile', 'moneypot', 'monitor'],
-    'mouse',
-  ),
+  distanceTraversed([
+    [1, 0, 0],
+    [1, 0, 0],
+    [1, 9, 1],
+  ]),
 );
