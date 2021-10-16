@@ -1,34 +1,30 @@
 const longestConsecutiveSequence = (arr: number[]): void => {
-  const hash = new Map<number, boolean>();
-  arr.forEach((el) => hash.set(el, true));
+  const hashMap = new Map<number, boolean>();
+  arr.forEach((el) => hashMap.set(el, true));
   arr.forEach((el) => {
     const prev = el - 1;
-    if (hash.get(prev)) {
-      hash.set(el, false); // cant be the starting of the seq
+    if (hashMap.has(prev)) {
+      hashMap.set(el, false);
     }
   });
 
-  let maxLength = 0;
-  let startingPoint: number = 0;
-
+  let maxLength = Number.MIN_SAFE_INTEGER;
+  let startingPoint: number;
   arr.forEach((el) => {
-    if (hash.get(el)) {
+    if (hashMap.has(el)) {
       let next = 1;
-      while (hash.get(el + next)) {
+      while (hashMap.has(el + next)) {
         next++;
       }
       if (next > maxLength) {
-        maxLength = next;
         startingPoint = el;
+        maxLength = next;
       }
     }
   });
 
-  console.log(startingPoint);
-  console.log(maxLength);
-
-  for (let i = 0; i <= maxLength; i++) {
-    console.log(startingPoint + i);
+  for (let i = 0; i < maxLength; i++) {
+    console.log(startingPoint! + i);
   }
 };
 
