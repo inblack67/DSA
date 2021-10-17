@@ -81,17 +81,26 @@ class MHeap {
 }
 
 const mheap2 = new MHeap();
-mheap2.add(3);
-mheap2.add(4);
-mheap2.add(31);
-mheap2.add(36);
-mheap2.add(6);
+// mheap2.add(3);
+// mheap2.add(4);
+// mheap2.add(31);
+// mheap2.add(36);
+// mheap2.add(6);
+// mheap2.add(5);
+// mheap2.add(1);
+// mheap2.add(10);
+// mheap2.add(2);
+// mheap2.add(30);
+// console.log(mheap2.heapSort());
 mheap2.add(5);
-mheap2.add(1);
 mheap2.add(10);
-mheap2.add(2);
-mheap2.add(30);
-console.log(mheap2.heapSort());
+mheap2.add(20);
+mheap2.add(3);
+console.log(mheap2.remove());
+console.log(mheap2.remove());
+console.log(mheap2.remove());
+console.log(mheap2.remove());
+console.log(mheap2.remove());
 // console.log(mheap2.remove());
 // console.log(mheap2.remove());
 // console.log(mheap2.remove());
