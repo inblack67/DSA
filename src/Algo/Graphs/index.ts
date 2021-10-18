@@ -52,6 +52,33 @@ const hasPath = (
   return false;
 };
 
+const printAllPaths = (
+  graph: GraphEdge[][],
+  source: number,
+  destination: number,
+  visited: boolean[],
+  ans: string = `${source}`,
+): void => {
+  if (source === destination) {
+    console.log(ans);
+    return;
+  }
+  visited[source] = true;
+  for (let i = 0; i < graph[source].length; i++) {
+    const el = graph[source][i];
+    if (visited[el.neighbour] === false) {
+      printAllPaths(
+        graph,
+        el.neighbour,
+        destination,
+        visited,
+        `${ans} ${el.neighbour}`,
+      );
+    }
+  }
+  visited[source] = false;
+};
+
 const graph = makeGraph(7, [
   [0, 1, 10],
   [1, 2, 10],
@@ -63,6 +90,8 @@ const graph = makeGraph(7, [
   [4, 6, 10],
 ]);
 
-const visited = new Array<boolean>(7).fill(false);
+const makeVisited = (len: number): boolean[] =>
+  new Array<boolean>(len).fill(false);
 
-console.log(hasPath(graph, 0, 6, visited));
+console.log(hasPath(graph, 0, 6, makeVisited(7)));
+printAllPaths(graph, 0, 6, makeVisited(7));
