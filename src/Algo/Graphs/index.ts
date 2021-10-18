@@ -79,19 +79,78 @@ const printAllPaths = (
   visited[source] = false;
 };
 
+let maxWeight: number = Number.MIN_SAFE_INTEGER;
+let maxWeightPath: string = '';
+let minWeight: number = Number.MAX_SAFE_INTEGER;
+let minWeightPath: string = '';
+
+const largestPath = (
+  graph: GraphEdge[][],
+  source: number,
+  destination: number,
+  visited: boolean[],
+  weightSoFar: number = 0,
+  pathSoFar: string = '',
+): void => {
+  if (source === destination) {
+    if (weightSoFar > maxWeight) {
+      maxWeight = weightSoFar;
+      maxWeightPath = pathSoFar + ' ' + source;
+    }
+    if (weightSoFar < minWeight) {
+      minWeight = weightSoFar;
+      minWeightPath = pathSoFar + ' ' + source;
+    }
+    return;
+  }
+
+  visited[source] = true;
+
+  for (let i = 0; i < graph[source].length; i++) {
+    const el = graph[source][i];
+    if (visited[el.neighbour] === false) {
+      largestPath(
+        graph,
+        el.neighbour,
+        destination,
+        visited,
+        weightSoFar + el.weight,
+        pathSoFar + ' ' + el.source,
+      );
+    }
+  }
+  visited[source] = false;
+};
+
 const graph = makeGraph(7, [
   [0, 1, 10],
   [1, 2, 10],
   [2, 3, 10],
-  [0, 3, 10],
-  [3, 4, 10],
-  [4, 5, 10],
-  [5, 6, 10],
-  [4, 6, 10],
+  [0, 3, 40],
+  [3, 4, 2],
+  [4, 5, 3],
+  [5, 6, 3],
+  [4, 6, 8],
+  [2, 5, 5],
 ]);
+// const graph = makeGraph(7, [
+//   [0, 1, 10],
+//   [1, 2, 10],
+//   [2, 3, 10],
+//   [0, 3, 10],
+//   [3, 4, 10],
+//   [4, 5, 10],
+//   [5, 6, 10],
+//   [4, 6, 10],
+// ]);
 
 const makeVisited = (len: number): boolean[] =>
   new Array<boolean>(len).fill(false);
 
 console.log(hasPath(graph, 0, 6, makeVisited(7)));
 printAllPaths(graph, 0, 6, makeVisited(7));
+largestPath(graph, 0, 6, makeVisited(7));
+console.log(maxWeight);
+console.log(maxWeightPath);
+console.log(minWeight);
+console.log(minWeightPath);
