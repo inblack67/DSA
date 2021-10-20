@@ -139,6 +139,38 @@ const largestPath = (
   visited[source] = false;
 };
 
+const makeComponent = (
+  graph: GraphEdge[][],
+  visited: boolean[],
+  source: number,
+  component: number[],
+) => {
+  visited[source] = true;
+  component.push(source);
+  for (let i = 0; i < graph[source].length; i++) {
+    const edge = graph[source][i];
+    if (visited[edge.neighbour] === false) {
+      makeComponent(graph, visited, edge.neighbour, component);
+    }
+  }
+};
+
+const getConnectedComponents = (
+  graph: GraphEdge[][],
+  visited: boolean[],
+  vertices: number,
+): number[][] => {
+  const components: number[][] = [];
+  for (let i = 0; i < vertices; i++) {
+    if (visited[i] === false) {
+      const component: number[] = [];
+      makeComponent(graph, visited, i, component);
+      components.push(component);
+    }
+  }
+  return components;
+};
+
 const graph = makeGraph(7, [
   [0, 1, 10],
   [1, 2, 10],
@@ -176,3 +208,16 @@ console.log(justLargerThanRes);
 console.log(justLargerThanPath);
 console.log(justSmallerThanRes);
 console.log(justSmallerThanPath);
+console.log(
+  getConnectedComponents(
+    makeGraph(7, [
+      [0, 1, 10],
+      [2, 3, 10],
+      [4, 5, 10],
+      [5, 6, 10],
+      [4, 6, 10],
+    ]),
+    makeVisited(7),
+    7,
+  ),
+);
