@@ -84,11 +84,18 @@ let maxWeightPath: string = '';
 let minWeight: number = Number.MAX_SAFE_INTEGER;
 let minWeightPath: string = '';
 
+let justLargerThanRes: number = Number.MAX_SAFE_INTEGER;
+let justLargerThanPath: string = '';
+let justSmallerThanRes: number = Number.MIN_SAFE_INTEGER;
+let justSmallerThanPath: string = '';
+
 const largestPath = (
   graph: GraphEdge[][],
   source: number,
   destination: number,
   visited: boolean[],
+  justLargerThan: number,
+  justSmallerThan: number,
   weightSoFar: number = 0,
   pathSoFar: string = '',
 ): void => {
@@ -100,6 +107,14 @@ const largestPath = (
     if (weightSoFar < minWeight) {
       minWeight = weightSoFar;
       minWeightPath = pathSoFar + ' ' + source;
+    }
+    if (weightSoFar > justLargerThan && weightSoFar < justLargerThanRes) {
+      justLargerThanRes = weightSoFar;
+      justLargerThanPath = pathSoFar + ' ' + source;
+    }
+    if (weightSoFar < justSmallerThan && weightSoFar > justSmallerThanRes) {
+      justSmallerThanRes = weightSoFar;
+      justSmallerThanPath = pathSoFar + ' ' + source;
     }
     return;
   }
@@ -114,6 +129,8 @@ const largestPath = (
         el.neighbour,
         destination,
         visited,
+        justLargerThan,
+        justSmallerThan,
         weightSoFar + el.weight,
         pathSoFar + ' ' + el.source,
       );
@@ -149,8 +166,13 @@ const makeVisited = (len: number): boolean[] =>
 
 console.log(hasPath(graph, 0, 6, makeVisited(7)));
 printAllPaths(graph, 0, 6, makeVisited(7));
-largestPath(graph, 0, 6, makeVisited(7));
+largestPath(graph, 0, 6, makeVisited(7), 30, 30);
 console.log(maxWeight);
 console.log(maxWeightPath);
 console.log(minWeight);
 console.log(minWeightPath);
+
+console.log(justLargerThanRes);
+console.log(justLargerThanPath);
+console.log(justSmallerThanRes);
+console.log(justSmallerThanPath);
