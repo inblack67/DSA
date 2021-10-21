@@ -28,6 +28,9 @@ const makeGraph = (vertices: number, edgesData: number[][]): GraphEdge[][] => {
   return graph;
 };
 
+const makeVisited = (len: number): boolean[] =>
+  new Array<boolean>(len).fill(false);
+
 const hasPath = (
   graph: GraphEdge[][],
   source: number,
@@ -171,6 +174,55 @@ const getConnectedComponents = (
   return components;
 };
 
+const traverseGraph = (
+  graph: GraphEdge[][],
+  source: number,
+  visited: boolean[],
+) => {
+  visited[source] = true;
+  for (let i = 0; i < graph[source].length; i++) {
+    const edge = graph[source][i];
+    if (visited[edge.neighbour] === false) {
+      traverseGraph(graph, edge.neighbour, visited);
+    }
+  }
+};
+
+const isGraphConnected = (
+  graph: GraphEdge[][],
+  visited: boolean[],
+): boolean => {
+  traverseGraph(graph, 0, visited);
+  console.log(visited);
+  for (let i = 0; i < visited.length; i++) {
+    const el = visited[i];
+    if (el === false) {
+      return false;
+    }
+  }
+  return true;
+};
+
+console.log(
+  isGraphConnected(
+    makeGraph(7, [
+      [0, 1, 10],
+      [1, 2, 10],
+      [2, 3, 10],
+      [3, 4, 10],
+      [4, 5, 10],
+      [5, 6, 10],
+
+      // [0, 1, 10],
+      // [2, 3, 10],
+      // [4, 5, 10],
+      // [5, 6, 10],
+      // [4, 6, 10],
+    ]),
+    makeVisited(7),
+  ),
+);
+
 const graph = makeGraph(7, [
   [0, 1, 10],
   [1, 2, 10],
@@ -192,9 +244,6 @@ const graph = makeGraph(7, [
 //   [5, 6, 10],
 //   [4, 6, 10],
 // ]);
-
-const makeVisited = (len: number): boolean[] =>
-  new Array<boolean>(len).fill(false);
 
 console.log(hasPath(graph, 0, 6, makeVisited(7)));
 printAllPaths(graph, 0, 6, makeVisited(7));
