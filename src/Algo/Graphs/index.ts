@@ -193,7 +193,6 @@ const isGraphConnected = (
   visited: boolean[],
 ): boolean => {
   traverseGraph(graph, 0, visited);
-  console.log(visited);
   for (let i = 0; i < visited.length; i++) {
     const el = visited[i];
     if (el === false) {
@@ -201,6 +200,14 @@ const isGraphConnected = (
     }
   }
   return true;
+};
+
+const isGraphConnected_2 = (
+  graph: GraphEdge[][],
+  visited: boolean[],
+  vertices: number,
+): boolean => {
+  return getConnectedComponents(graph, visited, vertices).length === 1;
 };
 
 console.log(
@@ -220,6 +227,27 @@ console.log(
       // [4, 6, 10],
     ]),
     makeVisited(7),
+  ),
+);
+
+console.log(
+  isGraphConnected_2(
+    makeGraph(7, [
+      // [0, 1, 10],
+      // [1, 2, 10],
+      // [2, 3, 10],
+      // [3, 4, 10],
+      // [4, 5, 10],
+      // [5, 6, 10],
+
+      [0, 1, 10],
+      [2, 3, 10],
+      [4, 5, 10],
+      [5, 6, 10],
+      [4, 6, 10],
+    ]),
+    makeVisited(7),
+    7,
   ),
 );
 
