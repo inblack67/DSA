@@ -31,6 +31,9 @@ const makeGraph = (vertices: number, edgesData: number[][]): GraphEdge[][] => {
 const makeVisited = (len: number): boolean[] =>
   new Array<boolean>(len).fill(false);
 
+const make2DVisited = (rows: number, cols: number): boolean[][] =>
+  new Array(rows).fill(null).map(() => new Array<boolean>(cols).fill(false));
+
 const hasPath = (
   graph: GraphEdge[][],
   source: number,
@@ -209,6 +212,65 @@ const isGraphConnected_2 = (
 ): boolean => {
   return getConnectedComponents(graph, visited, vertices).length === 1;
 };
+
+const traverseMatrix = (
+  matrix: number[][],
+  visited: boolean[][],
+  row: number,
+  col: number,
+): void => {
+  if (
+    row < 0 ||
+    row >= matrix.length ||
+    col < 0 ||
+    col >= matrix[row].length ||
+    matrix[row][col] === 1 ||
+    visited[row][col] === true
+  ) {
+    return;
+  }
+
+  visited[row][col] = true;
+
+  traverseMatrix(matrix, visited, row - 1, col);
+  traverseMatrix(matrix, visited, row, col - 1);
+  traverseMatrix(matrix, visited, row + 1, col);
+  traverseMatrix(matrix, visited, row, col + 1);
+};
+
+const getNumberOfIslands = (
+  matrix: number[][],
+  visited: boolean[][],
+): number => {
+  let count: number = 0;
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      const el = matrix[i][j];
+      if (el === 0 && visited[i][j] === false) {
+        // land
+        count++;
+        traverseMatrix(matrix, visited, i, j);
+      }
+    }
+  }
+  return count;
+};
+
+console.log(
+  getNumberOfIslands(
+    [
+      [0, 0, 1, 1, 1, 1, 1, 1],
+      [0, 0, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 0],
+      [1, 1, 0, 0, 0, 1, 1, 0],
+      [1, 1, 1, 1, 0, 1, 1, 0],
+      [1, 1, 1, 1, 0, 1, 1, 0],
+      [1, 1, 1, 1, 1, 1, 1, 0],
+      [1, 1, 1, 1, 1, 1, 1, 0],
+    ],
+    make2DVisited(8, 8),
+  ),
+);
 
 console.log(
   isGraphConnected(
