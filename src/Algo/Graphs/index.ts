@@ -288,8 +288,18 @@ const perfectFriends = (
     }
   }
 
-  console.log(components);
-  return 0;
+  let res: number = 0;
+
+  for (let i = 0; i < components.length; i++) {
+    for (let j = i + 1; j < components.length; j++) {
+      const el1 = components[i];
+      const el2 = components[j];
+      const possibilities = el1.length * el2.length;
+      res += possibilities;
+    }
+  }
+
+  return res;
 };
 
 console.log(
