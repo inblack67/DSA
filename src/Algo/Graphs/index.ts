@@ -28,8 +28,8 @@ const makeGraph = (vertices: number, edgesData: number[][]): GraphEdge[][] => {
   return graph;
 };
 
-const makeVisited = (len: number): boolean[] =>
-  new Array<boolean>(len).fill(false);
+const makeVisited = (vertices: number): boolean[] =>
+  new Array<boolean>(vertices).fill(false);
 
 const make2DVisited = (rows: number, cols: number): boolean[][] =>
   new Array(rows).fill(null).map(() => new Array<boolean>(cols).fill(false));
@@ -255,6 +255,57 @@ const getNumberOfIslands = (
   }
   return count;
 };
+
+const traversePerfectFriends = (
+  graph: GraphEdge[][],
+  visited: boolean[],
+  source: number,
+  component: number[],
+): void => {
+  visited[source] = true;
+  component.push(source);
+  for (let i = 0; i < graph[source].length; i++) {
+    const el = graph[source][i];
+    if (visited[el.neighbour] === false) {
+      traversePerfectFriends(graph, visited, el.neighbour, component);
+    }
+  }
+};
+
+const perfectFriends = (
+  graph: GraphEdge[][],
+  visited: boolean[],
+  vertices: number,
+  edges: number,
+): number => {
+  const components: number[][] = [];
+
+  for (let i = 0; i < vertices; i++) {
+    if (visited[i] === false) {
+      const componenet: number[] = [];
+      traversePerfectFriends(graph, visited, i, componenet);
+      components.push(componenet);
+    }
+  }
+
+  console.log(components);
+  return 0;
+};
+
+console.log(
+  perfectFriends(
+    makeGraph(7, [
+      [0, 1],
+      [2, 3],
+      [4, 5],
+      [5, 6],
+      [4, 6],
+    ]),
+    makeVisited(7),
+    7,
+    5,
+  ),
+);
 
 console.log(
   getNumberOfIslands(
