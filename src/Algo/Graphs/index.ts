@@ -276,7 +276,7 @@ const perfectFriends = (
   graph: GraphEdge[][],
   visited: boolean[],
   vertices: number,
-  edges: number,
+  _edges: number,
 ): number => {
   const components: number[][] = [];
 
@@ -301,6 +301,75 @@ const perfectFriends = (
 
   return res;
 };
+
+const hamiltonian = (
+  graph: GraphEdge[][],
+  visited: Set<number>,
+  vertices: number,
+  _edges: number,
+  source: number,
+  originalSource: number,
+  path: string = `${source}`,
+): void => {
+  if (visited.size === vertices - 1) {
+    let isCycle: boolean = false;
+
+    for (let i = 0; i < graph[source].length; i++) {
+      const el = graph[source][i];
+      if (el.neighbour === originalSource) {
+        isCycle = true;
+      }
+    }
+
+    if (isCycle === true) {
+      path += ' *';
+    } else {
+      path += ' .';
+    }
+
+    console.log(path);
+
+    return;
+  }
+
+  visited.add(source);
+
+  for (let i = 0; i < graph[source].length; i++) {
+    const el = graph[source][i];
+    if (visited.has(el.neighbour) === false) {
+      hamiltonian(
+        graph,
+        visited,
+        vertices,
+        _edges,
+        el.neighbour,
+        originalSource,
+        `${path} ${el.neighbour}`,
+      );
+    }
+  }
+
+  visited.delete(source);
+};
+
+hamiltonian(
+  makeGraph(7, [
+    [0, 1, 10],
+    [1, 2, 10],
+    [2, 3, 10],
+    [0, 3, 10],
+    [3, 4, 10],
+    [4, 5, 10],
+    [5, 6, 10],
+    [4, 6, 10],
+    [2, 5, 10],
+  ]),
+  new Set<number>(),
+  7,
+  9,
+  0,
+  0,
+);
 
 console.log(
   perfectFriends(
