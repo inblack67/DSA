@@ -352,6 +352,51 @@ const hamiltonian = (
   visited.delete(source);
 };
 
+class BFSPair {
+  vertice: number;
+  pathSoFar: string;
+  constructor(vertice: number, pathSoFar: string) {
+    this.vertice = vertice;
+    this.pathSoFar = pathSoFar;
+  }
+}
+
+const bfs = (graph: GraphEdge[][], source: number): void => {
+  const queue: BFSPair[] = [];
+  queue.push(new BFSPair(source, `${source}`));
+  const visited: boolean[] = new Array(graph.length).fill(false);
+  while (queue.length > 0) {
+    const somePair = queue.shift() as BFSPair;
+    if (visited[somePair.vertice] === true) {
+      continue;
+    }
+    visited[somePair.vertice] = true;
+    console.log(`${somePair.vertice}@${somePair.pathSoFar}`);
+    for (let i = 0; i < graph[somePair.vertice].length; i++) {
+      const el = graph[somePair.vertice][i];
+      if (visited[el.neighbour] === false) {
+        queue.push(
+          new BFSPair(el.neighbour, `${somePair.pathSoFar}${el.neighbour}`),
+        );
+      }
+    }
+  }
+};
+
+bfs(
+  makeGraph(7, [
+    [0, 1, 10],
+    [1, 2, 10],
+    [2, 3, 10],
+    [0, 3, 10],
+    [3, 4, 10],
+    [4, 5, 10],
+    [5, 6, 10],
+    [4, 6, 10],
+  ]),
+  2,
+);
+
 hamiltonian(
   makeGraph(7, [
     [0, 1, 10],
