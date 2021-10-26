@@ -383,6 +383,64 @@ const bfs = (graph: GraphEdge[][], source: number): void => {
   }
 };
 
+const detectCycle = (
+  graph: GraphEdge[][],
+  source: number,
+  visited: boolean[],
+): boolean => {
+  const queue: number[] = [];
+  queue.push(source);
+  while (queue.length > 0) {
+    const someEdge = queue.shift() as number;
+    if (visited[someEdge] === false) {
+      visited[someEdge] = true;
+      for (let i = 0; i < graph[someEdge].length; i++) {
+        const el = graph[someEdge][i];
+        if (visited[el.neighbour] === false) {
+          queue.push(el.neighbour);
+        }
+      }
+    } else {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+const isGraphCyclic = (
+  graph: GraphEdge[][],
+  vertices: number,
+  _edges: number,
+): boolean => {
+  const visited: boolean[] = new Array(vertices).fill(false);
+  for (let i = 0; i < vertices; i++) {
+    if (visited[i] === false) {
+      const res = detectCycle(graph, i, visited);
+      if (res === true) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+console.log(
+  isGraphCyclic(
+    makeGraph(7, [
+      [0, 1, 10],
+      [1, 2, 10],
+      [2, 3, 10],
+      [3, 4, 10],
+      [4, 5, 10],
+      [5, 6, 10],
+      // [6, 0, 10],
+    ]),
+    7,
+    6,
+  ),
+);
+
 bfs(
   makeGraph(7, [
     [0, 1, 10],
