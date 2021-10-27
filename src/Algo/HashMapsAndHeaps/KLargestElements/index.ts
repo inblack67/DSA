@@ -1,4 +1,4 @@
-class MyMaxHeap {
+export class MyMaxHeap {
   heap: number[];
   constructor() {
     this.heap = [];
@@ -80,12 +80,12 @@ class MyMaxHeap {
   }
 }
 
-class MyMinHeap {
-  heap: number[];
+export class MyMinHeap<T> {
+  heap: T[];
   constructor() {
     this.heap = [];
   }
-  insert(el: number): void {
+  insert(el: T): void {
     this.heap.push(el);
     let index = this.heap.length - 1;
     let current = this.heap[index];
@@ -101,16 +101,16 @@ class MyMinHeap {
       }
     }
   }
-  delete(): number | null {
+  delete(): T | null {
     if (this.heap.length === 0) {
       return null;
     } else if (this.heap.length === 1) {
-      return this.heap.pop() as number;
+      return this.heap.pop() as T;
     }
 
     const res = this.heap[0];
 
-    this.heap[0] = this.heap.pop() as number;
+    this.heap[0] = this.heap.pop() as T;
 
     let index = 0;
     let current = this.heap[index];
@@ -119,8 +119,8 @@ class MyMinHeap {
       let leftChildIndex = Math.floor(2 * index + 1);
       let rightChildIndex = Math.floor(2 * index + 2);
       let swap: number | null = null;
-      let leftChild: number;
-      let rightChild: number;
+      let leftChild: T;
+      let rightChild: T;
       if (leftChildIndex < this.heap.length) {
         leftChild = this.heap[leftChildIndex];
         if (leftChild < current) {
@@ -146,14 +146,14 @@ class MyMinHeap {
 
     return res;
   }
-  heapSort(): number[] {
-    const res: number[] = [];
+  heapSort(): T[] {
+    const res: T[] = [];
     if (this.heap.length === 0) {
       return res;
     }
     let len = this.heap.length;
     for (let i = 0; i < len; i++) {
-      res.push(this.delete() as number);
+      res.push(this.delete() as T);
     }
     return res;
   }

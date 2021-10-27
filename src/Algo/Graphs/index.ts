@@ -425,6 +425,134 @@ const isGraphCyclic = (
   return false;
 };
 
+class DijkstraPair {
+  vertice: number;
+  pathSoFar: string;
+  weigthSoFar: number;
+  constructor(vertice: number, pathSoFar: string, weightSoFar: number) {
+    this.vertice = vertice;
+    this.pathSoFar = pathSoFar;
+    this.weigthSoFar = weightSoFar;
+  }
+}
+
+export class MyMinHeap2 {
+  heap: DijkstraPair[];
+  constructor() {
+    this.heap = [];
+  }
+  insert(el: DijkstraPair): void {
+    this.heap.push(el);
+    let index = this.heap.length - 1;
+    let current = this.heap[index];
+    while (index > 0) {
+      let parentIndex = Math.floor((index - 1) / 2);
+      let parent = this.heap[parentIndex];
+      if (current.weigthSoFar < parent.weigthSoFar) {
+        this.heap[index] = parent;
+        this.heap[parentIndex] = current;
+        index = parentIndex;
+      } else {
+        break;
+      }
+    }
+  }
+  delete(): DijkstraPair | null {
+    if (this.heap.length === 0) {
+      return null;
+    } else if (this.heap.length === 1) {
+      return this.heap.pop() as DijkstraPair;
+    }
+
+    const res = this.heap[0];
+
+    this.heap[0] = this.heap.pop() as DijkstraPair;
+
+    let index = 0;
+    let current = this.heap[index];
+
+    while (index >= 0) {
+      let leftChildIndex = Math.floor(2 * index + 1);
+      let rightChildIndex = Math.floor(2 * index + 2);
+      let swap: number | null = null;
+      let leftChild: DijkstraPair;
+      let rightChild: DijkstraPair;
+      if (leftChildIndex < this.heap.length) {
+        leftChild = this.heap[leftChildIndex];
+        if (leftChild.weigthSoFar < current.weigthSoFar) {
+          swap = leftChildIndex;
+        }
+      }
+      if (rightChildIndex < this.heap.length) {
+        rightChild = this.heap[rightChildIndex];
+        if (swap === null && rightChild.weigthSoFar < current.weigthSoFar) {
+          swap = rightChildIndex;
+        } else if (rightChild.weigthSoFar < leftChild!.weigthSoFar) {
+          swap = rightChildIndex;
+        }
+      }
+      if (swap === null) {
+        break;
+      } else {
+        this.heap[index] = this.heap[swap];
+        this.heap[swap] = current;
+        index = swap;
+      }
+    }
+
+    return res;
+  }
+}
+
+const dijkstraShortestPathInWeights = (
+  graph: GraphEdge[][],
+  source: number,
+  _vertices: number,
+  _edges: number,
+  visited: boolean[],
+): void => {
+  const minHeap = new MyMinHeap2();
+  minHeap.insert(new DijkstraPair(source, '0', 0));
+  while (minHeap.heap.length > 0) {
+    const popped = minHeap.delete() as DijkstraPair;
+    if (visited[popped.vertice] === true) {
+      continue;
+    }
+    console.log(popped);
+    visited[popped.vertice] = true;
+    for (let i = 0; i < graph[popped.vertice].length; i++) {
+      const el = graph[popped.vertice][i];
+      if (visited[el.neighbour] === false) {
+        minHeap.insert(
+          new DijkstraPair(
+            el.neighbour,
+            popped.pathSoFar + el.neighbour,
+            popped.weigthSoFar + el.weight,
+          ),
+        );
+      }
+    }
+  }
+};
+
+dijkstraShortestPathInWeights(
+  makeGraph(7, [
+    [0, 1, 10],
+    [1, 2, 10],
+    [2, 3, 10],
+    [0, 3, 40],
+    [3, 4, 2],
+    [4, 5, 3],
+    [5, 6, 3],
+    [4, 6, 8],
+    [2, 5, 5],
+  ]),
+  0,
+  7,
+  9,
+  makeVisited(7),
+);
+
 console.log(
   isGraphCyclic(
     makeGraph(7, [
