@@ -555,7 +555,7 @@ const shortedWireToConnectPCs = (
         const el = graph[popped.vertice][i];
         if (visited[el.neighbour] === false) {
           queue.insert(
-            new DijkstraPair(el.neighbour, popped.vertice, el.weight),
+            new DijkstraPair(el.neighbour, `${popped.vertice}`, el.weight),
           );
         }
       }
