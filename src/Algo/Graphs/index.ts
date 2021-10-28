@@ -535,6 +535,49 @@ const dijkstraShortestPathInWeights = (
   }
 };
 
+const shortedWireToConnectPCs = (
+  graph: GraphEdge[][],
+  _vertices: number,
+  _edges: number,
+) => {
+  const queue = new MyMinHeap2();
+  const visited = makeVisited(7);
+  queue.insert(new DijkstraPair(0, '0', -1));
+
+  while (queue.heap.length > 0) {
+    const popped = queue.delete() as DijkstraPair;
+    if (visited[popped.vertice] === false) {
+      if (popped.weigthSoFar !== -1) {
+        console.log(popped);
+      }
+      visited[popped.vertice] = true;
+      for (let i = 0; i < graph[popped.vertice].length; i++) {
+        const el = graph[popped.vertice][i];
+        if (visited[el.neighbour] === false) {
+          queue.insert(
+            new DijkstraPair(el.neighbour, popped.vertice, el.weight),
+          );
+        }
+      }
+    }
+  }
+};
+
+shortedWireToConnectPCs(
+  makeGraph(7, [
+    [0, 1, 10],
+    [1, 2, 10],
+    [2, 3, 10],
+    [0, 3, 40],
+    [3, 4, 2],
+    [4, 5, 3],
+    [5, 6, 3],
+    [4, 6, 8],
+  ]),
+  7,
+  8,
+);
+
 dijkstraShortestPathInWeights(
   makeGraph(7, [
     [0, 1, 10],
