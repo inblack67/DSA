@@ -28,8 +28,8 @@ const makeGraph = (vertices: number, edgesData: number[][]): GraphEdge[][] => {
   return graph;
 };
 
-const makeVisited = (vertices: number): boolean[] =>
-  new Array<boolean>(vertices).fill(false);
+const makeVisited = (vertices: number, fillNumbers = false) =>
+  new Array(vertices).fill(fillNumbers ? 0 : false);
 
 const make2DVisited = (rows: number, cols: number): boolean[][] =>
   new Array(rows).fill(null).map(() => new Array<boolean>(cols).fill(false));
@@ -562,6 +562,62 @@ const shortedWireToConnectPCs = (
     }
   }
 };
+
+class InfectionPair {
+  vertice: number;
+  time: number;
+  constructor(vertice: number, time: number) {
+    this.vertice = vertice;
+    this.time = time;
+  }
+}
+
+const spreadOfInfection = (
+  graph: GraphEdge[][],
+  source: number,
+  time: number,
+  visited: number[],
+): number => {
+  const queue: InfectionPair[] = [];
+  queue.push(new InfectionPair(source, 1));
+  let count: number = 0;
+  while (queue.length > 0) {
+    const popped = queue.shift() as InfectionPair;
+    if (visited[popped.vertice] > 0) {
+      continue;
+    }
+    visited[popped.vertice] = popped.time;
+    if (visited[popped.vertice] > time) {
+      break;
+    }
+    count++;
+    for (let i = 0; i < graph[popped.vertice].length; i++) {
+      const el = graph[popped.vertice][i];
+      if (visited[el.neighbour] === 0) {
+        queue.push(new InfectionPair(el.neighbour, popped.time + 1));
+      }
+    }
+  }
+  return count;
+};
+
+console.log(
+  spreadOfInfection(
+    makeGraph(7, [
+      [0, 1, 10],
+      [1, 2, 10],
+      [2, 3, 10],
+      [0, 3, 10],
+      [3, 4, 10],
+      [4, 5, 10],
+      [5, 6, 10],
+      [4, 6, 10],
+    ]),
+    6,
+    3,
+    makeVisited(7, true),
+  ),
+);
 
 shortedWireToConnectPCs(
   makeGraph(7, [
