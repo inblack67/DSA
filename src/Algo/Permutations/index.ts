@@ -34,3 +34,5 @@ const getArrayPermutations = (arr: number[]): number[][] => {
 };
 
 console.log(getArrayPermutations([1, 2, 3]));
+console.log(getArrayPermutations([0, 1]));
+console.log(getArrayPermutations([1]));
