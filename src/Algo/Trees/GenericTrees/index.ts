@@ -527,6 +527,17 @@ class MyGenericTree {
   getSize(): number {
     return this.size;
   }
+
+  calculateSize(node = this.root): number {
+    if (!node) {
+      return 0;
+    }
+    let res = 0;
+    node.children.forEach((el) => {
+      res += this.calculateSize(el);
+    });
+    return res + 1;
+  }
 }
 
 const mygt = new MyGenericTree();
