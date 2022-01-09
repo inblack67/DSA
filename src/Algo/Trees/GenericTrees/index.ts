@@ -42,17 +42,14 @@ class MyGenericTree {
     for (let i = 0; i < arr.length; i++) {
       const el = arr[i];
       if (el === -1) {
-        if (stack.length > 0) {
-          stack.pop();
-        }
+        stack.pop();
       } else {
         const newNode = new MyGenericTreeNode(el);
-        if (stack.length === 0) {
-          this.root = newNode;
-        } else {
+        if (stack.length > 0) {
           const top = stack[stack.length - 1];
-          // pop
           top.children.push(newNode);
+        } else {
+          this.root = newNode;
         }
         stack.push(newNode);
         this.size++;
@@ -96,8 +93,8 @@ class MyGenericTree {
     queue.push(treeNode);
     while (queue.length > 0) {
       const node = queue.shift() as MyGenericTreeNode;
-      // console.log(node.data);
-      process.stdout.write(`${node.data} `);
+      console.log(node.data);
+      // process.stdout.write(`${node.data} `);
       node.children.forEach((child) => {
         queue.push(child);
       });
@@ -542,14 +539,14 @@ class MyGenericTree {
 
 const mygt = new MyGenericTree();
 // mygt.create([10, 20, -1, 30, 50, -1, 60, -1, -1, 40, -1, -1]);
-mygt.create([
-  10, 20, -50, -1, 60, -1, -1, 30, -70, -1, 80, -1, 90, -1, -1, 40, -100, -1,
-  -1, -1,
-]);
 // mygt.create([
-//   10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1,
-//   40, 100, -1, -1, -1,
+//   10, 20, -50, -1, 60, -1, -1, 30, -70, -1, 80, -1, 90, -1, -1, 40, -100, -1,
+//   -1, -1,
 // ]);
+mygt.create([
+  10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1,
+  40, 100, -1, -1, -1,
+]);
 // mygt.reflect();
 // mygt.linearize();
 // console.log(mygt.find(10));
@@ -562,7 +559,7 @@ mygt.calculateDiameter();
 console.log(mygt.getDiameter());
 mygt.display();
 // mygt.preOrder();
-// mygt.levelOrder();
+mygt.levelOrder();
 // mygt.levelOrderLineWise();
 // console.log(mygt.getMax());
 // console.log(mygt.getHeight());
