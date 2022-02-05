@@ -1,5 +1,14 @@
+class MyPair {
+  char: string;
+  freq: number;
+  constructor(char: string, freq: number) {
+    this.char = char;
+    this.freq = freq;
+  }
+}
+
 class MaxFrequencyPriorityQueue {
-  private heap: number[];
+  private heap: MyPair[];
   constructor() {
     this.heap = [];
   }
@@ -17,7 +26,7 @@ class MaxFrequencyPriorityQueue {
     this.heap[i1] = this.heap[i2];
     this.heap[i2] = temp;
   }
-  insert(el: number) {
+  insert(el: MyPair) {
     if (this.heap.length === 0) {
       this.heap.push(el);
       return;
@@ -28,8 +37,7 @@ class MaxFrequencyPriorityQueue {
       let current = this.heap[currentIndex];
       let parentIndex = this.getParentIndex(currentIndex);
       let parent = this.heap[parentIndex];
-      console.log(current, parent);
-      if (current > parent) {
+      if (current.freq > parent.freq) {
         this.swap(parentIndex, currentIndex);
         currentIndex = parentIndex;
       } else {
@@ -37,30 +45,30 @@ class MaxFrequencyPriorityQueue {
       }
     }
   }
-  delete(): number {
+  delete(): MyPair {
     if (this.heap.length === 1) {
-      return this.heap.pop() as number;
+      return this.heap.pop() as MyPair;
     }
     const res = this.heap[0];
-    this.heap[0] = this.heap.pop() as number;
+    this.heap[0] = this.heap.pop() as MyPair;
     let currentIndex = 0;
     while (currentIndex < this.heap.length) {
       let current = this.heap[currentIndex];
       let leftChildIndex = this.getLeftChildIndex(currentIndex);
       let rightChildIndex = this.getRightChildIndex(currentIndex);
       let swap: number | null = null;
-      let leftChild: number;
+      let leftChild: MyPair;
       if (leftChildIndex < this.heap.length) {
         leftChild = this.heap[leftChildIndex];
-        if (leftChild > current) {
+        if (leftChild.freq > current.freq) {
           swap = leftChildIndex;
         }
       }
       if (rightChildIndex < this.heap.length) {
         let rightChild = this.heap[rightChildIndex];
-        if (swap === null && rightChild > current) {
+        if (swap === null && rightChild.freq > current.freq) {
           swap = rightChildIndex;
-        } else if (swap !== null && rightChild > leftChild!) {
+        } else if (swap !== null && rightChild.freq > leftChild!.freq) {
           swap = rightChildIndex;
         }
       }
@@ -74,42 +82,50 @@ class MaxFrequencyPriorityQueue {
 
     return res;
   }
+  getSize(): number {
+    return this.heap.length;
+  }
   display() {
     console.log(this.heap);
   }
 }
 
-// const pq = new MaxFrequencyPriorityQueue();
-// const data = [13, 12, 62, 22, 15, 37, 99, 11, 37, 98, 67, 31, 84, 99];
-// data.forEach((el) => pq.insert(el));
-// data.forEach((el) => {
-//   console.log(pq.delete());
-// });
-
-// // pq.insert(1);
-// // pq.insert(4);
-// // pq.insert(10);
-// // console.log(pq.delete())
-// // console.log(pq.delete())
-// // console.log(pq.delete())
-// pq.display();
-
 const reOrganizeString = (s: string): string => {
-  const frequencies = new Map<string, number>();
-  for (let i = 0; i < s.length; i++) {
-    const key = s[i];
-    if (frequencies.has(key)) {
-      const val = frequencies.get(key);
-      frequencies.set(key, val! + 1);
+  let res = '';
+  const strArr = s.split('');
+  const hash = new Map<string, number>();
+  strArr.forEach((char) => {
+    if (hash.has(char)) {
+      const freq = hash.get(char)!;
+      hash.set(char, freq + 1);
     } else {
-      frequencies.set(key, 1);
+      hash.set(char, 1);
     }
-  }
-  console.log(frequencies);
+  });
   const pq = new MaxFrequencyPriorityQueue();
-  
+  hash.forEach((val, key) => {
+    const pair = new MyPair(key, val);
+    pq.insert(pair);
+  });
 
-  return '';
+  let blocked: MyPair = pq.delete() as MyPair;
+  res += blocked.char;
+  blocked.freq--;
+  while (pq.getSize() > 0) {
+    const temp = pq.delete() as MyPair;
+    res += temp.char;
+    temp.freq--;
+    if (blocked.freq > 0) {
+      pq.insert(blocked);
+    }
+    blocked = temp;
+  }
+
+  if (blocked!.freq > 0) {
+    return '';
+  }
+
+  return res;
 };
 
-reOrganizeString('aab');
+console.log(reOrganizeString('aab'));
