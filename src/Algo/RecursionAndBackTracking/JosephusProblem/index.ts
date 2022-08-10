@@ -1,6 +1,6 @@
 const whoSurvived = (n: number, k: number): number => {
   if (n === 1) {
-    return 0;
+    return n;
   }
   const sofar = whoSurvived(n - 1, k);
   return (sofar + k) % n;
