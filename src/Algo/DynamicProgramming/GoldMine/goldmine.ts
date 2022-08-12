@@ -33,6 +33,7 @@ export const maxGold = (mine: number[][]): void => {
       }
     }
   }
+  console.log(dp)
   let max = 0;
   for (let row = 0; row < dp.length - 1; row++) {
     const el = dp[row][0];
